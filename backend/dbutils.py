@@ -4,8 +4,8 @@ import json
 from message import Message
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-client = pymongo.MongoClient(
-    "mongodb+srv://mongouser:cPKM$jaz9gpNs57@cluster0-inv4j.mongodb.net/test?retryWrites=true&w=majority")
+from constants import mongo_key
+client = pymongo.MongoClient(mongo_key)
 db = client["cric"]
 class MatchDatabase:
 
