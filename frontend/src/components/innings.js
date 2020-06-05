@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Header, Responsive,Segment } from "semantic-ui-react";
+import {  Header } from "semantic-ui-react";
 import BatsmanTable from "./batsmanTable";
 import BowlerTable from "./bowlerTable";
 import {
@@ -7,7 +7,7 @@ import {
 } from "semantic-ui-react";
 
 
-function Innings(props) {
+function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFallen}) {
 
   const [battingRows, setBattingRows] = useState([]);
   const [bowlingRows, setBowlingRows] = useState([]);
@@ -61,13 +61,13 @@ function Innings(props) {
 
   }
   useEffect(() => {
-    // console.log("batting"+props.batting);
+    console.log("useEffect of innings");
 
     var dataArray = []
 
-    let batting = props.batting;
+    // let batting = props.batting;
 
-    Object.keys(props.batting).map((key) => {
+    Object.keys(batting).map((key) => {
       //console.log(key)
       let row = createDataBatting(key, batting[key].runs, batting[key].balls, batting[key]['4s'], batting[key]['6s'], batting[key].strike_rate, batting[key].status)
       dataArray.push(row);
@@ -75,8 +75,8 @@ function Innings(props) {
 
     setBattingRows(dataArray)
     dataArray = []
-    let bowling = props.bowling;
-    Object.keys(props.bowling).map((key) => {
+    // let bowling = props.bowling;
+    Object.keys(bowling).map((key) => {
       // console.log(key)
       let row = createDataBowling(key, bowling[key].balls, bowling[key].runs, bowling[key].wickets, bowling[key].wides, bowling[key].noballs, bowling[key].economy_rate)
       dataArray.push(row);
@@ -84,10 +84,10 @@ function Innings(props) {
     setBowlingRows(dataArray)
     var fallOfWickets = ''
     var wicket_fallen = 1
-    console.log(props.fallofwickets)
+    console.log(fallofwickets)
 
-    if (props.fallofwickets != null) {
-      const items = props.fallofwickets.map((item, key) => {
+    if (fallofwickets != null) {
+      const items = fallofwickets.map((item, key) => {
         console.log(item.team_score)
         fallOfWickets = fallOfWickets + (item.team_score + "/" + wicket_fallen + " (" + item.batsman + ", " + item.over_number + "." + item.ball_number +
           " over), ")
@@ -100,15 +100,13 @@ function Innings(props) {
     }
 
   }, []);
-//{props.runScored}/{props.wicketsFallen}
+
   return (
 
     <div>
       <Header as='h4' attached="top" block >
-      {props.name} 
+      {name} 
   </Header>
-    
-    
       <BatsmanTable data={battingRows} />
       <Table>
         <Table.Header>
@@ -120,9 +118,7 @@ function Innings(props) {
           {fallOfWickets}
         </Table.Body>
       </Table>
-      {/* <br /> */}
       <BowlerTable data={bowlingRows} />
-     
     </div>
   );
 }

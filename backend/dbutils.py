@@ -133,13 +133,7 @@ class MatchDatabase:
 
     @staticmethod
     def get_match_document_by_id(id):
-        print(id)
         match = db.matches.find_one({"_id": ObjectId(id)})
-        # for match in matches:
-        #     if match["status"] == 'paused' or match["status"] == 'live':
-        #         return match
-        #print("match doc")
-        # print(dumps(match))
         return match
 
     @staticmethod

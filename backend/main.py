@@ -15,6 +15,7 @@ from flask_assistant import Assistant, ask, request
 from constants import DIALOGFLOW_PROJECT_ID,DIALOGFLOW_LANGUAGE_CODE
 from bson.json_util import dumps
 from flask_cors import CORS, cross_origin
+from flask_socketio import SocketIO
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credentials/cricbot-qegqqr-a46e4f1cad3b.json'
 
@@ -24,6 +25,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 assist = Assistant(app, route='/api', project_id=DIALOGFLOW_PROJECT_ID)
 #assist = Assistant(app, project_id=DIALOGFLOW_PROJECT_ID)
 log = app.logger
+
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app,cors_allowed_origins="*")
 
 #not_used
 @app.route('/live_match_data', methods=['GET'])
@@ -37,6 +41,7 @@ def get_live_match_data():
 @cross_origin()
 def get_match_data(id):
     print(id)
+    
     match_doc = MatchDatabase.get_match_document_by_id(id)
     return make_response(dumps(match_doc))
 
@@ -112,21 +117,14 @@ def test_runs(number):
     if match_status == 'live':
         chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
         response = ActionListener.ball_action_listener(number,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response) 
-        # ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,response)
-        # if response is None:
-        #     MatchDatabase.set_match_status_end(match_id)
-        #     end_message = Message.end_match_payload()
-        #     response =  Helper.append_clear_context_payload(end_message,request)
-
+        match= MatchDatabase.get_match_document(match_id)
+        send_live_data(match)
     elif match_status == 'resume':
         print('********** Resume *************')
         print("match_id:"+match_id)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = last_txn['response']
     print(response)
-    #res["fulfillmentMessages"].append(delete_message_payload)
-    #res["payload"] = delete_message_payload
-    #print(res)
     return json.dumps(response)
 
 @assist.action('test.out.bat.bowlerchange')
@@ -163,12 +161,20 @@ def out_common(out_type,request):
     #we are not updating strike batsman here
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-    # flask_request_json = flask_request.get_json()
+   
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    return ActionListener.out_action_listener(match_params['match_id'],chat_id,request,out_type)
+    response =  ActionListener.out_action_listener(match_id,chat_id,request,out_type)
+
+    #websocket response start
+    match= MatchDatabase.get_match_document(match_id)
+    send_live_data(match)
+    #websocket response end
+
+    return response
 
 #test.out.fielder
 @assist.action('test.out.fielder')
@@ -206,20 +212,37 @@ def wide_with_number(number):
     #test.wide_with_number
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-    return ActionListener.wide_with_number_action_listener(number,match_params['match_id']) 
+
+    response =  ActionListener.wide_with_number_action_listener(number,match_params['match_id']) 
+    #websocket response start
+    match= MatchDatabase.get_match_document(match_id)
+    send_live_data(match)
+    #websocket response end
+
+    return response
 
 @assist.action('test.noball.run')   
 def noball_with_number(number):
     #test.noball_with_number
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-    return ActionListener.noball_with_number_number_action_listener(number,match_params['match_id']) 
+
+    response =  ActionListener.noball_with_number_number_action_listener(number,match_params['match_id']) 
+
+     #websocket response start
+    match= MatchDatabase.get_match_document(match_id)
+    send_live_data(match)
+    #websocket response end
+
+    return response
 
 @assist.action('match.toss.won')  
 def match_toss(team_name,decision,team1,team2,overs):
@@ -345,6 +368,15 @@ def match_resume(scorer_id):
     print("Detected intent confidence:", response.query_result.intent_detection_confidence)
     print("Fulfillment text:", response.query_result.fulfillment_text)
     return Message.get_resume_payload()
+
+@socketio.on('connect')
+def handle_message():
+    print('websocket connected')
+
+def send_live_data(match):
+    print('Sending live data.................... ')
+    socketio.emit('live', dumps(match))
     
 if __name__ == '__main__':
-    app.run(port=5222,debug=True)
+    # app.run(port=5222,debug=True)
+    socketio.run(app,port=5222,debug=True)

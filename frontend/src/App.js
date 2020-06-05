@@ -1,7 +1,7 @@
 import React from "react";
 import Match from "./components/match";
-import { Router, Route, Switch } from "react-router";
-import MatchInfo from './components//matchInfo'
+import { Route } from "react-router";
+
 export default function App() {
   return (
    
