@@ -13,3 +13,4 @@ dialogflow
 pydialogflow-fulfillment>=0.1.3    
 flask-assistant
 gevent-websocket
+pyjwt
