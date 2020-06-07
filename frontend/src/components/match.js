@@ -51,7 +51,6 @@ function Match(props) {
 
     setTeam2Bowling(data[innings2_team].bowling)
     setTeam1fallofwickets(data[innings1_team].fall_of_wickets)
-
   }
   var match_data='';
   useEffect(() => {
