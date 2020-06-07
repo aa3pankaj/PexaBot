@@ -49,7 +49,12 @@ class Message:
           {
             "callback_data": "out",
             "text": "out"
-          }
+          },
+           {
+            "text": "strike change"
+           
+          },
+         
         ],
         [
           {
@@ -77,13 +82,14 @@ class Message:
                     }
                 ],
                }
+        
     @staticmethod
-    def link_success_payload():
+    def general_message(message):
         return { "fullfillmentText":'user_detail', "fulfillmentMessages": [
                 {
                 "text": {
                     "text": [
-                           "Done"
+                          message
                         ]
                     }
                     }

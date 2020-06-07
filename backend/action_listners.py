@@ -37,12 +37,13 @@ class ActionListener:
     @staticmethod
     def ball_action_listener(run,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response):
         MatchDatabase.update_players_stats(run,match_id)
+        
+        #just changuing strike for match score display of strike batsman in update_match_document(), 
+        # no effect on conditions
         if run%2!=0:
             MatchDatabase.strike_change(match_id)
         res = MatchDatabase.update_match_document(run,match_id)
-        ball_number = MatchDatabase.get_current_ball_number(match_id)
-        if ball_number == 6:
-            MatchDatabase.strike_change(match_id)
+        
         #for live match only
         ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,response)
 
@@ -73,6 +74,9 @@ class ActionListener:
     @staticmethod
     def bowler_change_action_listener(bowler,match_id,chat_id):
         MatchDatabase.update_current_bowler(bowler,match_id)
+        ball_number = MatchDatabase.get_current_ball_number(match_id)
+        if ball_number == 6:
+            MatchDatabase.strike_change(match_id)
         #TelegramHelper.send_ball_keyboard_message(chat_id)
         return ''
     @staticmethod
@@ -98,16 +102,14 @@ class ActionListener:
         MatchDatabase.update_noball(run,match_id)
         return ''
     @staticmethod
-    def out_fielder_update_listner(match_id,chat_id,request,fielder):
+    def out_fielder_update_listner(match_id,chat_id,request,fielder=None):
         res = MatchDatabase.out_common(match_id,fielder=fielder)
         if res is not None and "type" in res:
             if res["type"] == 'ask_next_batsman':
                 batsman_list = MatchDatabase.get_available_batsman(match_id)
                 TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
                 return json.dumps({})
-                #return res["response"]
-            # else:
-            #     return json.dumps(res["response"])
+               
             elif res["type"] == "end":
                 MatchDatabase.set_match_status_end(match_id)
                 end_message = Message.end_match_payload()
@@ -117,11 +119,15 @@ class ActionListener:
         return json.dumps(res)
 
     @staticmethod
-    def out_action_listener(match_id,chat_id,request,out_type):
+    def out_action_listener(match_id,chat_id,request,out_type,run=None):
         # if innings over, send innings end message, if match ended , send message, else new batsman
         res=''
+        print("run that we got in out_action_listener")
+        print(run)
+        
         if out_type == "bowled":
             res = MatchDatabase.out_common(match_id,out_type=out_type)
+
             if res is not None and "type" in res:
                 if res["type"] == 'ask_next_batsman':
                     batsman_list = MatchDatabase.get_available_batsman(match_id)
@@ -135,24 +141,12 @@ class ActionListener:
                     return json.dumps(response)
 
         else:
-            res = MatchDatabase.out_update(match_id,out_type)
+            res = MatchDatabase.out_update(match_id,out_type,run=run)
+            if run != None and run%2!=0:
+                MatchDatabase.strike_change(match_id)
+
             fielder_list = MatchDatabase.get_available_bowlers(match_id)
             TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
-
-
-        # if res is not None and "type" in res:
-        #     if res["type"] == 'ask_next_batsman':
-        #         batsman_list = MatchDatabase.get_available_batsman(match_id)
-        #         TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
-        #         return json.dumps({})
-        #         #return res["response"]
-        #     # else:
-        #     #     return json.dumps(res["response"])
-        #     elif res["type"] == "end":
-        #         MatchDatabase.set_match_status_end(match_id)
-        #         end_message = Message.end_match_payload()
-        #         response =  Helper.append_clear_context_payload(end_message,request)
-        #         return json.dumps(response)
 
         return json.dumps(res)
 

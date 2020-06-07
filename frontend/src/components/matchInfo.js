@@ -24,17 +24,17 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, run
             }
         }
 
-        if ("out" in type) {
+        else if ("out" in type) {
             dataArray.push(<Label key='out' color="red" size="large" as='a'>W</Label>);
 
         }
 
-        if ("wide" in type) {
+        else if ("wide" in type) {
 
             dataArray.push(<Label key='wide' color="grey" size="large" as='a'>{type.wide}Wd</Label>);
 
         }
-        if ("noball" in type) {
+        else if ("noball" in type) {
             dataArray.push(<Label key='noball' color="grey" size="large" as='a'>{type.noball}N</Label>);
 
         }
@@ -47,10 +47,21 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, run
 
         var dataArray = []
 
-        Object.keys(overStatus).map((key) => {
+        // Object.keys(overStatus).map((key) => {
 
-            let ball = createBallStatus(overStatus[key])
-            dataArray.push(ball);
+        //     let ball = createBallStatus(overStatus[key])
+        //     dataArray.push(ball);
+        // }
+
+        // );
+
+        Object.keys(overStatus).map((key) => {
+            overStatus[key].map((val)=>{
+                let ball = createBallStatus(val)
+                dataArray.push(ball);
+            })
+            
+           
         }
 
         );
@@ -64,27 +75,16 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, run
             <Grid columns={1} unstackable>
                 <Grid.Column>
                     <Segment raised>
-                        {status === "live" ? (<Label as='a' color='red' ribbon> Live </Label>) : (<Label as='a' color='green' ribbon> Ended </Label>)}
+                        {status === "live" ? (<Label as='a' color='red' ribbon> Live </Label>) : (<Label as='a' color='green' ribbon> {status} </Label>)}
                         <Grid columns={1} unstackable textAlign='center'>
-
                             <Grid.Row verticalAlign='middle'>
                                 <Grid.Column>
-                                    {/* <List size="medium">
-                        <List.Item> Match #{matchNumber} Internal</List.Item>
-                        <List.Item>{toss}</List.Item>
-            
-                    </List> */}
                                     <Header as="h5" color="grey">
-                                        Match #{matchNumber} Internal
-
-                        </Header>
+                                        Match #{matchNumber} Internal 
+                                    </Header>
                                     {toss}
-
-
                                 </Grid.Column>
-
                             </Grid.Row>
-
                         </Grid>
                         <Grid columns={2} unstackable textAlign='center'>
 

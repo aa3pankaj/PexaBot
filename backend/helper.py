@@ -108,7 +108,7 @@ class TelegramHelper:
         bot = Bot(telegram_token)
         custom_keyboard = []
         calback = Message.empty_keyboard_button()
-
+        print("sending player select keyboard")
         for x in player_list:
             if "overs" in x:
                 if x["overs"]==0:

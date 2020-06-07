@@ -65,7 +65,7 @@ def link_bot_user(bot_user,platform_user):
             if res == False:
                 res =  Message.get_invalid_request_payload()
             else:
-                res =  Message.link_success_payload()
+                res =  Message.general_message("done")
         else:
             res = Message.get_invalid_request_payload()
         return make_response(json.dumps(res))
@@ -154,10 +154,34 @@ def test_batsman_change(batsman):
         return match_params['exit']
     return ActionListener.batsman_change_action_listener(batsman,match_params['match_id'],chat_id)
 
+
+@assist.action('test.out.runout.strikerOrNonstriker')
+def test_out_runout_strikerOrNonstriker(batsman_type):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+    MatchDatabase.update_batsman_out(batsman_type,match_id)
+
+   
+@assist.action('test.out.runout.runs')
+def test_out_runout_runs(run):
+   out_common("runout",request,int(run))
+
+@assist.action('test.out.runout.noball.runs')
+def test_out_runout_noball_runs(run):
+   out_common("noball_runout",request,int(run))
+
+@assist.action('test.out.runout.wide.runs')
+def test_out_runout_wide_runs(run):
+   out_common("wide_runout",request,int(run))
+
 #TODO
 #test.out.hitwicket
 #test.out.lbw
-def out_common(out_type,request):
+def out_common(out_type,request,run=None):
     #we are not updating strike batsman here
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
@@ -165,9 +189,7 @@ def out_common(out_type,request):
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-   
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    response =  ActionListener.out_action_listener(match_id,chat_id,request,out_type)
+    response =  ActionListener.out_action_listener(match_id,chat_id,request,out_type,run=run)
 
     #websocket response start
     match= MatchDatabase.get_match_document(match_id)
@@ -176,12 +198,9 @@ def out_common(out_type,request):
 
     return response
 
-#test.out.fielder
 @assist.action('test.out.fielder')
 def test_out_fielder_update(fielder):
     print("===> Request in test_out_fielder_update: ")
-    # flask_request_json = flask_request.get_json()
-    # print(flask_request_json)
     print(request)
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
@@ -191,9 +210,6 @@ def test_out_fielder_update(fielder):
     
     return ActionListener.out_fielder_update_listner(match_params['match_id'],chat_id,request,fielder)
     
-@assist.action('test.out.runout')
-def test_out_runout():
-    print("WIP")
 
 @assist.action('test.out.stumping')
 def test_out_stumping():
@@ -301,8 +317,6 @@ def match_opening_batsmen(opening_batsmen):
     print(opening_batsmen_list)
     
     res = ActionListener.update_on_strike_batsmen_listener(opening_batsmen_list,match_params['match_id'],chat_id)
-    print("res sending to telegram:")
-    print(res)
     return res
 
 @assist.action('test.ball') 
@@ -314,6 +328,12 @@ def test_ball(bowler):
         return match_params['exit']
     MatchDatabase.update_current_bowler(bowler,match_params['match_id'])
     return 'heak'
+   
+@assist.action('test.ball.strikechange')
+def test_ball_strikechange():
+    match_params = Helper.get_match_params(request)
+    MatchDatabase.strike_change(match_params['match_id'])
+    return json.dumps(Message.general_message("strike changed"))
 
 @assist.action('match.pause') 
 def match_pause():

@@ -53,23 +53,10 @@ function Match(props) {
     setTeam1fallofwickets(data[innings1_team].fall_of_wickets)
 
   }
-
-  useEffect(() => {
-    
-    const socket = io('https://5d3b103dfabf.ngrok.io');
-    socket.on('connect', function(){
-        console.log("connected!")
-    });
-    socket.on('live',function(data) {
-      console.log("Result from WEBSOCKET request")
-      setResult(JSON.parse(data))
-    });
-   
-}, []);
-
+  var match_data='';
   useEffect(() => {
    
-    fetch('https://5d3b103dfabf.ngrok.io/match_data/' + props.match.params.id)
+    fetch('https://d8f550d4d053.ngrok.io/match_data/' + props.match.params.id)
     //fetch('http://127.0.0.01:5222/match_data/' + props.match.params.id)
       .then(response => {
         return response.json();
@@ -77,8 +64,30 @@ function Match(props) {
       .then(data => {
         console.log("Result from HTTP GET request")
         setResult(data)
+        match_data = data;
       });
   }, []);
+
+  useEffect(() => {
+    
+    if(match.status!=="end"){
+    const socket = io('https://d8f550d4d053.ngrok.io');
+    socket.on('connect', function(){
+        console.log("connected...!")
+        if(match_data["status"]=="end"){
+          socket.disconnect() ;
+          console.log("Disconnected as match ended...!")
+        }
+    });
+    socket.on('live',function(data) {
+      console.log("Result from WEBSOCKET request")
+      setResult(JSON.parse(data))
+      
+    });
+  }
+}, []);
+
+  
 
   const setResult =(data)=>{
     console.log('Received a message from the server!',data);

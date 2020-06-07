@@ -8,11 +8,26 @@ from constants import mongo_key
 client = pymongo.MongoClient(mongo_key)
 db = client["cric"]
 class MatchDatabase:
+    
+    @staticmethod
+    def update_batsman_out(batsman_type,match_id):
+        match = MatchDatabase.get_match_document(match_id)
+        current_batting_team = match["current_batting_team"]
+        strike_batsman = match['strike_batsman']
+        non_strike_batsman = match['non_strike_batsman']
+
+        if batsman_type== 'strike batsman':
+            db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                current_batting_team+".batting."+strike_batsman+".status": False}})
+        else:
+            db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                current_batting_team+".batting."+non_strike_batsman+".status": False}})
+
 
     @staticmethod
     def update_over_status(match, over_number, ball_number, score_type, run):
-        db.matches.update_one({'_id': match['_id']}, {'$set': {
-                              match["current_batting_team"]+".over_status"+"."+over_number+"."+ball_number+"."+score_type: run}})
+        db.matches.update_one({'_id': match['_id']}, {'$push': {
+                              match["current_batting_team"]+".over_status"+"."+over_number+"."+ball_number:{score_type: run}}})
 
     @staticmethod
     def get_available_batsman(match_id):
@@ -197,8 +212,9 @@ class MatchDatabase:
 
     @staticmethod
     def update_match_document(run, match_id):
-        current_ball_number = ''
+        
         match = MatchDatabase.get_match_document(match_id)
+        current_ball_number = match['ball_number']
         ball_number = match['ball_number']
         current_batting_team = match["current_batting_team"]
         refresh_needed = False
@@ -222,10 +238,11 @@ class MatchDatabase:
         db.matches.update_one({'_id': match['_id']}, {'$inc': {
                               current_batting_team+".runs_scored": int(run), current_batting_team+".balls_faced": 1}})
         #db.matches.update_one( {'_id':match['_id']},{ '$inc':{current_batting_team+".balls_faced":1}})
-
-        if current_ball_number == 1:
-            db.matches.update_one({'_id': match['_id']}, {
-                                  '$inc': {'running_over': 1}})
+ 
+        #test-comment
+        # if current_ball_number == 1:
+        #     db.matches.update_one({'_id': match['_id']}, {
+        #                           '$inc': {'running_over': 1}})
 
         match = MatchDatabase.get_match_document(match_id)
         runs_scored = match[current_batting_team]['runs_scored']
@@ -340,8 +357,15 @@ class MatchDatabase:
     def update_current_bowler(current_bowler, match_id):
         match = MatchDatabase.get_match_document(match_id)
         current_bowling_team = match['current_bowling_team']
+        ball_number = match['ball_number']
         db.matches.update_one({'_id': match['_id']}, {
                               '$set': {"current_bowler": current_bowler}})
+        
+        #test-code
+        if ball_number == 0 or ball_number == 6:
+            db.matches.update_one({'_id': match['_id']}, {
+                                  '$inc': {'running_over': 1}})
+
 
         if "bowling" not in match[current_bowling_team] or (current_bowler not in match[current_bowling_team]['bowling']):
             db.matches.update_one({'_id': match['_id']}, {'$set': {current_bowling_team+".bowling."+current_bowler+".runs": 0,
@@ -364,13 +388,12 @@ class MatchDatabase:
         current_batting_team = match["current_batting_team"]
         current_bowling_team = match["current_bowling_team"]
         current_bowler = match["current_bowler"]
-
-        batsman_runs = match[current_batting_team]['batting'][strike_batsman]['runs']+run
+        
+        batsman_runs = match[current_batting_team]['batting'][strike_batsman]['runs']
         batsman_balls = match[current_batting_team]['batting'][strike_batsman]['balls']+1
         strike_rate = (batsman_runs/batsman_balls)*100
         strike_rate = str(round(strike_rate, 2))
-        print("strike_rate:")
-        print(strike_rate)
+    
         db.matches.update_one({'_id': match['_id']}, {'$set': {
                               current_batting_team+".batting."+strike_batsman+".strike_rate": strike_rate}})
 
@@ -500,13 +523,26 @@ class MatchDatabase:
         running_over = match['running_over']
 
         non_strike_batsman = match['non_strike_batsman']
+        strike_batsman = match['strike_batsman']
         current_bowler = match['current_bowler']
+        
+        if match[current_batting_team]['batting'][strike_batsman]["status"]==False:
+            db.matches.update_one({'_id': match['_id']}, {
+                              '$set': {"strike_batsman": batsman}})
+            strike_batsman = batsman
+            
+        elif match[current_batting_team]['batting'][non_strike_batsman]["status"] == False:
+            db.matches.update_one({'_id': match['_id']}, {
+                              '$set': {"non_strike_batsman": batsman}})
+            non_strike_batsman = batsman
+           
 
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {"strike_batsman": batsman}})
-        db.matches.update_one({'_id': match['_id']}, {
                               '$push': {current_batting_team+".batting_order": batsman}})
-        strike_batsman = batsman
+
+
+        
+        # strike_batsman = batsman
 
         # strike_batsman = db.matches.find_one({'match_id':"test"})['strike_batsman']
         # current_bowler = db.matches.find_one({'match_id':"test"})['current_bowler']
@@ -515,19 +551,19 @@ class MatchDatabase:
         current_bowling_team = match['current_bowling_team']
 
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".4s": 0}})
+                              '$set': {current_batting_team+".batting."+batsman+".4s": 0}})
 
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".6s": 0}})
+                              '$set': {current_batting_team+".batting."+batsman+".6s": 0}})
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".runs": 0}})
+                              '$set': {current_batting_team+".batting."+batsman+".runs": 0}})
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".balls": 0}})
+                              '$set': {current_batting_team+".batting."+batsman+".balls": 0}})
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".strike_rate": 0.0}})
+                              '$set': {current_batting_team+".batting."+batsman+".strike_rate": 0.0}})
 
         db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".status": True}})
+                              '$set': {current_batting_team+".batting."+batsman+".status": True}})
         # removing batsman from did_not_bat
         db.matches.update_one({'_id': match['_id']}, {
                               '$pull': {current_batting_team+".did_not_bat": batsman}})
@@ -544,8 +580,13 @@ class MatchDatabase:
         current_batting_team = match["current_batting_team"]
         current_bowling_team = match["current_bowling_team"]
         current_bowler = match["current_bowler"]
-
         ball_number = match['ball_number']
+        current_ball_number= ''
+        if ball_number == 6:
+            current_ball_number = 1
+        else:
+            current_ball_number = ball_number
+
         running_over = match['running_over']
 
         # team_update
@@ -559,7 +600,7 @@ class MatchDatabase:
                               '$inc': {current_bowling_team+".bowling."+current_bowler+".runs": int(run+1)}})
 
         MatchDatabase.update_over_status(match, str(
-            running_over), str(ball_number), "wide", run)
+            running_over), str(current_ball_number), "wide", run)
 
         #er and sr
         MatchDatabase.update_sr_and_er(match, run)
@@ -575,8 +616,13 @@ class MatchDatabase:
         current_bowling_team = match["current_bowling_team"]
         current_bowler = match["current_bowler"]
         strike_batsman = match["strike_batsman"]
-
         ball_number = match['ball_number']
+        current_ball_number= ''
+
+        if ball_number == 6:
+            current_ball_number = 1
+        else:
+            current_ball_number = ball_number
         running_over = match['running_over']
 
         # team_update
@@ -598,7 +644,7 @@ class MatchDatabase:
         #                       '$inc': {current_bowling_team+".bowling."+current_bowler+".runs": int(run+1)}})
 
         MatchDatabase.update_over_status(match, str(
-            running_over), str(ball_number), "noball", run)
+            running_over), str(current_ball_number), "noball", run)
 
         #er and sr
         MatchDatabase.update_sr_and_er(match, run)
@@ -620,9 +666,8 @@ class MatchDatabase:
         refresh_needed = False
 
         runs_scored = ''
-        # running_over = match['running_over']
         strike_batsman = match['strike_batsman']
-        non_strike_batsman = ''
+        non_strike_batsman = match['non_strike_batsman']
         current_bowler = match['current_bowler']
 
         if ball_number == 6:
@@ -635,19 +680,24 @@ class MatchDatabase:
         print("match['running_over']=" + str(match['running_over']))
 
         # batsman
-        db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {current_batting_team+".batting."+strike_batsman+".status": False}})
-        db.matches.update_one({'_id': match['_id']}, {
-                              '$inc': {current_batting_team+".batting."+strike_batsman+".balls": 1}})
+        #for runout status change is from other intent
 
-        # bowler
-        db.matches.update_one({'_id': match['_id']}, {
-                              '$inc': {current_bowling_team+".bowling."+current_bowler+".wickets": 1,
-                                       current_bowling_team+".bowling."+current_bowler+".balls": 1}})
-        # db.matches.update_one({'_id': match['_id']}, {
-        #                       '$inc': {current_bowling_team+".bowling."+current_bowler+".balls": 1}})
+        #shifted 1 layer down for other cases
+        if out_type == 'bowled':
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$set': {current_batting_team+".batting."+strike_batsman+".status": False}})
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$inc': {current_batting_team+".batting."+strike_batsman+".balls": 1}})
+    
 
-        #db.matches.update_one( {'match_id':"test"},{ '$set':{"strike_batsman":batsman}})
+        # bowler, bowler runs updated in below layer
+        db.matches.update_one({'_id': match['_id']}, {'$inc': {
+                              current_bowling_team+".bowling."+current_bowler+".balls": 1}})
+        if out_type != 'runout':
+            db.matches.update_one({'_id': match['_id']}, {
+                              '$inc': {current_bowling_team+".bowling."+current_bowler+".wickets": 1}
+                                     })
+    
         db.matches.update_one({'_id': match['_id']}, {
                               '$set': {"ball_number": current_ball_number}})
         db.matches.update_one({'_id': match['_id']}, {
@@ -663,11 +713,20 @@ class MatchDatabase:
                               "batsman": strike_batsman, "over_number": running_over, "ball_number": current_ball_number, "team_score": runs_scored}}})
 
         if fielder != None:
-            db.matches.update_one({'_id': match['_id']}, {'$set': {
+            if match[current_batting_team]['batting'][strike_batsman]["status"]==False:
+              
+                db.matches.update_one({'_id': match['_id']}, {'$set': {
                                   current_batting_team+".batting."+strike_batsman+".out_fielder": fielder}})
-        if out_type != None:
+            elif match[current_batting_team]['batting'][non_strike_batsman]["status"] == False:
+                db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                  current_batting_team+".batting."+non_strike_batsman+".out_fielder": fielder}})
+
+           
+        if out_type == 'bowled':
             db.matches.update_one({'_id': match['_id']}, {'$set': {
                                   current_batting_team+".batting."+strike_batsman+".out_type": out_type}})
+            db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                  current_batting_team+".batting."+strike_batsman+".out_bowler": current_bowler}})
 
         # checing if all wickets fallen, if yes then refresh innings required.
         did_not_bat = match[current_batting_team]['did_not_bat']
@@ -679,10 +738,12 @@ class MatchDatabase:
         MatchDatabase.update_over_status(match, str(
             running_over), str(current_ball_number), "out", 0)
 
-        if current_ball_number == 1:
-            db.matches.update_one({'_id': match['_id']}, {
-                                  '$inc': {'running_over': 1}})
-        elif current_ball_number == 6 and refresh_needed == False:
+        #test-comment
+        # if current_ball_number == 1:
+        #     db.matches.update_one({'_id': match['_id']}, {
+        #                           '$inc': {'running_over': 1}})
+        #elif
+        if current_ball_number == 6 and refresh_needed == False:
             if match['running_over']+1 == match["total_overs"]:
                 refresh_needed = True
                 print("refresh_needed due to all overs and out")
@@ -696,17 +757,49 @@ class MatchDatabase:
         return {"type": "ask_next_batsman", "response": Message.next_batsman_ask_payload()}
 
     @staticmethod
-    def out_update(match_id, out_type):
+    def out_update(match_id, out_type,run=None):
         # TODO Out with run out
         match = MatchDatabase.get_match_document(match_id)
         current_batting_team = match["current_batting_team"]
         current_bowling_team = match["current_bowling_team"]
         strike_batsman = match['strike_batsman']
+        non_strike_batsman = match['non_strike_batsman']
         current_bowler = match['current_bowler']
-        db.matches.update_one({'_id': match['_id']}, {'$set': {
-                              current_batting_team+".batting."+strike_batsman+".out_type": out_type,
-                              current_batting_team+".batting."+strike_batsman+".out_bowler": current_bowler
-                              }})
-        # db.matches.update_one({'_id': match['_id']}, {'$set': {
-        #                       current_batting_team+".batting."+strike_batsman+".out_bowler": current_bowler}})
+        if out_type != 'runout':
+            db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                current_batting_team+".batting."+strike_batsman+".out_type": out_type,
+                                current_batting_team+".batting."+strike_batsman+".out_bowler": current_bowler
+                                }})
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$set': {current_batting_team+".batting."+strike_batsman+".status": False}})
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$inc': {current_batting_team+".batting."+strike_batsman+".balls": 1}})
+        if out_type == 'runout' or out_type=='wide_runout' or out_type=='noball_runout':
+            print("runs that we got in out_update with runout:")
+            print(run)
+            if out_type != "wide_runout":
+                db.matches.update_one({'_id': match['_id']}, {'$inc': {
+                                current_batting_team+".batting."+strike_batsman+".runs": run}})
+                db.matches.update_one({'_id': match['_id']}, {'$inc': {
+                                current_batting_team+".batting."+strike_batsman+".balls": 1}})
+            if run !=None:
+                if out_type == "wide_runout" or out_type == "noball_runout":
+                    db.matches.update_one({'_id': match['_id']}, {'$inc': {
+                                    current_bowling_team+".batting."+current_bowler+".runs": run+1}})
+                else:
+                    db.matches.update_one({'_id': match['_id']}, {'$inc': {
+                                    current_bowling_team+".batting."+current_bowler+".runs": run}})
+
+
+            if match[current_batting_team]['batting'][strike_batsman]["status"]==False:
+               db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                current_batting_team+".batting."+strike_batsman+".out_type": out_type,
+                                current_batting_team+".batting."+strike_batsman+".out_bowler": current_bowler
+                                }})
+            
+            elif match[current_batting_team]['batting'][non_strike_batsman]["status"] == False:
+                db.matches.update_one({'_id': match['_id']}, {'$set': {
+                                current_batting_team+".batting."+non_strike_batsman+".out_type": out_type,
+                                current_batting_team+".batting."+non_strike_batsman+".out_bowler": current_bowler
+                                }})
 
