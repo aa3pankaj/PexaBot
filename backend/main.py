@@ -16,6 +16,7 @@ from constants import DIALOGFLOW_LANGUAGE_CODE
 from bson.json_util import dumps
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
+import time
 
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-a46e4f1cad3b.json'
@@ -95,6 +96,10 @@ def user_stats():
 def test_runs(number):
     #score = req['queryResult']['parameters']['number']
     # flask_request_json = flask_request.get_json()
+    
+    print("start test.run==>")
+    start = time.process_time()
+    print(start)
     number = int(number)
     match_params = Helper.get_match_params(request)
     
@@ -119,13 +124,20 @@ def test_runs(number):
         chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
         response = ActionListener.ball_action_listener(number,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response) 
         match= MatchDatabase.get_match_document(match_id)
+        start_int = time.process_time()
+        print("start of send_live_data==>")
+        print(start_int)
         send_live_data(match)
+        print("end of send_live_data==>")
+        print(time.process_time()-start_int)
     elif match_status == 'resume':
         print('********** Resume *************')
         print("match_id:"+match_id)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = last_txn['response']
-    print(response)
+    print("start test.run==>")
+    print("Total time taken by test.run==>")
+    print(time.process_time() - start)
     return json.dumps(response)
 
 @assist.action('test.out.bat.bowlerchange')
