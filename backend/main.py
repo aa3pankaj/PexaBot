@@ -126,7 +126,6 @@ def test_runs(number):
         match= MatchDatabase.get_match_document(match_id)
         start_int = time.process_time()
         print("start of send_live_data==>")
-        print(start_int)
         send_live_data(match)
         print("end of send_live_data==>")
         print(time.process_time()-start_int)
@@ -135,7 +134,7 @@ def test_runs(number):
         print("match_id:"+match_id)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = last_txn['response']
-    print("start test.run==>")
+    print("end test.run==>")
     print("Total time taken by test.run==>")
     print(time.process_time() - start)
     return json.dumps(response)
