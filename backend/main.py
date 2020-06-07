@@ -400,5 +400,5 @@ def send_live_data(match):
     
 if __name__ == '__main__':
     # app.run(port=5222,debug=True)
-    port = int(os.environ.get('PORT', 33507))
+    port = int(os.environ.get('PORT', 34209))
     socketio.run(app,port=port,debug=True)
