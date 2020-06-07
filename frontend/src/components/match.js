@@ -53,6 +53,22 @@ function Match(props) {
     setTeam1fallofwickets(data[innings1_team].fall_of_wickets)
   }
   var match_data='';
+  const match_end_fetch=()=>{
+    useEffect(() => {
+   
+      fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
+      //fetch('http://127.0.0.01:5222/match_data/' + props.match.params.id)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          console.log("enf result from HTTP GET request ")
+          setResult(data)
+          match_data = data;
+        });
+    }, []);
+        
+  }
   useEffect(() => {
    
     fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
@@ -61,6 +77,7 @@ function Match(props) {
         return response.json();
       })
       .then(data => {
+
         console.log("Result from HTTP GET request")
         setResult(data)
         match_data = data;
@@ -73,14 +90,21 @@ function Match(props) {
     const socket = io('https://pexabotbackend.herokuapp.com');
     socket.on('connect', function(){
         console.log("connected...!")
-        if(match_data["status"]=="end"){
-          socket.disconnect() ;
-          console.log("Disconnected as match ended...!")
-        }
+        // if(match_data["status"]=="end"){
+        //   socket.disconnect() ;
+        //   console.log("Disconnected as match ended...!")
+        // }
     });
     socket.on('live',function(data) {
       console.log("Result from WEBSOCKET request")
+      if (data==null){
+        match_end_fetch()
+        socket.disconnect();
+        console.log("Disconnected as match ended...!")
+      }
+      else{
       setResult(JSON.parse(data))
+      }
       
     });
   }
