@@ -12,12 +12,13 @@ import dialogflow_v2
 from google.api_core.exceptions import InvalidArgument
 from action_listners import ActionListener
 from flask_assistant import Assistant, ask, request
-from constants import DIALOGFLOW_PROJECT_ID,DIALOGFLOW_LANGUAGE_CODE
+from constants import DIALOGFLOW_LANGUAGE_CODE
 from bson.json_util import dumps
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credentials/cricbot-qegqqr-a46e4f1cad3b.json'
+DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-a46e4f1cad3b.json'
 
 app = Flask(__name__)
 cors = CORS(app)

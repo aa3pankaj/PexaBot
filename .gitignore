@@ -1,6 +1,5 @@
 **/node_modules
 .DS_store
-constants.py
 *copy.py
-credentials
+**.env
 __pycache__

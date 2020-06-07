@@ -4,9 +4,11 @@ import json
 from message import Message
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-from constants import mongo_key
-client = pymongo.MongoClient(mongo_key)
+import os
+MONGO_KEY = os.getenv('MONGO_KEY')
+client = pymongo.MongoClient(MONGO_KEY)
 db = client["cric"]
+
 class MatchDatabase:
     
     @staticmethod
