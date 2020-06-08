@@ -37,7 +37,7 @@ class ActionListener:
     @staticmethod
     def ball_action_listener(run,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response):
         MatchDatabase.update_players_stats(run,match_id)
-        
+
         #just changuing strike for match score display of strike batsman in update_match_document(), 
         # no effect on conditions
         if run%2!=0:
@@ -54,8 +54,9 @@ class ActionListener:
                 return res["response"]
             elif res["type"] == "end":
                 MatchDatabase.set_match_status_end(match_id)
-                end_message = Message.end_match_payload()
-                res =  Helper.append_clear_context_payload(end_message,request)
+                # end_message = Message.end_match_payload()
+                # res =  Helper.append_clear_context_payload(end_message,request)
+                res= Helper.clear_contexts(match_id,request)
                 TelegramHelper.remove_keyboard(chat_id)
         return res
     @staticmethod   
