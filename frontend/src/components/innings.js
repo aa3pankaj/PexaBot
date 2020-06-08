@@ -84,9 +84,11 @@ function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFall
     setBowlingRows(dataArray)
     var fallOfWickets = ''
     var wicket_fallen = 1
-    console.log(fallofwickets)
 
-    if (fallofwickets != 0 || fallofwickets != 'undefined') {
+    
+    console.log(typeof fallofwickets)
+
+    if (typeof fallofwickets != 'undefined') {
       const items = fallofwickets.map((item, key) => {
         console.log(item.team_score)
         fallOfWickets = fallOfWickets + (item.team_score + "/" + wicket_fallen + " (" + item.batsman + ", " + item.over_number + "." + item.ball_number +
