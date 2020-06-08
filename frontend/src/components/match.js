@@ -12,7 +12,7 @@ import MatchInfo from "./matchInfo"
 import io from 'socket.io-client';
 
 function Match(props) {
- 
+  const [reload,setReload] = useState(false)
   const [overStatus,setOverStatus] = useState({})
   const [loading, setLoading] = useState(true);
   const [match, setMatch] = useState({});
@@ -53,22 +53,7 @@ function Match(props) {
     setTeam1fallofwickets(data[innings1_team].fall_of_wickets)
   }
   var match_data='';
-  const match_end_fetch=()=>{
-    useEffect(() => {
-   
-      fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
-      //fetch('http://127.0.0.01:5222/match_data/' + props.match.params.id)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          console.log("enf result from HTTP GET request ")
-          setResult(data)
-          match_data = data;
-        });
-    }, []);
-        
-  }
+  
   useEffect(() => {
    
     fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
@@ -82,7 +67,7 @@ function Match(props) {
         setResult(data)
         match_data = data;
       });
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     
@@ -98,9 +83,9 @@ function Match(props) {
     socket.on('live',function(data) {
       console.log("Result from WEBSOCKET request")
       if (data==null){
-        match_end_fetch();
         socket.disconnect();
         console.log("Disconnected as match ended...!")
+        setReload(true)
       }
       else{
       setResult(JSON.parse(data));
