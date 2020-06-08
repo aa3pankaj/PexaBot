@@ -88,7 +88,7 @@ function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFall
 
     console.log(typeof fallofwickets)
 
-    if (typeof fallofwickets != 'undefined' || typeof fallofwickets != 'number' ) {
+    if (typeof fallofwickets != 'undefined' && typeof fallofwickets != 'number' ) {
       const items = fallofwickets.map((item, key) => {
         console.log(item.team_score)
         fallOfWickets = fallOfWickets + (item.team_score + "/" + wicket_fallen + " (" + item.batsman + ", " + item.over_number + "." + item.ball_number +
