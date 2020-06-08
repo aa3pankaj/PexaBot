@@ -106,11 +106,11 @@ function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFall
   return (
 
     <div>
-      <Header inverted as='h4' attached="top" >
+      <Header as='h4' attached="top" block >
       {name} 
   </Header>
       <BatsmanTable data={battingRows} />
-      <Table inverted >
+      <Table >
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Fall of wickets</Table.HeaderCell>

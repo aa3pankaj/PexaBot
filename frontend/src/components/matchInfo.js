@@ -72,10 +72,10 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, run
     }
 
     return (
-        <Card raised fluid >
+         <Card raised fluid >
             <Grid columns={1} unstackable>
                 <Grid.Column>
-                    <Segment inverted raised>
+                    <Segment raised>
                         {status === "live" ? (<Label as='a' color='red' ribbon> Live </Label>) : (<Label as='a' color='green' ribbon> {status} </Label>)}
                         <Grid columns={1} unstackable textAlign='center'>
                             <Grid.Row verticalAlign='middle'>
@@ -122,7 +122,7 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, run
                     </Segment>
                 </Grid.Column>
             </Grid>
-        </Card>
+         </Card>
 
     );
 }
