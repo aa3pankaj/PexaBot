@@ -7,7 +7,7 @@ function BatsmanTable(props) {
 
   return (
     
-    <Table unstackable>
+    <Table inverted unstackable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Batsman Name</Table.HeaderCell>

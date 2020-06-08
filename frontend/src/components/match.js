@@ -137,8 +137,9 @@ function Match(props) {
         <Loader size='massive'>Loading</Loader>
       </Dimmer>) : (
           <Responsive>
+            <Segment inverted>
             <MatchInfo toss={toss} matchNumber={match.match_number} overStatus={overStatus} status={match.status} name1={match.innings1_team} batting1={team1Batting} runScored1={team1runs} wicketsFallen1={team1wickets} name2={match.innings2_team} batting2={team2Batting} runScored2={team2runs} wicketsFallen2={team2wickets}/>
-            <Segment>
+            
               <Innings match={match} fallofwickets={team1fallofwickets} batting={team1Batting} bowling={team2Bowling} name={match.innings1_team} runScored={team1runs} wicketsFallen={team1wickets} />
               <Divider section />
               {match.running_innings === 0 || team2Batting == null ? null : (

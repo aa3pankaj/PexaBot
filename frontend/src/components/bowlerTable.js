@@ -3,7 +3,7 @@ import { Table } from "semantic-ui-react";
 
 function BowlerTable(props) {
   return (
-    <Table unstackable>
+    <Table inverted unstackable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Bowler</Table.HeaderCell>
