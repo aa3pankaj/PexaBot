@@ -98,12 +98,12 @@ function Match(props) {
     socket.on('live',function(data) {
       console.log("Result from WEBSOCKET request")
       if (data==null){
-        match_end_fetch()
+        match_end_fetch();
         socket.disconnect();
         console.log("Disconnected as match ended...!")
       }
       else{
-      setResult(JSON.parse(data))
+      setResult(JSON.parse(data));
       }
       
     });
