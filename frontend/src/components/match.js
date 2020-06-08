@@ -83,7 +83,7 @@ function Match(props) {
     socket.on('live',function(data) {
       console.log("Result from WEBSOCKET request",data)
       console.log(typeof data)
-      if (JSON.parse(data)==null){
+      if (JSON.parse(data)==null || match_data["status"]=="end"){
         socket.disconnect();
         console.log("Disconnected as match ended...!")
         setReload(true)
