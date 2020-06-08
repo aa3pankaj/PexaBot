@@ -120,6 +120,8 @@ def test_runs(number):
     action = request['queryResult']['action']
     SESSION_ID = session.rpartition('/')[2] 
     
+    print("match_status before processing:")
+    print(match_status)
     if match_status == 'live':
         chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
         response = ActionListener.ball_action_listener(number,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response) 
@@ -132,6 +134,8 @@ def test_runs(number):
     elif match_status == 'resume':
         print('********** Resume *************')
         print("match_id:"+match_id)
+        print("status in if block:")
+        print(match_status)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = last_txn['response']
     print("end test.run==>")

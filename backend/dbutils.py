@@ -81,13 +81,8 @@ class MatchDatabase:
     def get_match_status(match_id):
         match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
                                     "status": "pause"}, {"status": "resume"}]}, {"match_id": match_id}]})
-        if match['status'] == 'pause':
-            return 'pause'
-        elif match['status'] == 'resume':
-            return 'resume'
-        elif match['status'] == 'live':
-            return 'live'
-        return ''
+        return match['status']
+          
 
     @staticmethod
     def set_match_status_resume(match_id, status):
