@@ -46,10 +46,11 @@ class ActionListener:
             MatchDatabase.strike_change(match_id)
         res = MatchDatabase.update_match_document(run,match_id)
         
-        #for live match only
-        ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,response)
+       
 
         if (res is not None) and ("type" in res):
+            #for resume match only
+            ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
             if res["type"] == "ask_next_bowler":
                 bowler_list = MatchDatabase.get_available_bowlers(match_id)
                 TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
@@ -60,6 +61,9 @@ class ActionListener:
                 # res =  Helper.append_clear_context_payload(end_message,request)
                 res= Helper.clear_contexts(match_id,request)
                 TelegramHelper.remove_keyboard(chat_id)
+        #for resume match only
+        ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res)
+            
         return res
     @staticmethod   
     def most_runs_listener():

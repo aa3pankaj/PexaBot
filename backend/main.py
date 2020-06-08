@@ -102,7 +102,8 @@ def test_runs(number):
     print(start)
     number = int(number)
     match_params = Helper.get_match_params(request)
-    
+    print("request========>")
+    print(request)
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
@@ -138,6 +139,9 @@ def test_runs(number):
         print(match_status)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = last_txn['response']
+    
+    print("response:")
+    print(json.dumps(response))
     print("end test.run==>")
     print("Total time taken by test.run==>")
     print(time.process_time() - start)
@@ -378,7 +382,8 @@ def match_resume(scorer_id):
     user_text = last_txn['user_text']
     input_context = MatchDatabase.get_input_context_from_intent_name(intent_name)
     parameters = dialogflow_v2.types.struct_pb2.Struct()
-    
+    print("input context:")
+    print(input_context)
     MatchDatabase.update_match_id(scorer_id,match_id)
     parameters["match_id"] = match_id
     context_1 = dialogflow_v2.types.context_pb2.Context(
@@ -402,7 +407,8 @@ def match_resume(scorer_id):
         response = session_client.detect_intent(session=session, query_input= query_input,query_params = query_params_1)
     except InvalidArgument:
         raise
-
+    print("res from resume:")
+    print(response)
     print("Query text:", response.query_result.query_text)
     print("Detected intent:", response.query_result.intent.display_name)
     print("Detected intent confidence:", response.query_result.intent_detection_confidence)
