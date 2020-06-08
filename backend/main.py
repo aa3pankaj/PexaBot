@@ -362,7 +362,11 @@ def match_resume(scorer_id):
     scorer_username = scorer_id
     if scorer_username[:1]=='@':
         scorer_username = scorer_username[1:]
+    print("userid from intent:")
+    print(scorer_username)
     scorer_id = MatchDatabase.userid_from_username(scorer_username,'telegram')
+    print("userid after conversion:")
+    print(scorer_id)
     session_client = dialogflow_v2.SessionsClient()
     last_txn = ActionListener.get_last_txn_from_history(scorer_id)
     SESSION_ID = last_txn['SESSION_ID']

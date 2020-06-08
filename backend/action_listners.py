@@ -10,6 +10,8 @@ class ActionListener:
     
     @staticmethod
     def get_last_txn_from_history(match_id,status=None):
+        print("status from get_last_txn_from_history:")
+        print(status)
         if status == 'resume':
             MatchDatabase.set_match_status_live(match_id,"live")
         last_txn = MatchDatabase.get_last_txn(match_id)

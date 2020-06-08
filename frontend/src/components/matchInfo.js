@@ -9,7 +9,7 @@ import {
 }
     from "semantic-ui-react";
 
-function MatchInfo({ toss, matchNumber, overStatus, status, name1, batting1, runScored1, wicketsFallen1, name2, batting2, runScored2, wicketsFallen2 }) {
+function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, wicketsFallen1, name2, runScored2, wicketsFallen2 }) {
     const createBallStatus = (type) => {
         var dataArray = []
 
