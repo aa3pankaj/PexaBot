@@ -145,7 +145,7 @@ def test_runs(number):
     print("end test.run==>")
     print("Total time taken by test.run==>")
     print(time.process_time() - start)
-    return json.dumps(response)
+    return response
 
 @assist.action('test.out.bat.bowlerchange')
 def test_out_bowler_change(bowler):
@@ -197,6 +197,15 @@ def test_out_runout_noball_runs(run):
 @assist.action('test.out.runout.wide.runs')
 def test_out_runout_wide_runs(run):
    out_common("wide_runout",request,int(run))
+
+@assist.action('test.wide.back')
+def test_wide_back():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    match_info = MatchDatabase.get_live_match_info(match_id)
+    TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+    return json.dumps({})
 
 #TODO
 #test.out.hitwicket
@@ -253,7 +262,7 @@ def wide_with_number(number):
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
 
-    response =  ActionListener.wide_with_number_action_listener(number,match_params['match_id']) 
+    response =  ActionListener.wide_with_number_action_listener(number,match_params['match_id'],chat_id) 
     #websocket response start
     match= MatchDatabase.get_match_document(match_id)
     send_live_data(match)
@@ -271,14 +280,23 @@ def noball_with_number(number):
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
 
-    response =  ActionListener.noball_with_number_number_action_listener(number,match_params['match_id']) 
+    response =  ActionListener.noball_with_number_number_action_listener(number,match_params['match_id'],chat_id) 
 
      #websocket response start
     match= MatchDatabase.get_match_document(match_id)
     send_live_data(match)
     #websocket response end
-
     return response
+
+@assist.action('test.noball.back')
+def test_noball_back():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    match_info = MatchDatabase.get_live_match_info(match_id)
+    TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+    return json.dumps({})
+
 
 @assist.action('match.toss.won')  
 def match_toss(team_name,decision,team1,team2,overs):
@@ -346,8 +364,8 @@ def test_ball(bowler):
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-    MatchDatabase.update_current_bowler(bowler,match_params['match_id'])
-    return 'heak'
+    ActionListener.test_ball_listener(bowler,match_params['match_id'],chat_id)
+    return json.dumps({})
    
 @assist.action('test.ball.strikechange')
 def test_ball_strikechange():

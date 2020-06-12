@@ -2,6 +2,107 @@ import json
 from pydialogflow_fulfillment import TelegramKeyboardButtonResponse
 
 class Message:
+
+    @staticmethod
+    def scoring_custom_payload(match_info):
+      print("******start of scoring_custom_payload")
+      output_payload = []
+      current_batting_team = match_info["current_batting_team"]
+      runs_scored = match_info["runs_scored"]
+      running_over = match_info["running_over"]
+      ball_number = match_info["ball_number"]
+      strike_batsman = match_info["strike_batsman"]
+      non_strike_batsman = match_info["non_strike_batsman"]
+      over_status = match_info["over_status"]
+      
+      output_payload.append([{"text":current_batting_team+":"+str(runs_scored)+" ("+str(running_over)+"."+str(ball_number)+" overs)"}])
+      output_payload.append([{"text":strike_batsman},{"text":non_strike_batsman}])
+      this_over = ''
+      print(over_status)
+      
+      if over_status !=None:
+        for ball in over_status:
+          print("$$$$$$")
+          print(ball)
+          for x in over_status[ball]:
+            print(x)
+            if "run" in x:
+              this_over+=str(x["run"])+"  "
+            elif "wide" in x:
+              this_over+=str(x["wide"])+"Wd  "
+            elif "noball" in x:
+              this_over+=str(x["noball"])+"Nb  "
+            elif "out" in x:
+              this_over+="W  "
+          print("$$$$$$")
+      print(this_over)
+
+      if this_over != '':
+          output_payload.append([{"text":"This over: "+this_over}])
+      else:
+          output_payload.append([{"text":"This over:"}])
+
+      print(output_payload)
+      
+      output_payload.append( [
+          {
+            "text": "0"
+          },
+          {
+           
+            "text": "1"
+          },
+          {
+           
+            "text": "2"
+          }
+        ])
+      output_payload.append( [
+          {
+           
+            "text": "3"
+          },
+          {
+          
+            "text": "4"
+          },
+          {
+          
+            "text": "5"
+          },
+          {
+            "text": "6"
+          
+          }
+        ])
+
+      output_payload.append([
+          {
+           
+            "text": "out"
+          },
+           {
+            "text": "strike change"
+           
+          }
+         
+       ])
+      output_payload.append([
+          {
+           
+            "text": "wide"
+          }
+        ])
+      output_payload.append(
+        [
+          {
+           
+            "text": "no ball"
+          }
+        ])
+      print("****** end of scoring_custom_payload")
+      return output_payload
+
     @staticmethod
     def empty_keyboard_button():
       return [{

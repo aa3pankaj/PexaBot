@@ -7,7 +7,12 @@ from helper import TelegramHelper
 
 
 class ActionListener:
-    
+    @staticmethod
+    def test_ball_listener(bowler,match_id,chat_id):
+        MatchDatabase.update_current_bowler(bowler,match_id)
+        match_info = MatchDatabase.get_live_match_info(match_id)
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+
     @staticmethod
     def get_last_txn_from_history(match_id,status=None):
         print("status from get_last_txn_from_history:")
@@ -15,7 +20,7 @@ class ActionListener:
         if status == 'resume':
             MatchDatabase.set_match_status_live(match_id,"live")
         last_txn = MatchDatabase.get_last_txn(match_id)
-        return last_txn
+        return json.dumps(last_txn)
     @staticmethod
     def push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,response):
         MatchDatabase.push_history(match_id,SESSION_ID,action,intent_name,user_text,response)
@@ -46,8 +51,6 @@ class ActionListener:
             MatchDatabase.strike_change(match_id)
         res = MatchDatabase.update_match_document(run,match_id)
         
-       
-
         if (res is not None) and ("type" in res):
             #for resume match only
             ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
@@ -56,19 +59,25 @@ class ActionListener:
                 TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
                 return res["response"]
             elif res["type"] == "end":
-                MatchDatabase.set_match_status_end(match_id)
                 # end_message = Message.end_match_payload()
                 # res =  Helper.append_clear_context_payload(end_message,request)
-                res= Helper.clear_contexts(match_id,request)
+                res =  Helper.clear_contexts(match_id,request)
                 TelegramHelper.remove_keyboard(chat_id)
+                return res
+            elif res["type"] == "change":
+                TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+                return json.dumps({})
         #for resume match only
+        match_info = MatchDatabase.get_live_match_info(match_id)
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res)
-            
         return res
+
     @staticmethod   
     def most_runs_listener():
         user_detail = MatchDatabase.get_most_runs_user()
         return Message.get_user_stats_payload(user_detail)
+
     @staticmethod
     def user_stats_listener(username,source):
         user_id=MatchDatabase.userid_from_username(username,source)
@@ -78,14 +87,18 @@ class ActionListener:
         print("user_stats********")
         print(str(user_detail))
         return Message.get_user_stats_payload(user_detail)
+
     @staticmethod
     def bowler_change_action_listener(bowler,match_id,chat_id):
         MatchDatabase.update_current_bowler(bowler,match_id)
         ball_number = MatchDatabase.get_current_ball_number(match_id)
         if ball_number == 6:
             MatchDatabase.strike_change(match_id)
+        match_info = MatchDatabase.get_live_match_info(match_id)
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         #TelegramHelper.send_ball_keyboard_message(chat_id)
-        return ''
+        return json.dumps({})
+
     @staticmethod
     def batsman_change_action_listener(batsman,match_id,chat_id):
         res = MatchDatabase.batsman_change(batsman,match_id)
@@ -95,19 +108,26 @@ class ActionListener:
                 TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
                 return json.dumps(res["response"])
             elif res["type"]=='next':
-                TelegramHelper.send_ball_keyboard_message(chat_id)
+                match_info = MatchDatabase.get_live_match_info(match_id)
+                TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+                # TelegramHelper.send_ball_keyboard_message(chat_id)
                 return json.dumps(res["response"])
-
-
         return json.dumps(res)
+
     @staticmethod
-    def wide_with_number_action_listener(run,match_id):
+    def wide_with_number_action_listener(run,match_id,chat_id):
         MatchDatabase.update_wide(run,match_id)
-        return ''
+        match_info = MatchDatabase.get_live_match_info(match_id)
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+        return json.dumps({})
+
     @staticmethod
-    def noball_with_number_number_action_listener(run,match_id):
+    def noball_with_number_number_action_listener(run,match_id,chat_id):
         MatchDatabase.update_noball(run,match_id)
-        return ''
+        match_info = MatchDatabase.get_live_match_info(match_id)
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+        return json.dumps({})
+
     @staticmethod
     def out_fielder_update_listner(match_id,chat_id,request,fielder=None):
         res = MatchDatabase.out_common(match_id,fielder=fielder)
@@ -119,10 +139,17 @@ class ActionListener:
                
             elif res["type"] == "end":
                 MatchDatabase.set_match_status_end(match_id)
-                end_message = Message.end_match_payload()
-                response =  Helper.append_clear_context_payload(end_message,request)
+                # end_message = Message.end_match_payload()
+                # response =  Helper.append_clear_context_payload(end_message,request)
+                
+                res =  Helper.clear_contexts(match_id,request)
                 TelegramHelper.remove_keyboard(chat_id)
-                return json.dumps(response)
+                return res
+                
+            elif res["type"] == "change":
+                TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+                return json.dumps({})
+                # return json.dumps(response)
         return json.dumps(res)
 
     @staticmethod
@@ -143,9 +170,17 @@ class ActionListener:
                     
                 elif res["type"] == "end":
                     MatchDatabase.set_match_status_end(match_id)
-                    end_message = Message.end_match_payload()
-                    response =  Helper.append_clear_context_payload(end_message,request)
-                    return json.dumps(response)
+                    # end_message = Message.end_match_payload()
+                    # response =  Helper.append_clear_context_payload(end_message,request)
+                    # return json.dumps(response)
+                    res =  Helper.clear_contexts(match_id,request)
+                    TelegramHelper.remove_keyboard(chat_id)
+                    return res
+
+                elif res["type"] == "change":
+                    TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+                    return json.dumps({})
+            
 
         else:
             res = MatchDatabase.out_update(match_id,out_type,run=run)
@@ -154,7 +189,7 @@ class ActionListener:
 
             fielder_list = MatchDatabase.get_available_bowlers(match_id)
             TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
-
+        
         return json.dumps(res)
 
     @staticmethod

@@ -9,8 +9,29 @@ MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
 db = client["cric"]
 
+
 class MatchDatabase:
     
+    @staticmethod
+    def get_live_match_info(match_id):
+        match = MatchDatabase.get_match_document(match_id)
+        current_batting_team = match["current_batting_team"]
+        strike_batsman = match['strike_batsman']
+        non_strike_batsman = match['non_strike_batsman']
+        current_batting_team = match['current_batting_team']
+        runs_scored = match[current_batting_team]['runs_scored']
+        running_over = match['running_over']
+        ball_number = match['ball_number']
+        over_status = None
+        if "over_status" in match[current_batting_team]:
+            print(match[current_batting_team]['over_status'])
+            if str(running_over) in match[current_batting_team]['over_status']:
+                over_status = match[current_batting_team]['over_status'][str(running_over)]
+
+        return {"current_batting_team":current_batting_team,"runs_scored":runs_scored,"running_over":running_over,"ball_number":ball_number,
+                "strike_batsman":strike_batsman,"non_strike_batsman":non_strike_batsman,"over_status":over_status }
+
+
     @staticmethod
     def update_batsman_out(batsman_type,match_id):
         match = MatchDatabase.get_match_document(match_id)
@@ -263,8 +284,8 @@ class MatchDatabase:
         print(running_innings)
         if refresh_needed:
             if running_innings == 2:
-                return {"type": "end"}
-            return Message.new_innings_payload()
+                return {"type": "end","response":"end"}
+            return {"type": "change","response":"change"}
         if current_ball_number == 6 and running_over != -1:
             return {"type": "ask_next_bowler", "response": Message.next_bowler_ask_payload(current_batting_team, running_over, current_ball_number, runs_scored, strike_batsman, non_strike_batsman)}
         return Message.get_update_match_document_payload(current_batting_team, running_over, current_ball_number, runs_scored, strike_batsman, non_strike_batsman, current_bowler)
@@ -597,7 +618,7 @@ class MatchDatabase:
                               '$inc': {current_bowling_team+".bowling."+current_bowler+".runs": int(run+1)}})
 
         MatchDatabase.update_over_status(match, str(
-            running_over), str(current_ball_number), "wide", run)
+            running_over), str(current_ball_number), "wide", int(run))
 
         #er and sr
         MatchDatabase.update_sr_and_er(match, run)
@@ -641,7 +662,7 @@ class MatchDatabase:
         #                       '$inc': {current_bowling_team+".bowling."+current_bowler+".runs": int(run+1)}})
 
         MatchDatabase.update_over_status(match, str(
-            running_over), str(current_ball_number), "noball", run)
+            running_over), str(current_ball_number), "noball", int(run))
 
         #er and sr
         MatchDatabase.update_sr_and_er(match, run)
@@ -749,7 +770,7 @@ class MatchDatabase:
         if refresh_needed:
             if db.matches.find_one({'_id': match['_id']})["running_innings"] == 2:
                 return {"type": "end"}
-            return Message.new_innings_payload()
+            return {"type": "change","response":"change"}
 
         return {"type": "ask_next_batsman", "response": Message.next_batsman_ask_payload()}
 

@@ -78,11 +78,25 @@ class Helper:
 
 class TelegramHelper:
     @staticmethod
+    def send_scoring_keyboard(chat_id,match_info):
+        print("testing telegram bot send_scoring_keyboard..........")
+        bot = Bot(TELEGRAM_TOKEN)
+        custom_keyboard = Message.scoring_custom_payload(match_info)
+        reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard,resize_keyboard=True)
+        bot.send_message(chat_id=chat_id, text= "what happened on the next ball?", reply_markup=reply_markup)
+
+    @staticmethod
     def remove_keyboard(chat_id):
         bot = Bot(TELEGRAM_TOKEN)
         remove_keyboard = ReplyKeyboardRemove(remove_keyboard= True)
         bot.send_message(chat_id=chat_id, text= "Ended conversation" ,reply_markup=remove_keyboard)
-        
+
+    @staticmethod
+    def send_keyboard_general(chat_id,message,buttonList):
+        print("testing telegram bot send_keyboard_general..........")
+        bot = Bot(TELEGRAM_TOKEN)
+        reply_markup = ReplyKeyboardMarkup(buttonList)
+        bot.send_message(chat_id=chat_id, text= message , reply_markup=reply_markup)
 
     @staticmethod
     def send_ball_keyboard_message(chat_id):
@@ -131,41 +145,3 @@ class TelegramHelper:
         
         reply_markup = ReplyKeyboardMarkup(custom_keyboard)
         bot.send_message(chat_id=chat_id, text= text , reply_markup=reply_markup)
-
-# class PDFGenerator:
-    
-#     def __init__(self, data, token,template_id,name,format, output, out_file_name):   
-#         self.data = data
-#         self.token = token
-#         self.template_id = template_id
-#         self.name = name
-#         self.format = format
-#         self.output = output
-#         self.out_file_name = out_file_name
-
-
-#     def generate_pdf(self):
-        
-
-#         configuration = pdf_generator_api_client.Configuration()
-#         configuration.access_token = self.token
-#         with pdf_generator_api_client.ApiClient(configuration) as api_client:
-#             # Create an instance of the API class
-#             api_instance = pdf_generator_api_client.TemplatesApi(api_client)
-#             template_id =  self.template_id # int | Template unique identifier
-
-#         body = self.data # object | Data used to generate the PDF. This can be JSON encoded string or a public URL to your JSON file.
-#         name = self.name # str | Document name, returned in the meta data. (optional)
-#         format = self.format # str | Document format. The zip option will return a ZIP file with PDF files. (optional) (default to 'pdf')
-#         output = self.output # str | Response format. (optional) (default to 'base64')
-
-#         try:
-#             # Merge template
-#             api_response = api_instance.merge_template(template_id, body, name=name, format=format, output=output)
-#             pprint(api_response.response)
-            
-#             with open(self.out_file_name, "wb") as f:
-#                 f.write(codecs.decode(api_response.response.encode(), "base64"))
-#         except ApiException as e:
-#             print("Exception when calling TemplatesApi->merge_template: %s\n" % e)
-
