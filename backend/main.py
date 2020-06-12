@@ -339,21 +339,25 @@ def match_team2_players(team2,team2_players):
     team2_players_list = [x.strip(' ') for x in team2_players_list]
 
     MatchDatabase.add_players(team2,team2_players_list,match_params['match_id'])
+    batsman_list = MatchDatabase.get_available_batsman(match_params['match_id'])
+    TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
     return 'heak'
 
-@assist.action('match.opening.batsman') 
-def match_opening_batsmen(opening_batsmen):
-    #match.opening-batsman
+#@assist.action('match.opening.batsman') 
+@assist.action('match.opening.nonstrike.batsman') 
+def match_opening_batsmen(strike_batsman,non_strike_batsman):
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     #TODO : get list directly from diagflow
-    opening_batsmen_list = opening_batsmen.split(' and ')
-    opening_batsmen_list = [x.strip(' ') for x in opening_batsmen_list]
-    print(opening_batsmen_list)
     
+    # opening_batsmen_list = opening_batsmen.split(' and ')
+    # opening_batsmen_list = [x.strip(' ') for x in opening_batsmen_list]
+   
+    opening_batsmen_list = [strike_batsman,non_strike_batsman]
+    print(opening_batsmen_list)
     res = ActionListener.update_on_strike_batsmen_listener(opening_batsmen_list,match_params['match_id'],chat_id)
     return res
 
@@ -381,6 +385,13 @@ def match_pause():
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     return ActionListener.pause_match_listner(match_params['match_id'],match_params['username'],request)
+
+@assist.action('match.innings.change')
+def match_innings_change():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    batsman_list = MatchDatabase.get_available_batsman(match_params['match_id'])
+    TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
 
 @assist.action('match.resume') 
 def match_resume(scorer_id):

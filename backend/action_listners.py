@@ -57,7 +57,7 @@ class ActionListener:
             if res["type"] == "ask_next_bowler":
                 bowler_list = MatchDatabase.get_available_bowlers(match_id)
                 TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
-                return res["response"]
+                return json.dumps(res["response"])
             elif res["type"] == "end":
                 # end_message = Message.end_match_payload()
                 # res =  Helper.append_clear_context_payload(end_message,request)
@@ -71,7 +71,7 @@ class ActionListener:
         match_info = MatchDatabase.get_live_match_info(match_id)
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res)
-        return res
+        return json.dumps(res)
 
     @staticmethod   
     def most_runs_listener():
