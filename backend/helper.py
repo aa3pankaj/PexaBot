@@ -144,4 +144,4 @@ class TelegramHelper:
                 }]
         
         reply_markup = ReplyKeyboardMarkup(custom_keyboard)
-        bot.send_message(chat_id=chat_id, text= text , reply_markup=reply_markup)
+        bot.send_message(chat_id=chat_id, text= text , reply_markup=reply_markup,resize_keyboard=True)
