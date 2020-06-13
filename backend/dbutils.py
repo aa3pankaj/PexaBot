@@ -11,7 +11,12 @@ db = client["cric"]
 
 
 class MatchDatabase:
-    
+    @staticmethod
+    def delete_live_matches_of_user(match_id):
+        #delete all pause or live matches
+        result = db.matches.remove(
+            {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": match_id}]})
+
     @staticmethod
     def get_live_match_info(match_id):
         match = MatchDatabase.get_match_document(match_id)
@@ -674,6 +679,7 @@ class MatchDatabase:
         if run % 2 != 0:
             MatchDatabase.strike_change(match_id)
 
+
     @staticmethod
     def out_common(match_id, fielder=None, out_type=None):
         match = MatchDatabase.get_match_document(match_id)
@@ -691,7 +697,8 @@ class MatchDatabase:
         strike_batsman = match['strike_batsman']
         non_strike_batsman = match['non_strike_batsman']
         current_bowler = match['current_bowler']
-
+        
+        print("out type:"+out_type)
         if ball_number == 6:
             current_ball_number = 1
         else:
@@ -715,7 +722,7 @@ class MatchDatabase:
     
 
        
-        if out_type != 'runout' and out_type!='wide_runout' and out_type!='noball_runout':
+        if out_type!='wide_runout' and out_type!='noball_runout':
             db.matches.update_one({'_id': match['_id']}, {
                               '$inc': {current_bowling_team+".bowling."+current_bowler+".wickets": 1}
                                      })
@@ -723,8 +730,6 @@ class MatchDatabase:
             db.matches.update_one({'_id': match['_id']}, {'$inc': {
                                 current_bowling_team+".bowling."+current_bowler+".balls": 1}})
     
-            db.matches.update_one({'_id': match['_id']}, {
-                                '$set': {"ball_number": current_ball_number}})
         db.matches.update_one({'_id': match['_id']}, {
                               '$inc': {current_batting_team+".wickets_fallen": 1}})
 

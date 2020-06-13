@@ -47,6 +47,26 @@ def get_match_data(id):
     match_doc = MatchDatabase.get_match_document_by_id(id)
     return make_response(dumps(match_doc))
 
+@assist.action('match.start')
+def match_start():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+
+    match = MatchDatabase.get_match_document(match_id)
+    if match != None:
+        return json.dumps(Message.general_message("You already have a live match in db, should I delete it?"))
+    else:
+        return json.dumps(Message.general_message("Enter team names e.g Pexa vs Lexa?"))
+        
+@assist.action('match.old.delete')
+def match_delete():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    MatchDatabase.delete_live_matches_of_user(match_id)
+    return json.dumps(Message.general_message("Done. Now you can start match again."))
+
 @assist.action('admin.link.users')
 def link_bot_user(bot_user,platform_user):
     print('in ********* link_bot_user')
