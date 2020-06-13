@@ -23,7 +23,6 @@ class MatchDatabase:
         current_batting_team = match["current_batting_team"]
         strike_batsman = match['strike_batsman']
         non_strike_batsman = match['non_strike_batsman']
-        current_batting_team = match['current_batting_team']
         runs_scored = match[current_batting_team]['runs_scored']
         running_over = match['running_over']
         ball_number = match['ball_number']
@@ -721,8 +720,6 @@ class MatchDatabase:
             #er and sr
             MatchDatabase.update_sr_and_er(match, 0)
     
-
-       
         if out_type!='wide_runout' and out_type!='noball_runout':
             db.matches.update_one({'_id': match['_id']}, {
                               '$inc': {current_bowling_team+".bowling."+current_bowler+".wickets": 1}

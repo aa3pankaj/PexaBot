@@ -98,13 +98,13 @@ class TelegramHelper:
         reply_markup = ReplyKeyboardMarkup(buttonList)
         bot.send_message(chat_id=chat_id, text= message , reply_markup=reply_markup)
 
-    @staticmethod
-    def send_ball_keyboard_message(chat_id):
-        print("testing telegram bot send_ball_keyboard_message..........")
-        bot = Bot(TELEGRAM_TOKEN)
-        custom_keyboard = Message.ball_update_custom_keyboard()
-        reply_markup = ReplyKeyboardMarkup(custom_keyboard)
-        bot.send_message(chat_id=chat_id, text= "Out Recorded!" , reply_markup=reply_markup)
+    # @staticmethod
+    # def send_ball_keyboard_message(chat_id):
+    #     print("testing telegram bot send_ball_keyboard_message..........")
+    #     bot = Bot(TELEGRAM_TOKEN)
+    #     custom_keyboard = Message.ball_update_custom_keyboard()
+    #     reply_markup = ReplyKeyboardMarkup(custom_keyboard)
+    #     bot.send_message(chat_id=chat_id, text= "Out Recorded!" , reply_markup=reply_markup)
 
     @staticmethod
     def validate_platform_user_request_message(request):
