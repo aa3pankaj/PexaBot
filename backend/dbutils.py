@@ -697,8 +697,9 @@ class MatchDatabase:
         strike_batsman = match['strike_batsman']
         non_strike_batsman = match['non_strike_batsman']
         current_bowler = match['current_bowler']
-        
-        print("out type:"+out_type)
+
+        print("out type:")
+        print(out_type)
         if ball_number == 6:
             current_ball_number = 1
         else:
