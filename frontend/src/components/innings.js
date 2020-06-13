@@ -22,7 +22,7 @@ function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFall
   }
   const createDataBatting = (name, runs, balls, fours, sixes, sr, status) => {
     if (status === true) {
-      return (<Table.Row key={name}>
+      return (<Table.Row positive key={name}>
 
         <Table.Cell>{name}</Table.Cell>
         <Table.Cell>{runs}</Table.Cell>
