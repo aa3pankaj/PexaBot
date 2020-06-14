@@ -125,7 +125,7 @@ function Match(props) {
     setOverStatus(data[current_batting_team].over_status[data["running_over"]])
     }
     
-    if (Object.keys(data["txn"]).length>0){
+    if (Object.keys(data[current_batting_team]["over_status"]).length>0){
      setLoading(false)
     }
   }
