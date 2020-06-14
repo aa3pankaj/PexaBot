@@ -149,7 +149,7 @@ class ActionListener:
             return json.dumps({})
                 
         elif response["type"] == "end":
-            bot.set_match_status(from_staus="live",to_status="end")
+            bot.set_match_status(from_status="live",to_status="end")
             clear =  Helper.clear_contexts(match_id,request)
             TelegramHelper.remove_keyboard(chat_id)
             return clear

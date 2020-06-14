@@ -152,8 +152,7 @@ def test_runs(number):
         match= BotDatabase.get_match_document(match_id)
         start_int = time.process_time()
         print("start of send_live_data==>")
-        if match !=None:
-           send_live_data(match)
+        send_live_data(match)
         print("end of send_live_data==>")
         print(time.process_time()-start_int)
     elif match_status == 'resume':
@@ -290,8 +289,7 @@ def test_batsman_change(batsman):
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     match= BotDatabase.get_match_document(match_id)
-    if match !=None:
-        send_live_data(match)
+    send_live_data(match)
     return ActionListener.batsman_change_action_listener(batsman,match_params['match_id'],chat_id)
 
 
@@ -309,8 +307,7 @@ def wide_with_number(number):
     response =  ActionListener.wide_with_number_action_listener(number,match_params['match_id'],chat_id) 
     #websocket response start
     match= BotDatabase.get_match_document(match_id)
-    if match != None:
-        send_live_data(match)
+    send_live_data(match)
     #websocket response end
 
     return response
@@ -329,8 +326,7 @@ def noball_with_number(number):
 
      #websocket response start
     match= BotDatabase.get_match_document(match_id)
-    if match != None:
-        send_live_data(match)
+    send_live_data(match)
     #websocket response end
     return response
 
