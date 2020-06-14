@@ -170,6 +170,10 @@ def test_runs(number):
     print(time.process_time() - start)
     return response
 
+@assist.action('test.out.back')
+def test_out_back():
+    test_wide_back()
+
 @assist.action('test.out.bat.bowlerchange')
 def test_out_bowler_change(bowler):
     test_bowler_change(bowler)
