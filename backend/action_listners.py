@@ -76,7 +76,8 @@ class ActionListener:
         res = bot.match_document_update(run)
         
         #for resume match only
-        ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
+        #TODO below
+        # ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
         if res["type"] == "ask_next_bowler":
             bowler_list = bot.get_available_bowlers()
             TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
