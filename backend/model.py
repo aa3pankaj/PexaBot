@@ -405,9 +405,9 @@ class BotDatabase:
      
         match = db.matches.find_one(
                     {'$and': [{"status": from_status}, {"match_id": match_id}]})
-
-        db.matches.update_one({'_id': match['_id']}, {
-                              '$set': {"status": to_status}})
+        if match != None:
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$set': {"status": to_status}})
 
     def get_match_status():
         match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
@@ -550,7 +550,7 @@ class BotDatabase:
 
 
         self.personnel_stats_update(run)
-        
+
         #over status update
         self.__update_over_status("out")
         self.sr_and_er_update()
