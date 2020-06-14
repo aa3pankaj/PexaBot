@@ -15,4 +15,4 @@ flask-assistant
 gevent
 gevent-websocket
 pyjwt
-gunicorn==18.0
+gunicorn==19.5.0
