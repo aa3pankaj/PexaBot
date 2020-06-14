@@ -14,6 +14,8 @@ from message import Message
 from telegram import ReplyKeyboardMarkup, Bot, ReplyKeyboardRemove
 import os
 
+from model import BotDatabase
+
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
 class Helper:
@@ -70,7 +72,7 @@ class Helper:
     def exit_conversation(match_id,request):
         # session = request['session']
         # SESSION_ID = session.rpartition('/')[2]
-        MatchDatabase.set_match_status_end(match_id)
+        BotDatabase.set_match_status(match_id,from_status = "live", to_status="end")
         exit_payload = Message.exit_payload()
         if not 'outputContexts' in request['queryResult']:
             return exit_payload
@@ -83,7 +85,7 @@ class TelegramHelper:
         bot = Bot(TELEGRAM_TOKEN)
         custom_keyboard = Message.scoring_custom_payload(match_info)
         reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard,resize_keyboard=True)
-        bot.send_message(chat_id=chat_id, text= "what happened on the next ball?", reply_markup=reply_markup)
+        bot.send_message(chat_id=chat_id, text= "what happened next?", reply_markup=reply_markup)
 
     @staticmethod
     def remove_keyboard(chat_id):

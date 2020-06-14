@@ -21,18 +21,19 @@ class Message:
       print(over_status)
       
       if over_status !=None:
-        for x in over_status:
+        for ball in over_status:
           print("$$$$$$")
-          print(x)
-
-          if "run" in x:
-            this_over+=str(x["run"])+"  "
-          elif "wide" in x:
-            this_over+=str(x["wide"])+"Wd  "
-          elif "noball" in x:
-            this_over+=str(x["noball"])+"Nb  "
-          elif "out" in x:
-            this_over+="W  "
+          print(ball)
+          for x in over_status[ball]:
+            print(x)
+            if "run" in x:
+              this_over+=str(x["run"])+"  "
+            elif "wide" in x:
+              this_over+=str(x["wide"])+"Wd  "
+            elif "noball" in x:
+              this_over+=str(x["noball"])+"Nb  "
+            elif "out" in x:
+              this_over+="W  "
           print("$$$$$$")
       print(this_over)
 

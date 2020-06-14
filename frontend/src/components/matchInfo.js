@@ -55,7 +55,7 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, w
         // }
 
         // );
-
+        
         Object.keys(overStatus).map((key) => {
             overStatus[key].map((val)=>{
                 let ball = createBallStatus(val)

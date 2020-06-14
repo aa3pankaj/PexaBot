@@ -18,6 +18,8 @@ from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 import time
 
+from model import BotDatabase
+
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-a46e4f1cad3b.json'
 
@@ -35,16 +37,15 @@ socketio = SocketIO(app,cors_allowed_origins="*")
 @app.route('/live_match_data', methods=['GET'])
 @cross_origin()
 def get_live_match_data():
-    match_doc = MatchDatabase.get_match_document("@pankajsingh08")
-    return make_response(dumps(match_doc))
+    # match_doc = MatchDatabase.get_match_document("@pankajsingh08")
+    # return make_response(dumps(match_doc))
+    pass
 
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
 @cross_origin()
 def get_match_data(id):
-    print(id)
-    
-    match_doc = MatchDatabase.get_match_document_by_id(id)
+    match_doc = BotDatabase.get_match_document_by_id(id)
     return make_response(dumps(match_doc))
 
 @assist.action('match.start')
@@ -52,11 +53,13 @@ def match_start():
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
-
-    match = MatchDatabase.get_match_document(match_id)
+ 
+    match = BotDatabase.get_match_document(match_id)
     if match != None:
+        print("found match")
         return json.dumps(Message.general_message("You already have a live match in db, should I delete it?"))
     else:
+        print("No match")
         return json.dumps(Message.general_message("Enter team names e.g Pexa vs Lexa?"))
         
 @assist.action('match.old.delete')
@@ -64,7 +67,7 @@ def match_delete():
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
-    MatchDatabase.delete_live_matches_of_user(match_id)
+    ActionListener.delete_live_matches_action(match_id)
     return json.dumps(Message.general_message("Done. Now you can start match again."))
 
 @assist.action('admin.link.users')
@@ -82,8 +85,8 @@ def link_bot_user(bot_user,platform_user):
         print(bot_user)
         print(platform_user)
         print(source)
-        if not MatchDatabase.user_already_exist(bot_user):
-            res = MatchDatabase.link_users(bot_user,platform_user,source)
+        if not BotDatabase.user_already_exist(bot_user):
+            res = BotDatabase.link_users(bot_user,platform_user,source)
             if res == False:
                 res =  Message.get_invalid_request_payload()
             else:
@@ -133,7 +136,7 @@ def test_runs(number):
         match_id = request['queryResult']['parameters']['match_id']
     else:
         match_id = match_params['match_id']
-    match_status = MatchDatabase.get_match_status(match_id)
+    match_status = BotDatabase.get_match_status(match_id)
     user_text = request['queryResult']['queryText']
     response =''
     session = request['session']
@@ -146,10 +149,11 @@ def test_runs(number):
     if match_status == 'live':
         chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
         response = ActionListener.ball_action_listener(number,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response) 
-        match= MatchDatabase.get_match_document(match_id)
+        match= BotDatabase.get_match_document(match_id)
         start_int = time.process_time()
         print("start of send_live_data==>")
-        send_live_data(match)
+        if match !=None:
+           send_live_data(match)
         print("end of send_live_data==>")
         print(time.process_time()-start_int)
     elif match_status == 'resume':
@@ -184,6 +188,100 @@ def test_bowler_change(bowler):
 
     return ActionListener.bowler_change_action_listener(bowler,match_params['match_id'],chat_id)
 
+
+
+
+
+
+@assist.action('test.wide.back')
+def test_wide_back():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    match_info = MatchDatabase.get_live_match_info(match_id)
+    TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+    return json.dumps({})
+
+
+@assist.action('test.out.caught')
+def test_out_caught():
+    # return out_common("caught",request)
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.out_with_fielder_action(match_id,chat_id,request,"caught")
+
+@assist.action('test.out.fielder')
+def test_out_fielder_update(fielder):
+   
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+    
+    return ActionListener.out_fielder_update_listner(match_params['match_id'],chat_id,request,fielder)
+
+#end
+   
+
+#no fielder intent required start
+@assist.action('test.out.lbw')
+def test_out_lbw():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.out_without_fielder_action(match_id,chat_id,request,"bowled")
+@assist.action('test.out.hitwicket')
+def test_out_hitwicket():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.out_without_fielder_action(match_id,chat_id,request,"bowled")
+@assist.action('test.out.bowled')
+def test_out_bowled():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.out_without_fielder_action(match_id,chat_id,request,"bowled")
+#no fielder intent required end
+
+
+#runout start
+@assist.action('test.out.runout.strikerOrNonstriker')
+def test_out_runout_striker_or_nonstriker(batsman_type):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+    return ActionListener.runout_batsman_action(match_id,chat_id,batsman_type)
+
+@assist.action('test.out.runout.runs')
+def test_out_runout_runs(run):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.runout_update(match_id,chat_id,request,"runout_runs",int(run))
+
+@assist.action('test.out.runout.noball.runs')
+def test_out_runout_noball_runs(run):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.runout_update(match_id,chat_id,request,"runout_noball",int(run))
+
+@assist.action('test.out.runout.wide.runs')
+def test_out_runout_wide_runs(run):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    return ActionListener.runout_update(match_id,chat_id,request,"runout_wide",int(run))
+#runout end
+
+
+
 @assist.action('test.out.batsmanchange')
 def test_batsman_change(batsman):
     match_params = Helper.get_match_params(request)
@@ -195,82 +293,6 @@ def test_batsman_change(batsman):
     return ActionListener.batsman_change_action_listener(batsman,match_params['match_id'],chat_id)
 
 
-@assist.action('test.out.runout.strikerOrNonstriker')
-def test_out_runout_strikerOrNonstriker(batsman_type):
-    match_params = Helper.get_match_params(request)
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    match_id = match_params['match_id']
-    if 'exit' in match_params:
-        TelegramHelper.remove_keyboard(chat_id)
-        return match_params['exit']
-    MatchDatabase.update_batsman_out(batsman_type,match_id)
-
-   
-@assist.action('test.out.runout.runs')
-def test_out_runout_runs(run):
-   out_common("runout",request,int(run))
-
-@assist.action('test.out.runout.noball.runs')
-def test_out_runout_noball_runs(run):
-   out_common("noball_runout",request,int(run))
-
-@assist.action('test.out.runout.wide.runs')
-def test_out_runout_wide_runs(run):
-   out_common("wide_runout",request,int(run))
-
-@assist.action('test.wide.back')
-def test_wide_back():
-    match_params = Helper.get_match_params(request)
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    match_id = match_params['match_id']
-    match_info = MatchDatabase.get_live_match_info(match_id)
-    TelegramHelper.send_scoring_keyboard(chat_id,match_info)
-    return json.dumps({})
-
-#TODO
-#test.out.hitwicket
-#test.out.lbw
-def out_common(out_type,request,run=None):
-    #we are not updating strike batsman here
-    match_params = Helper.get_match_params(request)
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    match_id = match_params['match_id']
-    if 'exit' in match_params:
-        TelegramHelper.remove_keyboard(chat_id)
-        return match_params['exit']
-    response =  ActionListener.out_action_listener(match_id,chat_id,request,out_type,run=run)
-
-    #websocket response start
-    match= MatchDatabase.get_match_document(match_id)
-    send_live_data(match)
-    #websocket response end
-
-    return response
-
-@assist.action('test.out.fielder')
-def test_out_fielder_update(fielder):
-    print("===> Request in test_out_fielder_update: ")
-    print(request)
-    match_params = Helper.get_match_params(request)
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    if 'exit' in match_params:
-        TelegramHelper.remove_keyboard(chat_id)
-        return match_params['exit']
-    
-    return ActionListener.out_fielder_update_listner(match_params['match_id'],chat_id,request,fielder)
-    
-
-@assist.action('test.out.stumping')
-def test_out_stumping():
-    return out_common("stumping",request)
-
-@assist.action('test.out.caught')
-def test_out_caught():
-    return out_common("caught",request)
-   
-@assist.action('test.out.bowled')
-def test_out_bowled():
-    return out_common("bowled",request)
 
 @assist.action('test.wide.run')
 def wide_with_number(number):
@@ -284,8 +306,9 @@ def wide_with_number(number):
 
     response =  ActionListener.wide_with_number_action_listener(number,match_params['match_id'],chat_id) 
     #websocket response start
-    match= MatchDatabase.get_match_document(match_id)
-    send_live_data(match)
+    match= BotDatabase.get_match_document(match_id)
+    if match != None:
+        send_live_data(match)
     #websocket response end
 
     return response
@@ -303,8 +326,9 @@ def noball_with_number(number):
     response =  ActionListener.noball_with_number_number_action_listener(number,match_params['match_id'],chat_id) 
 
      #websocket response start
-    match= MatchDatabase.get_match_document(match_id)
-    send_live_data(match)
+    match= BotDatabase.get_match_document(match_id)
+    if match != None:
+        send_live_data(match)
     #websocket response end
     return response
 
@@ -338,30 +362,29 @@ def match_team1_players(team1,team1_players):
     #match.team1players
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    intent_name = request['queryResult']['intent']['displayName']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     team1_players_list = team1_players.split()
     team1_players_list = [x.strip(' ') for x in team1_players_list]
+    return ActionListener.add_players_action(team1,team1_players_list,match_params['match_id'],chat_id,intent_name)
     
-    MatchDatabase.add_players(team1,team1_players_list,match_params['match_id'])
-    return 'heak'  
 
 @assist.action('match.team2players')  
 def match_team2_players(team2,team2_players):
     #match.team2players
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    intent_name = request['queryResult']['intent']['displayName']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     team2_players_list = team2_players.split()
     team2_players_list = [x.strip(' ') for x in team2_players_list]
+    
+    return ActionListener.add_players_action(team2,team2_players_list,match_params['match_id'],chat_id,intent_name)
 
-    MatchDatabase.add_players(team2,team2_players_list,match_params['match_id'])
-    batsman_list = MatchDatabase.get_available_batsman(match_params['match_id'])
-    TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
-    return 'heak'
 
 #@assist.action('match.opening.batsman') 
 @assist.action('match.opening.nonstrike.batsman') 
@@ -394,7 +417,9 @@ def test_ball(bowler):
 @assist.action('test.ball.strikechange')
 def test_ball_strikechange():
     match_params = Helper.get_match_params(request)
-    MatchDatabase.strike_change(match_params['match_id'])
+    match_id = match_params['match_id']
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    ActionListener.strike_change_action(chat_id,match_id)
     return json.dumps(Message.general_message("strike changed"))
 
 @assist.action('match.pause') 
@@ -409,8 +434,10 @@ def match_pause():
 @assist.action('match.innings.change')
 def match_innings_change():
     match_params = Helper.get_match_params(request)
+    match_id = Helper.get_match_params(request)['match_id']
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
-    batsman_list = MatchDatabase.get_available_batsman(match_params['match_id'])
+    bot = BotDatabase(match_id)
+    batsman_list = bot.get_available_batsman()
     TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
 
 @assist.action('match.resume') 
@@ -421,7 +448,7 @@ def match_resume(scorer_id):
         scorer_username = scorer_username[1:]
     print("userid from intent:")
     print(scorer_username)
-    scorer_id = MatchDatabase.userid_from_username(scorer_username,'telegram')
+    scorer_id = BotDatabase.userid_from_username(scorer_username,'telegram')
     print("userid after conversion:")
     print(scorer_id)
     session_client = dialogflow_v2.SessionsClient()
@@ -433,7 +460,7 @@ def match_resume(scorer_id):
     parameters = dialogflow_v2.types.struct_pb2.Struct()
     print("input context:")
     print(input_context)
-    MatchDatabase.update_match_id(scorer_id,match_id)
+    BotDatabase.update_match_id(scorer_id,match_id)
     parameters["match_id"] = match_id
     context_1 = dialogflow_v2.types.context_pb2.Context(
     name="projects/cricbot-qegqqr/agent/sessions/"+SESSION_ID+"/contexts/"+input_context,

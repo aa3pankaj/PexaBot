@@ -7,11 +7,33 @@ from helper import TelegramHelper
 from model import BotDatabase
 
 class ActionListener:
+
+    @staticmethod
+    def delete_live_matches_action(match_id):
+        bot = BotDatabase(match_id)
+        bot.delete_live_matches_of_user()
+
+    @staticmethod
+    def strike_change_action(chat_id,match_id):
+        bot = BotDatabase(match_id)
+        bot.strike_change()
+        match_info = bot.get_live_match_info()
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+        return json.dumps({})
+
+    @staticmethod
+    def add_players_action(team_name,team_players_list,match_id,chat_id,intent_name):
+        bot = BotDatabase(match_id)
+        bot.add_players(team_name,team_players_list)
+        if intent_name == 'match.team2players':
+            batsman_list = bot.get_available_batsman()
+            TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
+        return json.dumps({})
+
+
     @staticmethod
     def test_ball_listener(bowler,match_id,chat_id):
         bot = BotDatabase(match_id)
-        # MatchDatabase.update_current_bowler(bowler,match_id)
-        # match_info = MatchDatabase.get_live_match_info(match_id)
         bot.current_bowler_update(bowler)
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
@@ -46,6 +68,7 @@ class ActionListener:
 
     @staticmethod
     def ball_action_listener(run,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response):
+        #TODO bowler stats update
         bot = BotDatabase(match_id)
         bot.players_stats_update(run)
         if run%2!=0:
@@ -57,7 +80,7 @@ class ActionListener:
         if res["type"] == "ask_next_bowler":
             bowler_list = bot.get_available_bowlers()
             TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
-            return json.dumps(res["response"])
+            return json.dumps({})
         elif res["type"] == "end":
             # end_message = Message.end_match_payload()
             # res =  Helper.append_clear_context_payload(end_message,request)
@@ -70,11 +93,11 @@ class ActionListener:
 
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
-        return json.dumps(res["response"])
+        return json.dumps({})
 
     @staticmethod   
     def most_runs_listener():
-        user_detail = MatchDatabase.get_most_runs_user()
+        user_detail = BotDatabase.get_most_runs_user()
         return Message.get_user_stats_payload(user_detail)
 
     @staticmethod
@@ -82,7 +105,7 @@ class ActionListener:
         user_id=MatchDatabase.userid_from_username(username,source)
         if user_id == None:
             return None
-        user_detail = MatchDatabase.user_stats(user_id)
+        user_detail = BotDatabase.user_stats(user_id)
         print("user_stats********")
         print(str(user_detail))
         return Message.get_user_stats_payload(user_detail)
@@ -99,97 +122,109 @@ class ActionListener:
         return json.dumps({})
 
     @staticmethod
-    def batsman_change_action_listener(batsman,match_id,chat_id):
-        res = MatchDatabase.batsman_change(batsman,match_id)
-        if (res is not None) and ("type" in res):
-            if res["type"]=='ask_next_bowler':
-                bowler_list = MatchDatabase.get_available_bowlers(match_id)
-                TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
-                return json.dumps(res["response"])
-            elif res["type"]=='next':
-                match_info = MatchDatabase.get_live_match_info(match_id)
-                TelegramHelper.send_scoring_keyboard(chat_id,match_info)
-                # TelegramHelper.send_ball_keyboard_message(chat_id)
-                return json.dumps(res["response"])
-        return json.dumps(res)
-
-    @staticmethod
     def wide_with_number_action_listener(run,match_id,chat_id):
-        MatchDatabase.update_wide(run,match_id)
-        match_info = MatchDatabase.get_live_match_info(match_id)
+        bot = BotDatabase(match_id)
+        bot.wide_update(run)
+        match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})
 
     @staticmethod
     def noball_with_number_number_action_listener(run,match_id,chat_id):
-        MatchDatabase.update_noball(run,match_id)
-        match_info = MatchDatabase.get_live_match_info(match_id)
+        bot = BotDatabase(match_id)
+        bot.noball_update(run)
+        match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})
 
+    #no fielder intent required
     @staticmethod
-    def out_fielder_update_listner(match_id,chat_id,request,fielder=None):
-        res = MatchDatabase.out_common(match_id,fielder=fielder)
-        if res is not None and "type" in res:
-            if res["type"] == 'ask_next_batsman':
-                batsman_list = MatchDatabase.get_available_batsman(match_id)
-                TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
-                return json.dumps({})
-               
-            elif res["type"] == "end":
-                MatchDatabase.set_match_status_end(match_id)
-                # end_message = Message.end_match_payload()
-                # response =  Helper.append_clear_context_payload(end_message,request)
+    def out_without_fielder_action(match_id,chat_id,request,out_type):
+        bot = BotDatabase(match_id)
+        response = bot.out_without_fielder(out_type)
+        if response["type"] == 'ask_next_batsman':
+            batsman_list = bot.get_available_batsman()
+            TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
+            return json.dumps({})
                 
-                res =  Helper.clear_contexts(match_id,request)
-                TelegramHelper.remove_keyboard(chat_id)
-                return res
-                
-            elif res["type"] == "change":
-                TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
-                return json.dumps({})
-                # return json.dumps(response)
-        return json.dumps(res)
+        elif response["type"] == "end":
+            bot.set_match_status(from_staus="live",to_status="end")
+            clear =  Helper.clear_contexts(match_id,request)
+            TelegramHelper.remove_keyboard(chat_id)
+            return clear
+
+        elif response["type"] == "change":
+            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+            return json.dumps({})
 
     @staticmethod
-    def out_action_listener(match_id,chat_id,request,out_type,run=None):
-        # if innings over, send innings end message, if match ended , send message, else new batsman
-        res=''
-        print("run that we got in out_action_listener")
-        print(run)
+    def batsman_change_action_listener(batsman,match_id,chat_id):
+        bot = BotDatabase(match_id)
+        response = bot.batsman_change(batsman)
+       
+        if response["type"]=='ask_next_bowler':
+            bowler_list = bot.get_available_bowlers()
+            TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
+            return json.dumps({})
+        elif response["type"]=='next':
+            match_info = bot.get_live_match_info()
+            TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+            # TelegramHelper.send_ball_keyboard_message(chat_id)
+            return json.dumps({})
+        return json.dumps({})
+
+
+    #runout start
+    @staticmethod
+    def runout_batsman_action(match_id,chat_id,batsman_type):
+        bot = BotDatabase(match_id)
+        bot.runout_batsman_out_update(batsman_type)
+       
+    @staticmethod
+    def runout_update(match_id,chat_id,request,out_type,run):
+        #TODO bowler stats update, personnel
+        bot = BotDatabase(match_id)
+        bot.run_out_update(out_type,run)
+
+        fielder_list = bot.get_available_bowlers()
+        TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
+        return json.dumps({})
+    #runout end
         
-        if out_type == "bowled":
-            res = MatchDatabase.out_common(match_id,out_type=out_type)
 
-            if res is not None and "type" in res:
-                if res["type"] == 'ask_next_batsman':
-                    batsman_list = MatchDatabase.get_available_batsman(match_id)
-                    TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
-                    return json.dumps({})
-                    
-                elif res["type"] == "end":
-                    MatchDatabase.set_match_status_end(match_id)
-                    # end_message = Message.end_match_payload()
-                    # response =  Helper.append_clear_context_payload(end_message,request)
-                    # return json.dumps(response)
-                    res =  Helper.clear_contexts(match_id,request)
-                    TelegramHelper.remove_keyboard(chat_id)
-                    return res
+    #fielder intent required
+    @staticmethod
+    def out_with_fielder_action(match_id,chat_id,request,out_type):
+        bot = BotDatabase(match_id)
+        bot.out_with_fielder(out_type)
 
-                elif res["type"] == "change":
-                    TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
-                    return json.dumps({})
+        fielder_list = bot.get_available_bowlers()
+        TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
+        return json.dumps({})
+        
+
+    @staticmethod
+    def out_fielder_update_listner(match_id,chat_id,request,fielder):
+        bot = BotDatabase(match_id)
+        response = bot.out_fielder_update(fielder)
+
+        if response["type"] == 'ask_next_batsman':
+            batsman_list = bot.get_available_batsman()
+            TelegramHelper.send_keyboard_message(chat_id,"Next Batsman?",batsman_list)
+            return json.dumps({})
             
+        elif response["type"] == "end":
+            bot.set_match_status(from_status="live",to_status="end")
+           
+            clear =  Helper.clear_contexts(match_id,request)
+            TelegramHelper.remove_keyboard(chat_id)
+            return clear
+            
+        elif response["type"] == "change":
+            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+            return json.dumps({})
 
-        else:
-            res = MatchDatabase.out_update(match_id,out_type,run=run)
-            if run != None and run%2!=0:
-                MatchDatabase.strike_change(match_id)
-
-            fielder_list = MatchDatabase.get_available_bowlers(match_id)
-            TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
-        
-        return json.dumps(res)
+        return json.dumps(response['response'])
 
     @staticmethod
     def update_on_strike_batsmen_listener(opening_batsmen_list,match_id,chat_id):
@@ -197,7 +232,7 @@ class ActionListener:
         bot.on_strike_batsmen_update(opening_batsmen_list)
         bowler_list = bot.get_available_bowlers()
         TelegramHelper.send_keyboard_message(chat_id,"Opening Bowler?",bowler_list)
-        return json.dumps(Message.bowler_ask_payload(bolwer_list))
+        return json.dumps(Message.bowler_ask_payload(bowler_list))
 
         
        
