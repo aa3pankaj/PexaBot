@@ -283,7 +283,7 @@ def test_out_runout_wide_runs(run):
 @assist.action('test.out.batsmanchange')
 def test_batsman_change(batsman):
     match_params = Helper.get_match_params(request)
-   
+    match_id = match_params['match_id']
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
