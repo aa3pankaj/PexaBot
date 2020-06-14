@@ -6,8 +6,7 @@ from pprint import pprint
 import json
 import codecs
 import jwt
-# from pdfgeneratorapi import PDFGenerator
-from dbutils import MatchDatabase
+
 from constants import exit_set
 from message import Message
 
@@ -46,7 +45,7 @@ class Helper:
             start_date = request['originalDetectIntentRequest']['payload']['data']['date']
             if username[:1]=='@':
                 username = username[1:]
-            match_id = MatchDatabase.userid_from_username(username,source)
+            match_id = BotDatabase.userid_from_username(username,source)
         else:
             match_id= "test"
             start_date = ''

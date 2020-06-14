@@ -198,7 +198,8 @@ def test_wide_back():
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
-    match_info = MatchDatabase.get_live_match_info(match_id)
+    bot = BotDatabase(match_id)
+    match_info = bot.get_live_match_info()
     TelegramHelper.send_scoring_keyboard(chat_id,match_info)
     return json.dumps({})
 
@@ -337,7 +338,8 @@ def test_noball_back():
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
-    match_info = MatchDatabase.get_live_match_info(match_id)
+    bot = BotDatabase(match_id)
+    match_info = bot.get_live_match_info()
     TelegramHelper.send_scoring_keyboard(chat_id,match_info)
     return json.dumps({})
 
