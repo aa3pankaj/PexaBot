@@ -316,7 +316,6 @@ class MatchDatabase:
         db.matches.update({'_id': match['_id']}, {'$set': {
                           team_name+".players": players_list, team_name+".did_not_bat": players_list}})
             
-        
 
 
     @staticmethod
