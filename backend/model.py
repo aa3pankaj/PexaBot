@@ -10,9 +10,7 @@ MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
 db = client["cric"]
 
-from bson import ObjectId
-
-
+from message import Message
 
 class Model(dict):
     """
@@ -44,18 +42,31 @@ class Match(Model):
 class Player(Model):
     collection = db.players
 
-
 class BotDatabase:
+
+    @classmethod
+    def get_match_document_by_id(cls,id):
+        match = db.matches.find_one({"_id": ObjectId(id)})
+        return match
+
+    @classmethod
+    def get_match_document(cls,match_id):
+        doc = db.matches.find_one(
+            {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": match_id}]})
+        return doc
 
     def __get_match_document_id(self,match_id):
         doc = db.matches.find_one(
             {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": match_id}]})
         return doc['_id']
 
-    def __update_over_status(self,score_type, run):
+    def __update_over_status(self,score_type, run=0, ball_number = None):
+       if ball_number == None:
+           ball_number = self.match.ball_number
        if str(self.match.running_over) not in self.match[self.current_batting_team]['over_status']:
-           self.match[self.current_batting_team]['over_status'].update({str(self.match.running_over):[]})
-       self.match[self.current_batting_team]['over_status'][str(self.match.running_over)].append({score_type: run})
+           self.match[self.current_batting_team]['over_status'].update({str(self.match.running_over):{}})
+       
+       self.match[self.current_batting_team]['over_status'][str(self.match.running_over)].setdefault(str(ball_number),[]).append({score_type: run})
 
     def __innings_complete_doc_refresh(self):
 
@@ -77,10 +88,8 @@ class BotDatabase:
         self.current_batting_team = self.match.current_batting_team
         self.current_bowling_team = self.match.current_bowling_team
 
+
     def get_live_match_info(self):
-        # if "over_status" in self.match[self.current_batting_team]:
-            # if str(self.match.running_over) in self.match[self.current_batting_team]['over_status']:
-            #     self.match.over_status = self.match[self.current_batting_team]['over_status'][str(self.match.running_over)]
 
         runs_scored = self.match[self.current_batting_team]['runs_scored']
         over_status = {}
@@ -89,7 +98,7 @@ class BotDatabase:
 
         return {
                "current_batting_team":self.current_batting_team,
-               "runs_scored":runs_scored,
+               "runs_scored":int(runs_scored),
                "running_over":self.match.running_over,
                "ball_number":self.match.ball_number,
                "strike_batsman":self.match.strike_batsman,
@@ -153,9 +162,9 @@ class BotDatabase:
         
         if self.match.ball_number == 0 or self.match.ball_number == 6:
             self.match.running_over += 1
-        current_bowling_team = self.match.current_bowling_team
-        if self.match.current_bowler not in self.match[current_bowling_team]['bowling']:
-            print(self.match[current_bowling_team]['bowling'])
+            self.match.ball_number = 0
+
+        if self.match.current_bowler not in self.match[self.current_bowling_team]['bowling']:
             self.match[current_bowling_team]['bowling'].update( {current_bowler: {
                     "runs":0,
                     "balls":0,
@@ -176,8 +185,10 @@ class BotDatabase:
         
         batsman_runs = self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['runs'] 
         batsman_balls = self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['balls']
-        strike_rate = (batsman_runs/batsman_balls)*100
-        strike_rate = str(round(strike_rate, 2))
+        strike_rate = 0.0
+        if batsman_balls != 0:
+            strike_rate = (batsman_runs/batsman_balls)*100
+            strike_rate = str(round(strike_rate, 2))
 
         self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['strike_rate'] = strike_rate
 
@@ -185,10 +196,13 @@ class BotDatabase:
         bowler_runs_conceded = self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['runs']
         bowler_balls = self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['balls']
 
-        economy_rate = (bowler_runs_conceded/bowler_balls)*6
-        economy_rate = str(round(economy_rate, 2))
+        economy_rate = 0.0
+        if bowler_balls != 0:
+            economy_rate = (bowler_runs_conceded/bowler_balls)*6
+            economy_rate = str(round(economy_rate, 2))
 
         self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['economy_rate'] = economy_rate
+        self.match.save()
         
     def user_already_exist(self,bot_user):
         #user = db.players.find( { bot_user : { '$exists' : 1 } } )
@@ -210,15 +224,18 @@ class BotDatabase:
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'6s': 0 })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'runs': 0 })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'balls': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'status': False })
+        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'status': True })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'strike_rate': 0.0 })
+        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'out_fielder': '' })
+        
 
         self.match[self.current_batting_team]['batting'].update({ opening_batsmen_list[1]: {'4s': 0 }})
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'6s': 0 })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'runs': 0 })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'balls': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'status': False })
+        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'status': True })
         self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'strike_rate': 0.0 })
+        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'out_fielder': '' })
 
 
         # removing opening batsmen from match.team_name.did_not_bat
@@ -257,7 +274,6 @@ class BotDatabase:
         self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += run
         self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['balls'] += 1
 
-        self.sr_and_er_update(run)
         self.personnel_stats_update(run)
 
         self.match.save()
@@ -265,7 +281,7 @@ class BotDatabase:
 
     def match_document_update(self,run):
         refresh_needed = False
-        if self.match.ball_number == 6:
+        if self.match.ball_number == 0:
             self.match.ball_number = 1
         else:
             self.match.ball_number += 1
@@ -319,28 +335,363 @@ class BotDatabase:
                 player_with_overs.append({"name": x, "overs": 0})
         return player_with_overs
 
-if __name__ == '__main__':
+    def get_available_batsman(self):
+        player_list = self.match[self.current_batting_team]['did_not_bat']
+        print('batsman list from **get_available_batsman** ')
+        print(json.dumps(player_list))
+        return player_list
+
+    def wide_update(self,run):
+        # extra++, update team score
+        local_ball_number = self.match.ball_number
+        #handling case of wide on first ball of over, so that this wide is recorded in current over.
+        if self.match.ball_number == 0:
+            local_ball_number = 1
+
+        # team_update
+        self.match[self.current_batting_team]['runs_scored'] += (run+1)
     
-    bot = BotDatabase('@pankaj')
-    # bot.update_teams('pankaj','ankur','batting','pankaj','3',234344)
+        # bowler
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['wides'] += 1
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run+1)
 
-    # bot.add_players('pankaj',['pankaj','tee','pratik'])
+        self.__update_over_status("wide", int(run), ball_number=local_ball_number)
 
-    # bot.update_match_document(3)
-    # bot.update_current_bowler('pola')
+        #er and sr
+        self.sr_and_er_update()
 
-    # _id = BotDatabase.update_teams('pankaj','ankur','batting','pankaj','3',234344,'@pankaj')
-    # print (_id) 
-    # bot.add_players('pankaj',['lola','pols','hela'])
-    # bot.update_current_bowler("hola")
-    # print(bot.get_available_bowlers())
+        if run % 2 != 0:
+            self.strike_change()
 
-    # bot.strike_change()
-    # bot.on_strike_batsmen_update(['pankaj','pratik'])
-    # bot.players_stats_update(3)
+        self.match.save()
 
-    # print(bot.get_live_match_info())
-    bot.match_document_update(3)
+    def noball_update(self,run):
+        # TODO extra++
+        #handling case of wide on first ball of over, so that this wide is recorded in current over.
+        local_ball_number = self.match.ball_number
+        if self.match.ball_number == 0:
+            local_ball_number = 1
+
+        # team_update
+        self.match[self.current_batting_team]['runs_scored'] += (run+1)
+
+        # batsman_update
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['runs'] += run
+        
+
+        # bowler_update
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['noballs'] += 1
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run+1)
+       
+
+        self.__update_over_status("noball", int(run), ball_number=local_ball_number)
+
+        #er and sr
+        self.sr_and_er_update()
+
+        if run % 2 != 0:
+            self.strike_change()
+
+        self.match.save()
+
+    def delete_live_matches_of_user(self):
+        #delete all pause or live matches
+        result = db.matches.remove(
+            {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": self.match_id}]})
+
+    @classmethod
+    def set_match_status(cls,match_id,from_status,to_status):
+     
+        match = db.matches.find_one(
+                    {'$and': [{"status": from_status}, {"match_id": match_id}]})
+        if match != None:
+            db.matches.update_one({'_id': match['_id']}, {
+                                '$set': {"status": to_status}})
+
+    def get_match_status():
+        match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
+                                    "status": "pause"}, {"status": "resume"}]}, {"match_id": self.match_id}]})
+        return match['status']
+
+    
+    def out_without_fielder(self,out_type):
+        """
+        match can end here, or innings can change
+        """
+        refresh_needed = False
+        #live data update
+        if self.match.ball_number == 0:
+            self.match.ball_number = 1
+        else:
+            self.match.ball_number += 1
+
+        #team update
+        self.match[self.current_batting_team]['balls_faced'] +=1
+        self.match[self.current_batting_team]['wickets_fallen'] +=1
+        self.match[self.current_batting_team]['fall_of_wickets'].append({
+                              "batsman": self.match.strike_batsman, 
+                              "over_number": self.match.running_over, 
+                              "ball_number": self.match.ball_number, 
+                              "team_score": self.match[self.current_batting_team]['runs_scored']})
+
+
+        #batsman update
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['status'] = False
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
+
+        #bowler update
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['balls'] += 1
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['wickets'] += 1
+
+        #over status update
+        self.__update_over_status("out")
+        self.sr_and_er_update()
+
+        did_not_bat = self.match[self.current_batting_team]['did_not_bat']
+     
+        if len(did_not_bat) == 0 or (self.match.running_over+1 == self.match.total_overs):
+            refresh_needed = True
+            print("refresh_needed due to all out")
+            self.__innings_complete_doc_refresh()
+
+        self.match.save()
+
+        if refresh_needed:
+            if self.match.running_innings == 2:
+                return {"type": "end"}
+            return {"type": "change","response":"change"}
+
+        return {"type": "ask_next_batsman", "response": Message.next_batsman_ask_payload()}
+
+
+
+    def out_with_fielder(self,out_type):
+        #live data update
+        if self.match.ball_number == 0:
+            self.match.ball_number = 1
+        else:
+            self.match.ball_number += 1
+
+    
+        #team update
+        self.match[self.current_batting_team]['balls_faced'] +=1
+        self.match[self.current_batting_team]['wickets_fallen'] +=1
+        self.match[self.current_batting_team]['fall_of_wickets'].append({
+                              "batsman": self.match.strike_batsman, 
+                              "over_number": self.match.running_over, 
+                              "ball_number": self.match.ball_number, 
+                              "team_score": self.match[self.current_batting_team]['runs_scored']})
+
+
+        #batsman update
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['status'] = False
+        self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
+
+        #bowler update
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['balls'] += 1
+        self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['wickets'] += 1
+
+        #over status update
+        self.__update_over_status("out")
+        self.sr_and_er_update()
+
+        self.match.save()
+
+
+    #for runout, strike or non strike bastsman update
+    def runout_batsman_out_update(self,batsman_type):
+
+        if batsman_type== 'strike batsman':
+            self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['status'] = False
+            
+        else:
+            self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]['status'] = False
+        self.match.save()
+
+
+    def run_out_update(self,out_type,run):
+        
+        #live data update
+        local_ball_number = self.match.ball_number
+        if self.match.ball_number==0:
+            if out_type == 'runout_runs':
+                self.match.ball_number = 1
+                local_ball_number = self.match.ball_number
+
+            else:
+                local_ball_number = 1
+        else:
+            if out_type == 'runout_runs':
+                self.match.ball_number += 1
+                local_ball_number = self.match.ball_number
+
+            else:
+                local_ball_number = self.match.ball_number 
+
+        
+        #team update
+        if out_type != "runout_runs":
+            self.match[self.current_batting_team]['runs_scored'] += (run+1)
+            if out_type == "runout_noball":
+                self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['runs'] += (run)
+                self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
+            self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run)
+
+        else:
+            self.match[self.current_batting_team]['runs_scored'] += run
+            self.match[self.current_batting_team]['balls_faced'] += 1
+
+            self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['runs'] += (run)
+            self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
+
+            self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run)
+            self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['balls'] += 1
+
+
+        self.personnel_stats_update(run)
+
+        #over status update
+        self.__update_over_status("out")
+        self.sr_and_er_update()
+        if run % 2 != 0:
+            self.strike_change()
+
+        self.match.save()
+        
+
+    def out_fielder_update(self,fielder):
+
+        """
+        match can end here, or innings can change
+        """
+
+        refresh_needed =False
+
+        strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.strike_batsman]
+        non_strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]
+        
+        print(strike_batsman_data['status'])
+        print(non_strike_batsman_data['status'])
+
+        if strike_batsman_data['status'] == False:
+            self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['out_fielder'] = fielder
+        elif non_strike_batsman_data['status'] == False:
+            self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]['out_fielder'] = fielder
+
+        
+        did_not_bat = self.match[self.current_batting_team]['did_not_bat']
+     
+        if len(did_not_bat) == 0 or (self.match.running_over+1 == self.match.total_overs):
+            refresh_needed = True
+            print("refresh_needed due to all out or overs complete")
+            self.__innings_complete_doc_refresh()
+
+        self.match.save()
+
+        if refresh_needed:
+            if self.match.running_innings == 2:
+                return {"type": "end"}
+            return {"type": "change","response":"change"}
+        return {"type": "ask_next_batsman", "response": Message.next_batsman_ask_payload()}
+
+    def batsman_change(self,batsman):
+        strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.strike_batsman]
+        non_strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]
+
+
+        #live data update
+        if strike_batsman_data['status']==False:
+            self.match.strike_batsman = batsman
+            
+        elif non_strike_batsman_data["status"] == False:
+            self.match.non_strike_batsman = batsman
+           
+        #team update
+        self.match[self.current_batting_team]['batting_order'].append(batsman)
+
+        #batsman update
+        self.match[self.current_batting_team]['batting'].update({ batsman: {'4s': 0 }})
+        self.match[self.current_batting_team]['batting'][batsman].update( {'6s': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'runs': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'balls': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'status': True })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'strike_rate': 0.0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'out_fielder': '' })
+
+        # removing batsman from did_not_bat
+        self.match[self.current_batting_team]['did_not_bat'].remove(batsman)
+
+        self.match.save()
+
+        if self.match.ball_number == 6 and self.match.running_over != -1:
+            return {"type": "ask_next_bowler", "response": Message.next_bowler_ask_payload(self.current_batting_team, 
+                                                           self.match.running_over, self.match.ball_number, 
+                                                           self.match[self.current_batting_team]['runs_scored'], 
+                                                           self.match.strike_batsman, 
+                                                           self.match.non_strike_batsman)}
+        return {"type": "next", "response": Message.get_update_match_document_payload(self.current_batting_team, 
+                                           self.match.running_over, self.match.ball_number,
+                                           self.match[self.current_batting_team]['runs_scored'], 
+                                           self.match.strike_batsman, self.match.non_strike_batsman, self.match.current_bowler)}
+
+
+    @classmethod
+    def link_users(cls,bot_user, platform_user, source):
+        print("****** linking ******** "+bot_user+" with "+platform_user)
+        try:
+            user = db.players.insert_one(
+                {"user_id": bot_user, "run": 0, "balls": 0, "strike_rate": 0, "avg": 0})
+            print(str(user))
+            db.user_links.update_one(
+                {}, {'$set': {source+"."+platform_user: bot_user}})
+            return True
+        except Exception as e:
+            return False
+
+    @classmethod
+    def get_most_runs_user(cls):
+        user_detail = db.players.find_one(sort=[("batting.runs", -1)])
+        return user_detail
+        
+    @classmethod
+    def update_match_id(cls,scorer_id, new_match_id):
+        match = MatchDatabase.get_match_document(scorer_id)
+        db.matches.update_one({'_id': match['_id']}, {
+                              '$set': {"match_id": new_match_id}})   
+    @classmethod
+    def get_match_status(cls,match_id):
+        match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
+                                    "status": "pause"}, {"status": "resume"}]}, {"match_id": match_id}]})
+        return match['status']
+
+    @classmethod
+    def user_already_exist(cls,bot_user):
+        print("searching... " + bot_user)
+        user = db.players.find_one({"user_id": bot_user})
+        if user:
+            print("Found user!")
+            return True
+        else:
+            return False
+
+    @classmethod
+    def userid_from_username(cls,username, source):
+
+        # TODO fix user_links design
+        source_users = db.user_links.distinct(source)
+        print("###############")
+        user_id = source_users[0][username]
+        #user = db.user_links.find({source:{}})
+        print("user_id that we got:"+user_id)
+        return user_id
+
+    @classmethod
+    def user_stats(cls,user_id):
+        print("*** searching user with id "+user_id)
+        user = db.players.find_one({'user_id': user_id})
+        return user
+
 
 
    

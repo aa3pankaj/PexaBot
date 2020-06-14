@@ -12,6 +12,7 @@ dnspython
 dialogflow
 pydialogflow-fulfillment>=0.1.3    
 flask-assistant
+gevent
 gevent-websocket
 pyjwt
 gunicorn==18.0
