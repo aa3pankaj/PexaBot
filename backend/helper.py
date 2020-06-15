@@ -1,18 +1,9 @@
 from __future__ import print_function
-import time
-# import pdf_generator_api_client
-# from pdf_generator_api_client.rest import ApiException
-from pprint import pprint
 import json
-import codecs
-import jwt
-
 from constants import exit_set
 from message import Message
-
 from telegram import ReplyKeyboardMarkup, Bot, ReplyKeyboardRemove
 import os
-
 from model import BotDatabase
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')

@@ -2,7 +2,6 @@
 import pymongo
 import json
 from message import Message
-from bson.objectid import ObjectId
 from bson.json_util import dumps
 import os
 MONGO_KEY = os.getenv('MONGO_KEY')

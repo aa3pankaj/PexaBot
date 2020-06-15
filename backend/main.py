@@ -1,12 +1,11 @@
 """
 This webhook is meant to be used with the cricbot agent for Dialogflow
 """
-import re
 import json
 from dbutils import MatchDatabase
 from message import Message
 from helper import Helper, TelegramHelper
-from flask import Flask, request as flask_request, make_response, jsonify
+from flask import Flask, request as make_response, jsonify
 import os
 import dialogflow_v2
 from google.api_core.exceptions import InvalidArgument
@@ -17,11 +16,11 @@ from bson.json_util import dumps
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 import time
-
 from model import BotDatabase
 
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-a46e4f1cad3b.json'
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-4ea368f2f161.json'
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -33,13 +32,6 @@ log = app.logger
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
 
-#not_used
-@app.route('/live_match_data', methods=['GET'])
-@cross_origin()
-def get_live_match_data():
-    # match_doc = MatchDatabase.get_match_document("@pankajsingh08")
-    # return make_response(dumps(match_doc))
-    pass
 
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
@@ -120,22 +112,21 @@ def test_runs(number):
     #score = req['queryResult']['parameters']['number']
     # flask_request_json = flask_request.get_json()
     
-    print("start test.run==>")
-    start = time.process_time()
-    print(start)
     number = int(number)
     match_params = Helper.get_match_params(request)
-    print("request========>")
-    print(request)
-    if 'exit' in match_params:
-        TelegramHelper.remove_keyboard(chat_id)
-        return match_params['exit']
-
     match_id = ''
+    chat_id = ''
     if match_params['username'] == '':
         match_id = request['queryResult']['parameters']['match_id']
     else:
         match_id = match_params['match_id']
+        chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+
+    
     match_status = BotDatabase.get_match_status(match_id)
     user_text = request['queryResult']['queryText']
     response =''
@@ -161,7 +152,7 @@ def test_runs(number):
         print("status in if block:")
         print(match_status)
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
-        response = last_txn['response']
+        response = json.dumps(last_txn['response'])
     
     print("response:")
     print(json.dumps(response))
@@ -436,7 +427,6 @@ def match_pause():
 
 @assist.action('match.innings.change')
 def match_innings_change():
-    match_params = Helper.get_match_params(request)
     match_id = Helper.get_match_params(request)['match_id']
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     bot = BotDatabase(match_id)
@@ -481,7 +471,7 @@ def match_resume(scorer_id):
     # contexts_input = dialogflow_v2.types.QueryParameters(contexts=[context_1])
 
     #set match_status == 'resume'
-    MatchDatabase.set_match_status_resume(match_id,"resume")
+    BotDatabase.set_match_status(match_id=match_id,from_status="pause",to_status="resume")
     try:
         response = session_client.detect_intent(session=session, query_input= query_input,query_params = query_params_1)
     except InvalidArgument:

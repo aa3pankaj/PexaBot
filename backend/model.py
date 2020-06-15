@@ -50,6 +50,12 @@ class BotDatabase:
         return match
 
     @classmethod
+    def get_live_match_document(cls,match_id):
+        doc = db.matches.find_one(
+            {'$and': [{"status": "live"}, {"match_id": match_id}]})
+        return doc
+
+    @classmethod
     def get_match_document(cls,match_id):
         doc = db.matches.find_one(
             {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": match_id}]})
@@ -408,10 +414,13 @@ class BotDatabase:
         if match != None:
             db.matches.update_one({'_id': match['_id']}, {
                                 '$set': {"status": to_status}})
+            return True
+        return False
 
-    def get_match_status():
+    @classmethod
+    def get_match_status(cls,match_id):
         match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
-                                    "status": "pause"}, {"status": "resume"}]}, {"match_id": self.match_id}]})
+                                    "status": "pause"}, {"status": "resume"}]}, {"match_id": match_id}]})
         return match['status']
 
     
@@ -513,21 +522,21 @@ class BotDatabase:
     def run_out_update(self,out_type,run):
         
         #live data update
-        local_ball_number = self.match.ball_number
+        # local_ball_number = self.match.ball_number
         if self.match.ball_number==0:
             if out_type == 'runout_runs':
                 self.match.ball_number = 1
-                local_ball_number = self.match.ball_number
+                # local_ball_number = self.match.ball_number
 
-            else:
-                local_ball_number = 1
+            # else:
+            #     local_ball_number = 1
         else:
             if out_type == 'runout_runs':
                 self.match.ball_number += 1
-                local_ball_number = self.match.ball_number
+                # local_ball_number = self.match.ball_number
 
-            else:
-                local_ball_number = self.match.ball_number 
+            # else:
+            #     local_ball_number = self.match.ball_number 
 
         
         #team update
@@ -656,24 +665,10 @@ class BotDatabase:
         
     @classmethod
     def update_match_id(cls,scorer_id, new_match_id):
-        match = MatchDatabase.get_match_document(scorer_id)
+        match = BotDatabase.get_match_document(scorer_id)
         db.matches.update_one({'_id': match['_id']}, {
                               '$set': {"match_id": new_match_id}})   
-    @classmethod
-    def get_match_status(cls,match_id):
-        match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {
-                                    "status": "pause"}, {"status": "resume"}]}, {"match_id": match_id}]})
-        return match['status']
-
-    @classmethod
-    def user_already_exist(cls,bot_user):
-        print("searching... " + bot_user)
-        user = db.players.find_one({"user_id": bot_user})
-        if user:
-            print("Found user!")
-            return True
-        else:
-            return False
+   
 
     @classmethod
     def userid_from_username(cls,username, source):
@@ -691,6 +686,22 @@ class BotDatabase:
         print("*** searching user with id "+user_id)
         user = db.players.find_one({'user_id': user_id})
         return user
+
+    @classmethod
+    def push_history(cls,match_id, SESSION_ID, action, intent_name, user_text, response):
+        match = BotDatabase.get_live_match_document(match_id)
+        db.matches.update_one({'_id': match['_id']}, {'$push': {"txn": {
+                              "SESSION_ID": SESSION_ID, "action": action, "intent_name": intent_name, "user_text": user_text, "response": response}}})
+    @classmethod
+    def get_last_txn(cls,match_id):
+        print("** In -->get_last_txn() **")
+        # match1= db.matches.find_one({'$and':[{'$or':[{"status" : "live"}, {"status" : "pause"}]},{"match_id": match_id}]})
+        # print(dumps(match1))
+        match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {
+                                    "match_id": match_id}]}, {'txn': {'$slice': -1}})
+        print(dumps(match))
+        print("** Out -->get_last_txn() **")
+        return match['txn'][0]
 
 
 

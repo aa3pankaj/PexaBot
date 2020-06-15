@@ -43,16 +43,14 @@ class ActionListener:
         print("status from get_last_txn_from_history:")
         print(status)
         if status == 'resume':
-            MatchDatabase.set_match_status_live(match_id,"live")
-        last_txn = MatchDatabase.get_last_txn(match_id)
-        return json.dumps(last_txn)
-    @staticmethod
-    def push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,response):
-        MatchDatabase.push_history(match_id,SESSION_ID,action,intent_name,user_text,response)
+            BotDatabase.set_match_status(match_id,from_status="resume",to_status="live")
+        last_txn = BotDatabase.get_last_txn(match_id)
+        return last_txn
+   
        
     @staticmethod
     def pause_match_listner(match_id,username,request):
-        success = MatchDatabase.pause_match(match_id)
+        success = BotDatabase.set_match_status(match_id=match_id,from_status="live",to_status="pause")
         if not success:
             return json.dumps(Message.get_invalid_request_payload())
         else:
@@ -77,7 +75,8 @@ class ActionListener:
         
         #for resume match only
         #TODO below
-        # ActionListener.push_into_txn_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
+        BotDatabase.push_history(match_id,SESSION_ID,action,intent_name,user_text,res["response"])
+    
         if res["type"] == "ask_next_bowler":
             bowler_list = bot.get_available_bowlers()
             TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
@@ -149,7 +148,7 @@ class ActionListener:
             return json.dumps({})
                 
         elif response["type"] == "end":
-            bot.set_match_status(from_status="live",to_status="end")
+            BotDatabase.set_match_status(match_id=match_id,from_status="live",to_status="end")
             clear =  Helper.clear_contexts(match_id,request)
             TelegramHelper.remove_keyboard(chat_id)
             return clear
@@ -215,7 +214,7 @@ class ActionListener:
             return json.dumps({})
             
         elif response["type"] == "end":
-            bot.set_match_status(from_status="live",to_status="end")
+            BotDatabase.set_match_status(match_id=match_id,from_status="live",to_status="end")
            
             clear =  Helper.clear_contexts(match_id,request)
             TelegramHelper.remove_keyboard(chat_id)
