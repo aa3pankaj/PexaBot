@@ -82,12 +82,12 @@ def link_bot_user(bot_user,platform_user):
             print("res=")
             print(res)
             if res == False:
-                res =  Message.get_invalid_request_payload()
+                return json.dumps(Message.get_invalid_request_payload())
             else:
-                res =  Message.general_message("done")
+                return json.dumps(Message.general_message("done"))
         else:
             res = Message.get_invalid_request_payload()
-        return make_response(json.dumps(res))
+        return json.dumps(res)
     except Exception as e:
         return Message.get_invalid_request_payload()
 
