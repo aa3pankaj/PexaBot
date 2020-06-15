@@ -209,8 +209,8 @@ class BotDatabase:
 
         self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['economy_rate'] = economy_rate
         self.match.save()
-        
-    def user_already_exist(self,bot_user):
+    @classmethod
+    def user_already_exist(cls,bot_user):
         #user = db.players.find( { bot_user : { '$exists' : 1 } } )
         print("searching... " + bot_user)
         user = db.players.find_one({"user_id": bot_user})
@@ -250,7 +250,7 @@ class BotDatabase:
         self.match.save()
 
     def personnel_stats_update(self,run):
-        if self.user_already_exist(self.match.strike_batsman):
+        if BotDatabase.user_already_exist(self.match.strike_batsman):
             if run == 6:
                 db.players.update_one({'user_id': self.match.strike_batsman}, {
                                       '$inc': {"batting.6s": 1}})
