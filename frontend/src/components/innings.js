@@ -76,6 +76,7 @@ function Innings({match,fallofwickets,batting,bowling,name,runScored,wicketsFall
     setBattingRows(dataArray)
     dataArray = []
     // let bowling = props.bowling;
+    console.log("nowling=",bowling)
     Object.keys(bowling).map((key) => {
       // console.log(key)
       let row = createDataBowling(key, bowling[key].balls, bowling[key].runs, bowling[key].wickets, bowling[key].wides, bowling[key].noballs, bowling[key].economy_rate)

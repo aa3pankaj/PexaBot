@@ -18,6 +18,7 @@ from flask_socketio import SocketIO
 import time
 from model import BotDatabase
 
+
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-4ea368f2f161.json'
@@ -32,13 +33,13 @@ log = app.logger
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
 
-
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
 @cross_origin()
 def get_match_data(id):
     match_doc = BotDatabase.get_match_document_by_id(id)
-    return make_response(dumps(match_doc))
+    print(dumps(match_doc))
+    return dumps(match_doc)
 
 @assist.action('match.start')
 def match_start():
@@ -156,11 +157,7 @@ def test_runs(number):
         last_txn = ActionListener.get_last_txn_from_history(match_id,match_status)
         response = json.dumps(last_txn['response'])
     
-    print("response:")
     print(json.dumps(response))
-    print("end test.run==>")
-    print("Total time taken by test.run==>")
-    print(time.process_time() - start)
     return response
 
 @assist.action('test.out.back')
@@ -381,23 +378,27 @@ def match_team2_players(team2,team2_players):
     
     return ActionListener.add_players_action(team2,team2_players_list,match_params['match_id'],chat_id,intent_name)
 
-
-#@assist.action('match.opening.batsman') 
-@assist.action('match.opening.nonstrike.batsman') 
-def match_opening_batsmen(strike_batsman,non_strike_batsman):
+@assist.action('match.opening.strike.batsman') 
+def match_opening_strike_batsmen(strike_batsman):
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-    #TODO : get list directly from diagflow
-    
-    # opening_batsmen_list = opening_batsmen.split(' and ')
-    # opening_batsmen_list = [x.strip(' ') for x in opening_batsmen_list]
-   
-    opening_batsmen_list = [strike_batsman,non_strike_batsman]
-    print(opening_batsmen_list)
-    res = ActionListener.update_on_strike_batsmen_listener(opening_batsmen_list,match_params['match_id'],chat_id)
+
+    res = ActionListener.update_on_strike_batsmen_listener(strike_batsman,match_params['match_id'],chat_id,"strike_batsman")
+    return res
+
+#@assist.action('match.opening.batsman') 
+@assist.action('match.opening.nonstrike.batsman') 
+def match_opening_non_strike_batsmen(non_strike_batsman):
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+
+    res = ActionListener.update_on_strike_batsmen_listener(non_strike_batsman,match_params['match_id'],chat_id,"non_strike_batsman")
     return res
 
 @assist.action('test.ball') 

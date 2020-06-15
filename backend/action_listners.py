@@ -69,8 +69,6 @@ class ActionListener:
         #TODO bowler stats update
         bot = BotDatabase(match_id)
         bot.players_stats_update(run)
-        if run%2!=0:
-            bot.strike_change()
         res = bot.match_document_update(run)
         
         #for resume match only
@@ -227,12 +225,17 @@ class ActionListener:
         return json.dumps(response['response'])
 
     @staticmethod
-    def update_on_strike_batsmen_listener(opening_batsmen_list,match_id,chat_id):
+    def update_on_strike_batsmen_listener(batsman,match_id,chat_id,batsman_type):
         bot = BotDatabase(match_id)
-        bot.on_strike_batsmen_update(opening_batsmen_list)
-        bowler_list = bot.get_available_bowlers()
-        TelegramHelper.send_keyboard_message(chat_id,"Opening Bowler?",bowler_list)
-        return json.dumps(Message.bowler_ask_payload(bowler_list))
+        bot.on_strike_batsmen_update(batsman,batsman_type)
+        player_list=[]
+        if batsman_type == "strike_batsman":
+            player_list = bot.get_available_batsman()
+            TelegramHelper.send_keyboard_message(chat_id,"non-strike batsman?",player_list)
+        else:
+            player_list = bot.get_available_bowlers()
+            TelegramHelper.send_keyboard_message(chat_id,"Opening Bowler?",player_list)
+        return json.dumps({})
 
         
        

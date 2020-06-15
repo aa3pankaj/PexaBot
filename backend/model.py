@@ -3,7 +3,6 @@ import pymongo
 import json
 from message import Message
 from bson.objectid import ObjectId
-from bson.json_util import dumps
 import os
 from message import Message
 MONGO_KEY = os.getenv('MONGO_KEY')
@@ -220,33 +219,24 @@ class BotDatabase:
         else:
             return False
 
-    def on_strike_batsmen_update(self,opening_batsmen_list):
-        self.match[self.current_batting_team]['batting_order'].append(opening_batsmen_list[0])
-        self.match[self.current_batting_team]['batting_order'].append(opening_batsmen_list[1])
-        self.match.strike_batsman = opening_batsmen_list[0]
-        self.match.non_strike_batsman = opening_batsmen_list[1]
+    def on_strike_batsmen_update(self,batsman,batsman_type):
 
-        self.match[self.current_batting_team]['batting'].update({ opening_batsmen_list[0]: {'4s': 0 }})
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'6s': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'runs': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'balls': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'status': True })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'strike_rate': 0.0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[0]].update( {'out_fielder': '' })
-        
-
-        self.match[self.current_batting_team]['batting'].update({ opening_batsmen_list[1]: {'4s': 0 }})
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'6s': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'runs': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'balls': 0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'status': True })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'strike_rate': 0.0 })
-        self.match[self.current_batting_team]['batting'][opening_batsmen_list[1]].update( {'out_fielder': '' })
-
-
+        self.match[self.current_batting_team]['batting_order'].append(batsman)    
+        self.match[self.current_batting_team]['batting'].update({ batsman: {'4s': 0 }})
+        self.match[self.current_batting_team]['batting'][batsman].update( {'6s': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'runs': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'balls': 0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'status': True })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'strike_rate': 0.0 })
+        self.match[self.current_batting_team]['batting'][batsman].update( {'out_fielder': '' })
         # removing opening batsmen from match.team_name.did_not_bat
-        self.match[self.current_batting_team]['did_not_bat'].remove(opening_batsmen_list[0])
-        self.match[self.current_batting_team]['did_not_bat'].remove(opening_batsmen_list[1])
+        self.match[self.current_batting_team]['did_not_bat'].remove(batsman)
+
+        if batsman_type == "strike_batsman":
+             self.match.strike_batsman = batsman 
+        else:
+            self.match.non_strike_batsman = batsman
+    
         self.match.save()
 
     def personnel_stats_update(self,run):
@@ -298,14 +288,20 @@ class BotDatabase:
         self.match[self.current_batting_team]['runs_scored'] += int(run)
         self.match[self.current_batting_team]['balls_faced'] += 1
 
+        #er and sr
+        self.sr_and_er_update()
+
+        if run%2!=0:
+            self.strike_change()
+
         #refresh common variables in doc like current_ball_number,Strike_batsman if innings over
         if self.match.ball_number == 6:
             if self.match.running_over+1 == self.match.total_overs:
                 refresh_needed = True
                 self.__innings_complete_doc_refresh()
         
-        #er and sr
-        self.sr_and_er_update()
+       
+        
 
         self.match.save()
 

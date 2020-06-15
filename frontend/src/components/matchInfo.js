@@ -9,7 +9,7 @@ import {
 }
     from "semantic-ui-react";
 
-function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, wicketsFallen1, name2, runScored2, wicketsFallen2 }) {
+function MatchInfo({ toss, matchNumber,overStatus, status, name1, runScored1,team1balls,team2balls ,wicketsFallen1, name2, runScored2, wicketsFallen2 }) {
     const createBallStatus = (type) => {
         var dataArray = []
 
@@ -55,7 +55,13 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, w
         // }
 
         // );
+
+        console.log("batting1.balls_faced:",team1balls)
+        console.log("batting1.balls_faced:",team2balls)
+        console.log("overStatus:",overStatus)
+        console.log("overStatus:",typeof overStatus)
         
+        if(typeof overStatus !== "undefined"){
         Object.keys(overStatus).map((key) => {
             overStatus[key].map((val)=>{
                 let ball = createBallStatus(val)
@@ -65,8 +71,7 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, w
            
         }
 
-        );
-
+        );}
         return dataArray;
 
     }
@@ -93,13 +98,13 @@ function MatchInfo({ toss, matchNumber, overStatus, status, name1, runScored1, w
                                 <Grid.Column>
 
                                     <Header as="h2" color="blue">{name1}</Header>
-                                    {runScored1}/{wicketsFallen1}
+                                    {runScored1}/{wicketsFallen1} ({Math.floor(team1balls/6)}.{team1balls%6})
                                 </Grid.Column>
 
                                 <Grid.Column>
                                     <Header as="h2" color="blue">{name2} </Header>
 
-                                    {runScored2}/{wicketsFallen2}
+                                    {runScored2}/{wicketsFallen2} ({Math.floor(team2balls/6)}.{team2balls%6})
 
                                 </Grid.Column>
                             </Grid.Row>
