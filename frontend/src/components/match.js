@@ -62,8 +62,8 @@ function Match(props) {
   
   useEffect(() => {
    
-    //fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
-    fetch('http://127.0.0.01:34209/match_data/' + props.match.params.id)
+    fetch('https://pexabotbackend.herokuapp.com/match_data/' + props.match.params.id)
+    //fetch('http://127.0.0.01:34209/match_data/' + props.match.params.id)
       .then(response => {
         return response.json();
       })
@@ -86,8 +86,8 @@ function Match(props) {
 
      console.log("hello from web socket")
     
-    //const socket = io('https://pexabotbackend.herokuapp.com');
-    const socket = io('http://127.0.0.01:34209');
+    const socket = io('https://pexabotbackend.herokuapp.com');
+    //const socket = io('http://127.0.0.01:34209');
     socket.on('connect', function(){
         console.log("connected...!")
         // if(match_data["status"]==="end"){
