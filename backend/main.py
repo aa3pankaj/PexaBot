@@ -91,7 +91,7 @@ def link_bot_user(bot_user,platform_user):
 
 @assist.action('fetch.most.runs')
 def most_runs():
-    return make_response(json.dumps(ActionListener.most_runs_listener()))
+    return json.dumps(ActionListener.most_runs_listener())
 
 @assist.action('fetch.my.stats')
 def user_stats():
