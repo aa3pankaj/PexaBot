@@ -102,7 +102,7 @@ class ActionListener:
 
     @staticmethod
     def user_stats_listener(username,source):
-        user_id=MatchDatabase.userid_from_username(username,source)
+        user_id=BotDatabase.userid_from_username(username,source)
         if user_id == None:
             return None
         user_detail = BotDatabase.user_stats(user_id)
