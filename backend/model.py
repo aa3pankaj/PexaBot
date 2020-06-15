@@ -303,6 +303,9 @@ class BotDatabase:
             if self.match.running_over+1 == self.match.total_overs:
                 refresh_needed = True
                 self.__innings_complete_doc_refresh()
+        
+        #er and sr
+        self.sr_and_er_update()
 
         self.match.save()
 
