@@ -79,6 +79,8 @@ def link_bot_user(bot_user,platform_user):
         print(source)
         if not BotDatabase.user_already_exist(bot_user):
             res = BotDatabase.link_users(bot_user,platform_user,source)
+            print("res=")
+            print(res)
             if res == False:
                 res =  Message.get_invalid_request_payload()
             else:

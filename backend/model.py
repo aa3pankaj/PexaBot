@@ -656,6 +656,8 @@ class BotDatabase:
                 {}, {'$set': {source+"."+platform_user: bot_user}})
             return True
         except Exception as e:
+            print(e)
+            print("excpetion occurred")
             return False
 
     @classmethod
