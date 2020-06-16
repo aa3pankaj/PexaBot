@@ -164,7 +164,11 @@ class BotDatabase:
     def current_bowler_update(self,current_bowler):
         self.match.current_bowler = current_bowler
         current_bowling_team = self.match.current_bowling_team
+
+        if self.match.ball_number == 6:
+            self.strike_change()
         
+        #update ball number if start of match or next over
         if self.match.ball_number == 0 or self.match.ball_number == 6:
             self.match.running_over += 1
             self.match.ball_number = 0
