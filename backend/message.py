@@ -177,7 +177,7 @@ class Message:
                     
                
     @staticmethod
-    def match_start_payload(scoreboard_url,team2):
+    def match_start_payload(scoreboard_url,team1):
       return { "fullfillmentText":'user_detail', "fulfillmentMessages": [
                 {
                 "text": {
