@@ -33,6 +33,8 @@ log = app.logger
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
 
+
+
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
 @cross_origin()
@@ -494,6 +496,11 @@ def handle_message():
 def send_live_data(match):
     print('Sending live data.................... ')
     socketio.emit('live', dumps(match))
+    
+@app.route('/test', methods=['GET'])
+@cross_origin()
+def get_match_data():
+    return json.dumps({"val":"yo"})
     
 if __name__ == '__main__':
     # app.run(port=5222,debug=True)
