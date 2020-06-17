@@ -88,7 +88,8 @@ class TelegramHelper:
         print(chat_id)
         print("testing telegram bot send_keyboard_general..........")
         bot = Bot(TELEGRAM_TOKEN)
-        bot.send_message(chat_id=chat_id, text= message)
+        remove_keyboard = ReplyKeyboardRemove(remove_keyboard= True)
+        bot.send_message(chat_id=chat_id, text= message,reply_markup=remove_keyboard)
 
     @staticmethod
     def send_keyboard_general(chat_id,message,buttonList):
