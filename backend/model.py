@@ -653,7 +653,7 @@ class BotDatabase:
         print("****** linking ******** "+bot_user+" with "+platform_user)
         try:
             user = db.players.insert_one(
-                {"user_id": bot_user, "run": 0, "balls": 0, "strike_rate": 0, "avg": 0})
+                {"batting.user_id": bot_user, "batting.run": 0, "batting.balls": 0, "batting.strike_rate": 0, "batting.avg": 0})
             print(str(user))
             db.user_links.update_one(
                 {}, {'$set': {source+"."+platform_user: bot_user}})
