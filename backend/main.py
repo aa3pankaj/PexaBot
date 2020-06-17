@@ -34,7 +34,6 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
 
 
-
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
 @cross_origin()
@@ -48,7 +47,7 @@ def match_start():
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
- 
+    
     match = BotDatabase.get_match_document(match_id)
     if match != None:
         print("found match")
@@ -66,8 +65,12 @@ def match_delete():
     return json.dumps(Message.general_message("Done. Now you can start match again."))
 
 @assist.action('admin.link.users')
-def link_bot_user(bot_user,platform_user):
+def link_bot_user():
     print('in ********* link_bot_user')
+    match_params = Helper.get_match_params(request)
+    bot_user = '@'+match_params['username']
+    platform_user = '@'+match_params['username']
+    print(bot_user)
     try:
         if platform_user[:1]=='@':
             platform_user = platform_user[1:]
