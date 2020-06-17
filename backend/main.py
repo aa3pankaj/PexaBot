@@ -497,11 +497,11 @@ def send_live_data(match):
     print('Sending live data.................... ')
     socketio.emit('live', dumps(match))
     
-@app.route('/test', methods=['GET'])
-@cross_origin()
-def get_match_data():
-    return json.dumps({"val":"yo"})
-    
+# @app.route('/test', methods=['GET'])
+# @cross_origin()
+# def get_match_data():
+#     return json.dumps({"val":"yo"})
+
 if __name__ == '__main__':
     # app.run(port=5222,debug=True)
     port = int(os.environ.get('PORT', 34209))
