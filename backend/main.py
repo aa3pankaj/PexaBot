@@ -67,21 +67,21 @@ def match_delete():
 @assist.action('admin.link.users')
 def link_bot_user():
     print('in ********* link_bot_user')
-    match_params = Helper.get_match_params(request)
-    bot_user = '@'+match_params['username']
-    platform_user = '@'+match_params['username']
+    username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
+    if username[:1]=='@':
+        username = username[1:]
+    bot_user = '@'+username
+    platform_user = username
     print(bot_user)
+    print(platform_user)
     try:
-        if platform_user[:1]=='@':
-            platform_user = platform_user[1:]
         source = request['originalDetectIntentRequest']['source']
         res= ''
         if source == 'telegram':
             if not TelegramHelper.validate_platform_user_request_message(request):
                 res =  Message.get_invalid_request_payload()
                 return json.dumps(res)
-        print(bot_user)
-        print(platform_user)
+        
         print(source)
         if not BotDatabase.user_already_exist(bot_user):
             res = BotDatabase.link_users(bot_user,platform_user,source)
