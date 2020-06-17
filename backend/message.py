@@ -172,7 +172,12 @@ class Message:
       ]
 
     @staticmethod
-    def match_start_payload(scoreboard_url,team1):
+    def match_start_group_payload(scoreboard_url,team1,team2):
+      return  "   "+team1+" vs "+team2 "\n\nLive score: "+scoreboard_url
+                    
+               
+    @staticmethod
+    def match_start_payload(scoreboard_url,team2):
       return { "fullfillmentText":'user_detail', "fulfillmentMessages": [
                 {
                 "text": {
@@ -181,7 +186,7 @@ class Message:
                         ]
                     }
                     }
-                ],
+                ]
                }
         
     @staticmethod

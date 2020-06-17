@@ -62,6 +62,7 @@ class ActionListener:
     @staticmethod
     def toss_action_listener(team1,team2,decision,toss_team,overs,match_id,start_date):
         _id = BotDatabase.update_teams(team1,team2,decision,toss_team,overs,start_date,match_id)
+        TelegramHelper.send_general_message(-1001409382962,Message.match_start_group_payload(front_end_url+str(_id),team1,team2))
         return json.dumps(Message.match_start_payload(front_end_url+str(_id),team1))
 
     @staticmethod
@@ -112,9 +113,6 @@ class ActionListener:
     def bowler_change_action_listener(bowler,match_id,chat_id):
         bot = BotDatabase(match_id)
         bot.current_bowler_update(bowler)
-        ball_number = bot.match.ball_number
-        if ball_number == 6:
-            bot.strike_change()
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})

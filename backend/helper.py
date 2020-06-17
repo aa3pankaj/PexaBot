@@ -82,6 +82,13 @@ class TelegramHelper:
         bot = Bot(TELEGRAM_TOKEN)
         remove_keyboard = ReplyKeyboardRemove(remove_keyboard= True)
         bot.send_message(chat_id=chat_id, text= "Ended conversation" ,reply_markup=remove_keyboard)
+    
+    @staticmethod
+    def send_general_message(chat_id,message):
+        print(chat_id)
+        print("testing telegram bot send_keyboard_general..........")
+        bot = Bot(TELEGRAM_TOKEN)
+        bot.send_message(chat_id=chat_id, text= message)
 
     @staticmethod
     def send_keyboard_general(chat_id,message,buttonList):
