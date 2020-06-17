@@ -173,7 +173,7 @@ class Message:
 
     @staticmethod
     def match_start_group_payload(scoreboard_url,team1,team2):
-      return  "   "+team1+" vs "+team2 "\n\nLive score: "+scoreboard_url
+      return  "   "+team1+" vs "+team2 +"\n\nLive score: "+scoreboard_url
                     
                
     @staticmethod
