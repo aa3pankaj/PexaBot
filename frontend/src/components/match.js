@@ -161,7 +161,7 @@ function Match(props) {
         <Loader size='massive'>Waiting for update...</Loader>
       </Dimmer>) : (
           <Responsive>
-            <Segment>
+            <Segment style={{ maxWidth: 750 }}>
             <MatchInfo toss={toss} matchNumber={match.match_number} running_over={match.running_over} ball_number={match.ball_number} overStatus={overStatus} status={match.status} name1={match.innings1_team} team1balls={team1balls} runScored1={team1runs} wicketsFallen1={team1wickets} name2={match.innings2_team} team2balls={team2balls} runScored2={team2runs} wicketsFallen2={team2wickets}/>
               <Innings match={match}  fallofwickets={team1fallofwickets} batting={team1Batting} bowling={team2Bowling} name={match.innings1_team} runScored={team1runs} wicketsFallen={team1wickets} />
               <Divider section />

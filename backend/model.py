@@ -594,7 +594,7 @@ class BotDatabase:
         
         did_not_bat = self.match[self.current_batting_team]['did_not_bat']
      
-        if len(did_not_bat) == 0 or (self.match.running_over+1 == self.match.total_overs):
+        if len(did_not_bat) == 0 or (self.match.ball_number == 6 and self.match.running_over+1 == self.match.total_overs):
             refresh_needed = True
             print("refresh_needed due to all out or overs complete")
             self.__innings_complete_doc_refresh()
