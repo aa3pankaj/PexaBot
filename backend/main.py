@@ -502,7 +502,6 @@ def match_resume(scorer_id):
     text_input = dialogflow_v2.types.TextInput(text=user_text, language_code="en-us")
     query_input = dialogflow_v2.types.QueryInput(text=text_input)
 
-    BotDatabase.set_match_status(match_id=match_id,from_status="pause",to_status="resume")
     try:
         response = session_client.detect_intent(session=session, query_input= query_input,query_params = query_params)
     except InvalidArgument:
