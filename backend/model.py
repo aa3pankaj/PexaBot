@@ -4,6 +4,7 @@ import json
 from message import Message
 from bson.objectid import ObjectId
 import os
+from bson.json_util import dumps
 from message import Message
 MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
@@ -304,9 +305,6 @@ class BotDatabase:
                 refresh_needed = True
                 self.__innings_complete_doc_refresh()
         
-       
-        
-
         self.match.save()
 
         if refresh_needed:
@@ -411,13 +409,15 @@ class BotDatabase:
 
     @classmethod
     def set_match_status(cls,match_id,from_status,to_status):
-     
+        print('updating match status from '+from_status +" to "+to_status)
         match = db.matches.find_one(
                     {'$and': [{"status": from_status}, {"match_id": match_id}]})
         if match != None:
             db.matches.update_one({'_id': match['_id']}, {
                                 '$set': {"status": to_status}})
+            print('Success')
             return True
+        print('Failed') 
         return False
 
     @classmethod

@@ -310,7 +310,7 @@ class Message:
 
     @staticmethod
     def get_update_match_document_payload(current_batting_team,running_over,ball_number,runs_scored,strike_batsman,non_strike_batsman,current_bowler):
-        return {"fullfillmentText":'what happened on ball 2?',"fulfillmentMessages": [
+        return {"fullfillmentText":'Next?',"fulfillmentMessages": [
                 {
                 "text": {
                     "text": [

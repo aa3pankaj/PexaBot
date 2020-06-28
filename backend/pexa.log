@@ -1,0 +1,32 @@
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [29/Jun/2020 03:23:03] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [29/Jun/2020 03:23:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+{'responseId': '83c2a7fe-671b-4ce1-8992-2ccd538d04ba-e13762d2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'date': 1593381247.0, 'text': 'Start', 'message_id': 31988.0, 'from': {'username': 'pankajsingh08', 'language_code': 'en', 'first_name': 'Pankaj', 'id': 961554976.0, 'last_name': 'Singh'}, 'chat': {'id': '961554976', 'type': 'private'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [29/Jun/2020 03:24:08] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/main.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981

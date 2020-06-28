@@ -17,22 +17,22 @@ from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 import time
 from model import BotDatabase
-
+from constants import group_notification_enabled
+import logging
 
 DIALOGFLOW_PROJECT_ID = os.getenv('DIALOGFLOW_PROJECT_ID')
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'cricbot-qegqqr-4ea368f2f161.json'
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 assist = Assistant(app, route='/api', project_id=DIALOGFLOW_PROJECT_ID)
-#assist = Assistant(app, project_id=DIALOGFLOW_PROJECT_ID)
-log = app.logger
+logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+handler = logging.FileHandler('pexa.log') # creates handler for the log file
+logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
 
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app,cors_allowed_origins="*")
-
 
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
@@ -44,8 +44,10 @@ def get_match_data(id):
 
 @assist.action('match.start')
 def match_start():
+    logger.info(request)
+    print(request)
     match_params = Helper.get_match_params(request)
-    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+
     match_id = match_params['match_id']
     
     match = BotDatabase.get_match_document(match_id)
@@ -136,15 +138,21 @@ def test_runs(number):
 
     
     match_status = BotDatabase.get_match_status(match_id)
+    print("match_status before processing:")
+    print(match_status)
+
+    if match_status=='pause':
+        BotDatabase.set_match_status(match_id=match_id,from_status="pause",to_status="resume")
     user_text = request['queryResult']['queryText']
     response =''
     session = request['session']
     intent_name = request['queryResult']['intent']['displayName']
     action = request['queryResult']['action']
     SESSION_ID = session.rpartition('/')[2] 
-    
-    print("match_status before processing:")
+    match_status = BotDatabase.get_match_status(match_id)
+    print("match_status after change:")
     print(match_status)
+   
     if match_status == 'live':
         chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
         response = ActionListener.ball_action_listener(number,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response) 
@@ -441,6 +449,21 @@ def match_innings_change():
     batsman_list = bot.get_available_batsman()
     TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
 
+@assist.action('admin.enable.group.notification')
+def notification_control():
+    pass
+
+#commented due to issue with dialogflow grpc server running parallel with socketio
+# @socketio.on('connect')
+# def handle_message():
+#     print('websocket connected')
+
+def send_live_data(match):
+    #print('Sending live data.................... ')
+    #socketio.emit('live', dumps(match))
+    pass
+    
+
 @assist.action('match.resume') 
 def match_resume(scorer_id):
     match_id = Helper.get_match_params(request)['match_id']
@@ -452,60 +475,74 @@ def match_resume(scorer_id):
     scorer_id = BotDatabase.userid_from_username(scorer_username,'telegram')
     print("userid after conversion:")
     print(scorer_id)
-    session_client = dialogflow_v2.SessionsClient()
+
+    #--------------------------------------------------------------
+    print("processing......")
     last_txn = ActionListener.get_last_txn_from_history(scorer_id)
     SESSION_ID = last_txn['SESSION_ID']
     intent_name = last_txn['intent_name']
     user_text = last_txn['user_text']
+    print("last_txn")
+    print(last_txn)
     input_context = MatchDatabase.get_input_context_from_intent_name(intent_name)
-    parameters = dialogflow_v2.types.struct_pb2.Struct()
-    print("input context:")
     print(input_context)
-    BotDatabase.update_match_id(scorer_id,match_id)
+
+    session_client = dialogflow_v2.SessionsClient()
+    parameters = dialogflow_v2.types.struct_pb2.Struct()
     parameters["match_id"] = match_id
     context_1 = dialogflow_v2.types.context_pb2.Context(
     name="projects/cricbot-qegqqr/agent/sessions/"+SESSION_ID+"/contexts/"+input_context,
     lifespan_count=2,
-    parameters=parameters
+    parameters = parameters
     )
-
-    query_params_1 = {"contexts": [context_1]}
+    query_params = {"contexts": [context_1]}
 
     session = session_client.session_path(DIALOGFLOW_PROJECT_ID, SESSION_ID)
 
-    text_input = dialogflow_v2.types.TextInput(text=user_text, language_code=DIALOGFLOW_LANGUAGE_CODE)
+    text_input = dialogflow_v2.types.TextInput(text=user_text, language_code="en-us")
     query_input = dialogflow_v2.types.QueryInput(text=text_input)
-    # context=dialogflow_v2.types.context_pb2.Context(name='projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/ball')
-    # contexts_input = dialogflow_v2.types.QueryParameters(contexts=[context_1])
 
-    #set match_status == 'resume'
     BotDatabase.set_match_status(match_id=match_id,from_status="pause",to_status="resume")
     try:
-        response = session_client.detect_intent(session=session, query_input= query_input,query_params = query_params_1)
+        response = session_client.detect_intent(session=session, query_input= query_input,query_params = query_params)
     except InvalidArgument:
         raise
-    print("res from resume:")
+    print("respose from resume:")
     print(response)
     print("Query text:", response.query_result.query_text)
     print("Detected intent:", response.query_result.intent.display_name)
     print("Detected intent confidence:", response.query_result.intent_detection_confidence)
     print("Fulfillment text:", response.query_result.fulfillment_text)
-    return Message.get_resume_payload()
-
-@socketio.on('connect')
-def handle_message():
-    print('websocket connected')
-
-def send_live_data(match):
-    print('Sending live data.................... ')
-    socketio.emit('live', dumps(match))
     
-# @app.route('/test', methods=['GET'])
-# @cross_origin()
-# def get_match_data():
-#     return json.dumps({"val":"yo"})
+    output = {"fullfillmentText":'valid',
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "Match is On!"
+          ]
+        }
+      }
+    ]
+  }
+
+    output['outputContexts']=[{
+    "name": "projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/ball",
+    "lifespan_count": 5
+    }]
+
+    logger.info("output=")
+    logger.info(output)
+    
+    return json.dumps(output)
+    # os.system('python3 intent.py')
+    # return json.dumps({})
 
 if __name__ == '__main__':
-    # app.run(port=5222,debug=True)
+    logger.info("Starting server...")
     port = int(os.environ.get('PORT', 34209))
-    socketio.run(app,port=port,debug=True)
+    app.run(port=port,debug=True)
+    #commented due to issue with dialogflow grpc server running parallel with socketio
+    # socketio.run(app,port=port,debug=True)
+
+   
