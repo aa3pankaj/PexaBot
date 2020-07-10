@@ -30,3 +30,813 @@
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+{'responseId': '99b60352-8139-4659-95e9-35a803cd445d-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32140.0, 'chat': {'id': '961554976', 'type': 'private'}, 'text': 'Start', 'date': 1594409138.0, 'from': {'first_name': 'Pankaj', 'id': 961554976.0, 'language_code': 'en', 'username': 'pankajsingh08', 'last_name': 'Singh'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 00:55:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 00:55:50] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 00:56:31] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:08:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'ea4a9d25-47db-4a76-a2dd-8e17c0b8f3b2-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'lifespanCount': 1, 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'text': 'Start', 'from': {'first_name': 'Pankaj', 'username': 'pankajsingh08', 'language_code': 'en', 'id': 961554976.0, 'last_name': 'Singh'}, 'message_id': 32155.0, 'chat': {'type': 'private', 'id': '961554976'}, 'date': 1594409920.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:08:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:09:01] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:09:22] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:10:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '981ff56b-d6b3-4502-b829-6dc7e1b00707-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'date': 1594410061.0, 'chat': {'type': 'private', 'id': '961554976'}, 'from': {'username': 'pankajsingh08', 'id': 961554976.0, 'language_code': 'en', 'first_name': 'Pankaj', 'last_name': 'Singh'}, 'message_id': 32168.0, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:11:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:11:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:11:16] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:11:53] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:11:57] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:14:54] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:14:57] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:15:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '3569a85d-9739-4e90-9a65-13e051e20747-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'chat': {'type': 'private', 'id': '961554976'}, 'from': {'username': 'pankajsingh08', 'last_name': 'Singh', 'id': 961554976.0, 'language_code': 'en', 'first_name': 'Pankaj'}, 'text': 'Start', 'message_id': 32191.0, 'date': 1594410326.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:15:25] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:15:34] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:15:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:22:16] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '05309c26-62c0-4eb5-a445-646f5a72e07f-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32204.0, 'chat': {'id': '961554976', 'type': 'private'}, 'from': {'username': 'pankajsingh08', 'language_code': 'en', 'last_name': 'Singh', 'id': 961554976.0, 'first_name': 'Pankaj'}, 'date': 1594410739.0, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:22:18] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:22:26] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:22:32] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:25:12] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:25:57] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:26:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:26:02] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:26:09] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:27:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'c99e62b8-8068-46c2-8a20-3ad17419b955-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'from': {'id': 961554976.0, 'last_name': 'Singh', 'username': 'pankajsingh08', 'first_name': 'Pankaj', 'language_code': 'en'}, 'chat': {'type': 'private', 'id': '961554976'}, 'text': 'Start', 'date': 1594411023.0, 'message_id': 32228.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:27:02] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:27:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:27:16] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:30:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'fc2ea377-d713-4033-9ae2-72bda229b22d-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32241.0, 'chat': {'id': '961554976', 'type': 'private'}, 'text': 'Start', 'date': 1594411239.0, 'from': {'language_code': 'en', 'id': 961554976.0, 'username': 'pankajsingh08', 'last_name': 'Singh', 'first_name': 'Pankaj'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:30:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:30:43] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:30:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:32:24] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '8bb18fea-7aa0-497b-a70a-4b175d988197-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32256.0, 'date': 1594411347.0, 'chat': {'type': 'private', 'id': '961554976'}, 'from': {'username': 'pankajsingh08', 'last_name': 'Singh', 'id': 961554976.0, 'language_code': 'en', 'first_name': 'Pankaj'}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:32:26] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:32:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:32:41] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:39:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '6df5dba6-80df-4290-a013-e83e957ee453-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32269.0, 'text': 'Start', 'chat': {'id': '961554976', 'type': 'private'}, 'date': 1594411758.0, 'from': {'username': 'pankajsingh08', 'last_name': 'Singh', 'first_name': 'Pankaj', 'language_code': 'en', 'id': 961554976.0}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:39:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:39:24] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:39:31] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:40:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '27db18be-9b81-47c3-ac1a-c323035eda35-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'chat': {'id': '961554976', 'type': 'private'}, 'date': 1594411850.0, 'message_id': 32281.0, 'from': {'first_name': 'Pankaj', 'last_name': 'Singh', 'username': 'pankajsingh08', 'id': 961554976.0, 'language_code': 'en'}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:40:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:40:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:41:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:42:36] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '272e0ddd-2cb2-43f9-a6f9-cec51162c6c0-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'text': 'Start', 'from': {'language_code': 'en', 'first_name': 'Pankaj', 'username': 'pankajsingh08', 'id': 961554976.0, 'last_name': 'Singh'}, 'date': 1594411961.0, 'message_id': 32295.0, 'chat': {'id': '961554976', 'type': 'private'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:42:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:42:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:42:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:43:46] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:44:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'c19b9d68-146f-4272-9b39-85255084a513-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'from': {'last_name': 'Singh', 'first_name': 'Pankaj', 'language_code': 'en', 'id': 961554976.0, 'username': 'pankajsingh08'}, 'date': 1594412083.0, 'message_id': 32310.0, 'text': 'Start', 'chat': {'type': 'private', 'id': '961554976'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:44:42] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:44:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:44:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:55:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '3bf481ea-7a3f-41ff-9262-aaf8627d8f53-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'date': 1594412727.0, 'message_id': 32323.0, 'text': 'Start', 'chat': {'id': '961554976', 'type': 'private'}, 'from': {'language_code': 'en', 'last_name': 'Singh', 'first_name': 'Pankaj', 'username': 'pankajsingh08', 'id': 961554976.0}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 01:55:27] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:55:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:55:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 01:56:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:57:46] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:57:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:58:03] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 01:58:48] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:11:19] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:11:32] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:12:12] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'b7291e6f-0d15-45c9-8072-f37c8afab19c-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'chat': {'id': '961554976', 'type': 'private'}, 'from': {'language_code': 'en', 'id': 961554976.0, 'last_name': 'Singh', 'first_name': 'Pankaj', 'username': 'pankajsingh08'}, 'message_id': 32351.0, 'text': 'Start', 'date': 1594413736.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:12:15] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:29] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:33] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:37] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:43] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:12:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:16:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:16:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/action_listners.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/action_listners.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/action_listners.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/action_listners.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:23:46] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:26:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:26:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:26:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:26:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:26:52] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:26:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+{'responseId': '5277353f-691b-45fa-902b-d9477d39746b-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'from': {'last_name': 'Singh', 'first_name': 'Pankaj', 'id': 961554976.0, 'language_code': 'en', 'username': 'pankajsingh08'}, 'chat': {'type': 'private', 'id': '961554976'}, 'message_id': 32390.0, 'text': 'Start', 'date': 1594414837.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:30:37] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:48] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:54] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:30:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:31:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:31:07] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:31:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:31:18] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:31:25] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+{'responseId': 'cdddf777-a208-4f8b-9a4e-d0d8b8f19684-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'chat': {'id': '961554976', 'type': 'private'}, 'message_id': 32420.0, 'date': 1594415065.0, 'from': {'language_code': 'en', 'first_name': 'Pankaj', 'username': 'pankajsingh08', 'id': 961554976.0, 'last_name': 'Singh'}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:34:25] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:34:30] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:34:34] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:36:33] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:37:50] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '1e90073f-afcf-475a-9292-2a48f6e71ce4-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32436.0, 'from': {'language_code': 'en', 'username': 'pankajsingh08', 'last_name': 'Singh', 'first_name': 'Pankaj', 'id': 961554976.0}, 'date': 1594415273.0, 'chat': {'id': '961554976', 'type': 'private'}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:37:52] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '5cee5d09-b1c2-4736-af34-efee18240aa5-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32438.0, 'date': 1594415276.0, 'text': 'Start', 'from': {'first_name': 'Pankaj', 'id': 961554976.0, 'last_name': 'Singh', 'language_code': 'en', 'username': 'pankajsingh08'}, 'chat': {'id': '961554976', 'type': 'private'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:37:55] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:38:02] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:38:18] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+{'responseId': 'fe68a0fa-3110-48b6-90d1-d3fb17504ca8-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'from': {'first_name': 'Pankaj', 'id': 961554976.0, 'language_code': 'en', 'last_name': 'Singh', 'username': 'pankajsingh08'}, 'message_id': 32442.0, 'text': 'Start', 'chat': {'id': '961554976', 'type': 'private'}, 'date': 1594415303.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 02:38:22] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:38:29] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:38:34] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:39:13] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 02:39:19] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+127.0.0.1 - - [11/Jul/2020 02:41:02] "[35m[1mPOST /api HTTP/1.1[0m" 500 -
+127.0.0.1 - - [11/Jul/2020 02:41:07] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+ * Detected change in '/Users/panssing/Downloads/Projects/pexabot/backend/model.py', reloading
+ * Restarting with stat
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981
+{'responseId': '87b86430-da32-4285-9bfb-f7bf8e0350c7-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'date': 1594416863.0, 'chat': {'id': '961554976', 'type': 'private'}, 'message_id': 32459.0, 'from': {'first_name': 'Pankaj', 'language_code': 'en', 'last_name': 'Singh', 'username': 'pankajsingh08', 'id': 961554976.0}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:04:24] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '00710425-9b7b-4ea5-b1bf-29807e78f00a-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32461.0, 'from': {'first_name': 'Pankaj', 'language_code': 'en', 'id': 961554976.0, 'last_name': 'Singh', 'username': 'pankajsingh08'}, 'date': 1594416873.0, 'chat': {'type': 'private', 'id': '961554976'}, 'text': 'Start'}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:04:33] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:04:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:04:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:05:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:05:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:05:30] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:05:32] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:05:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:31] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:34] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:41] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:06:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:02] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:05] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:08] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:10] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+127.0.0.1 - - [11/Jul/2020 03:07:12] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:16] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:18] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:21] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:25] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:30] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:07:33] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:08:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'dade7db1-ee10-41a4-a058-480efb527921-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'text': 'Start', 'date': 1594417117.0, 'chat': {'type': 'private', 'id': '961554976'}, 'message_id': 32540.0, 'from': {'first_name': 'Pankaj', 'language_code': 'en', 'last_name': 'Singh', 'username': 'pankajsingh08', 'id': 961554976.0}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:08:36] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:08:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:08:53] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:08:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:02] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:06] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:19] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:24] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:27] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:29] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:31] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:34] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:37] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:42] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:45] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:54] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:09:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:04] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:21] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:23] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+127.0.0.1 - - [11/Jul/2020 03:11:33] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:42] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:54] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:11:57] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:01] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:04] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:07] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:20] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:25] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:32] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:40] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:42] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:12:46] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '6badb3fd-9cda-4490-afc6-28458de00bda-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'chat': {'id': '961554976', 'type': 'private'}, 'text': 'Start', 'message_id': 32678.0, 'date': 1594417395.0, 'from': {'username': 'pankajsingh08', 'last_name': 'Singh', 'first_name': 'Pankaj', 'language_code': 'en', 'id': 961554976.0}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:13:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:22] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:42] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:45] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:49] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:51] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:56] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:13:59] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:01] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:04] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:07] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:12] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:15] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:20] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:31] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:33] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+127.0.0.1 - - [11/Jul/2020 03:14:36] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:38] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:41] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:50] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:53] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:14:55] "[31m[1mPOST /api HTTP/1.1[0m" 400 -
+127.0.0.1 - - [11/Jul/2020 03:14:58] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:00] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:03] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:06] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:08] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:20] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:23] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:26] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:28] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:31] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:44] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:55] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:15:59] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:02] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:05] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:08] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:11] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:14] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:17] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:20] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': '7ec5901a-f829-49cc-a583-5162ea63bac3-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'text': 'Start', 'from': {'id': 961554976.0, 'first_name': 'Pankaj', 'language_code': 'en', 'last_name': 'Singh', 'username': 'pankajsingh08'}, 'message_id': 32829.0, 'chat': {'id': '961554976', 'type': 'private'}, 'date': 1594417600.0}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:16:39] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:16:53] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:04] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:07] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:09] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:10] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:13] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:16] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:19] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:22] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:27] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:29] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:32] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:35] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:39] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:39] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:47] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:52] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:17:52] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:18:01] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:18:05] "[37mPOST /api HTTP/1.1[0m" 200 -
+{'responseId': 'd03b02d8-b4d3-4386-8906-e5ba47fa0cdc-425db6e2', 'queryResult': {'queryText': 'Start', 'parameters': {}, 'allRequiredParamsPresent': True, 'fulfillmentText': 'server time out, start match again', 'fulfillmentMessages': [{'text': {'text': ['server time out, start match again']}}], 'outputContexts': [{'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/startmatch', 'lifespanCount': 20}, {'name': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8/contexts/__system_counters__', 'parameters': {'no-input': 0.0, 'no-match': 0.0}}], 'intent': {'name': 'projects/cricbot-qegqqr/agent/intents/1a86d3c3-7f37-42c2-b061-183c014539b3', 'displayName': 'match.start'}, 'intentDetectionConfidence': 1.0, 'languageCode': 'en'}, 'originalDetectIntentRequest': {'source': 'telegram', 'payload': {'data': {'message_id': 32894.0, 'text': 'Start', 'from': {'first_name': 'Pankaj', 'username': 'pankajsingh08', 'id': 961554976.0, 'last_name': 'Singh', 'language_code': 'en'}, 'date': 1594417689.0, 'chat': {'id': '961554976', 'type': 'private'}}}}, 'session': 'projects/cricbot-qegqqr/agent/sessions/b630631f-19ae-396b-9477-6ba29737d8e8'}
+127.0.0.1 - - [11/Jul/2020 03:18:08] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:18:15] "[37mPOST /api HTTP/1.1[0m" 200 -
+127.0.0.1 - - [11/Jul/2020 03:18:21] "[37mPOST /api HTTP/1.1[0m" 200 -
+ * Running on http://127.0.0.1:34209/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 449-838-981

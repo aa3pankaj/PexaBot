@@ -4,7 +4,7 @@ from message import Message
 from helper import Helper
 from constants import front_end_url
 from helper import TelegramHelper
-from model import BotDatabase
+from db_util import BotDatabase
 from constants import group_notification_enabled
 
 class ActionListener:
@@ -18,6 +18,7 @@ class ActionListener:
     def strike_change_action(chat_id,match_id):
         bot = BotDatabase(match_id)
         bot.strike_change()
+        bot.match.save()
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})

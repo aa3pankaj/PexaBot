@@ -16,7 +16,7 @@ from bson.json_util import dumps
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 import time
-from model import BotDatabase
+from db_util import BotDatabase
 from constants import group_notification_enabled
 import logging
 

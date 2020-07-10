@@ -4,7 +4,7 @@ from constants import exit_set
 from message import Message
 from telegram import ReplyKeyboardMarkup, Bot, ReplyKeyboardRemove
 import os
-from model import BotDatabase
+from db_util import BotDatabase
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 
