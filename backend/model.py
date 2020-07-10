@@ -14,18 +14,31 @@ from message import Message
 
 class Model(dict):
     """
-    A simple model that wraps mongodb document
+    A simple model that wraps mongodb document, 
+    Also creates a delta collection for document revision tracking
     """
     __getattr__ = dict.get
     __delattr__ = dict.__delitem__
     __setattr__ = dict.__setitem__
 
     def save(self):
+        #TODO add code to create new revision doc in _delta_collection
         if not self._id:
             self.collection.insert_one(self)
         else:
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
+            _delta_collection_name = "_delta"+"_"+self.name
+            self._delta_collection = self.db_object[_delta_collection_name]
+            self._delta_collection.insert_one({ "collection_name": self.name,
+                                                "document_id" : self._id,
+                                                "diff": self.diff,
+                                                "_v": self._delta_collection.count()+1,
+                                                "user":self['match_id'],
+                                                "reason":"update"
+            }
+            )
+            print("done")
 
     def reload(self):
         if self._id:
