@@ -463,7 +463,6 @@ def send_live_data(match):
     #socketio.emit('live', dumps(match))
     pass
     
-
 @assist.action('match.resume') 
 def match_resume(scorer_id):
     match_id = Helper.get_match_params(request)['match_id']
@@ -536,6 +535,11 @@ def match_resume(scorer_id):
     return json.dumps(output)
     # os.system('python3 intent.py')
     # return json.dumps({})
+
+@assist.action('match.ball.undo') 
+def match_ball_undo():
+    pass
+
 
 if __name__ == '__main__':
     logger.info("Starting server...")
