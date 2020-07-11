@@ -59,7 +59,14 @@ def match_start():
     else:
         print("No match")
         return json.dumps(Message.general_message("Enter team names e.g Pexa vs Lexa?"))
-        
+
+@assist.action('match.team.choose')   
+def match_team_choose(team1,team2,overs):
+    #validate team names
+    if "." in team1 or "$" in team1 or "." in team2 or "$" in team2:
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in team names e.g Team.Hyderabad is invalid, Team Hyderabad is valid,\nPlease say 'exit' and re-start match"))
+    return json.dumps({})
+
 @assist.action('match.old.delete')
 def match_delete():
     match_params = Helper.get_match_params(request)
@@ -391,7 +398,7 @@ def match_team1_players(team1,team1_players):
     team1_players = team1_players.strip()
     #checking dot and dollar, as mongo does not allow dot or dollar in key
     if "." in team1_players or "$" in team1_players:
-        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease re-enter usernames"))
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
     team1_players_list = team1_players.split()
     team1_players_list = [x.strip(' ') for x in team1_players_list if x not in team1_players_list]
     
@@ -410,7 +417,7 @@ def match_team2_players(team2,team2_players):
     team2_players = team2_players.strip()
     #checking dot and dollar, as mongo does not allow dot or dollar in key
     if "." in team2_players or "$" in team2_players:
-        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease re-enter usernames"))
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
     team2_players_list = team2_players.split()
     team2_players_list = [x.strip(' ') for x in team2_players_list if x not in team2_players_list]
     
