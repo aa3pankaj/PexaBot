@@ -72,7 +72,7 @@ def match_delete():
 def link_bot_user():
     print('in ********* link_bot_user')
     username = ''
-    if "data" in request['originalDetectIntentRequest']['payload'] and "from" in request['originalDetectIntentRequest']['payload']:
+    if "from" in request['originalDetectIntentRequest']['payload']["data"] and "username" in request['originalDetectIntentRequest']['payload']["data"]["from"]:
         username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
     else:
         return json.dumps(Message.general_message("ValidationError: Telegram username is required, please go to settings and create one"))
