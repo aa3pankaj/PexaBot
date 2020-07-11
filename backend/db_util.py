@@ -16,8 +16,7 @@ db = client["cric"]
 class Match(DiffHistoryModelV1):
     db_object = db
     collection = db.matches
-    # name = "matches"
-    _delta_collection_name = "_delta_matches"
+    delta_collection_name = "_delta_matches"
 class Player(SimpleModel):
     collection = db.players
 
