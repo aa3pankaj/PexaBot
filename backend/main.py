@@ -399,7 +399,11 @@ def match_team1_players(team1,team1_players):
     #checking dot and dollar, as mongo does not allow dot or dollar in key
     if "." in team1_players or "$" in team1_players:
         return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
+    
     team1_players_list = team1_players.split() 
+    if len(team1_players_list) != len(set(team1_players_list)):
+        return json.dumps(Message.general_message("ValidationError: Duplicate usernames exists in players list, \nPlease say 'exit' and re-start match"))
+ 
     team1_players_set = []
     for x in team1_players_list:
         if x not in team1_players_set:
@@ -412,6 +416,7 @@ def match_team1_players(team1,team1_players):
 
 @assist.action('match.team2players')  
 def match_team2_players(team2,team2_players):
+    #TODO add prompt for errors
     #match.team2players
     match_params = Helper.get_match_params(request)
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
@@ -424,6 +429,9 @@ def match_team2_players(team2,team2_players):
     if "." in team2_players or "$" in team2_players:
         return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
     team2_players_list = team2_players.split() 
+    if len(team2_players_list) != len(set(team2_players_list)):
+        return json.dumps(Message.general_message("ValidationError: Duplicate usernames exists in players list, \nPlease say 'exit' and re-start match"))
+ 
     team2_players_set = []
     for x in team2_players_list:
         if x not in team2_players_set:
