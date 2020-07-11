@@ -93,7 +93,6 @@ class DiffHistoryModelV1(SimpleModel):
         if not self._id:
             self.collection.insert_one(self)
         else:
-            # _delta_collection_name = "_delta"+"_"+self.name
             _delta_collection = self.db_object[self._delta_collection_name]
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
@@ -111,20 +110,17 @@ class DiffHistoryModelV1(SimpleModel):
                 _delta_collection.update_one({"document_id":self._id,"_version":result_count-1},{"$set":{"is_latest":False}})
 
     def reload_latest_from_delta(self):
-        _delta_collection_name = "_delta"+"_"+self.name
-        _delta_collection = self.db_object[_delta_collection_name]
+        _delta_collection = self.db_object[self._delta_collection_name]
         doc = _delta_collection.find_one({"_id": ObjectId(self._id)})['document']
         self._id = doc["_id"]
         self.update(doc)
 
     def get_latest_revision(self):
-        _delta_collection_name = "_delta"+"_"+self.name
-        _delta_collection = self.db_object[_delta_collection_name]
+        _delta_collection = self.db_object[self._delta_collection_name]
         return _delta_collection.find_one({"document_id":self._id,"is_latest":True})
 
     def delete_latest_revision(self):
-        _delta_collection_name = "_delta"+"_"+self.name
-        _delta_collection = self.db_object[_delta_collection_name]
+        _delta_collection = self.db_object[self._delta_collection_name]
         _delta_collection.remove({"document_id":self._id,"is_latest":True})
         result = _delta_collection.find({"document_id":self._id})
         result_count = result.count()
