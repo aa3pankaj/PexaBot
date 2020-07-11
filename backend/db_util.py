@@ -14,9 +14,10 @@ client = pymongo.MongoClient(MONGO_KEY)
 db = client["cric"]
 
 class Match(DiffHistoryModelV1):
-    collection = db.matches
     db_object = db
-    name = "matches"
+    collection = db.matches
+    # name = "matches"
+    _delta_collection_name = "_delta_matches"
 class Player(SimpleModel):
     collection = db.players
 

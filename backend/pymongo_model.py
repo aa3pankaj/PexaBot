@@ -37,20 +37,11 @@ class DiffHistoryModelV2(SimpleModel):
     __delattr__ = dict.__delitem__
     __setattr__ = dict.__setitem__
 
-
     def undo(self):
         pass
     def __diff_update(self):
-        print("******* ******************** in __diff_update ******************** ******")
         match_copy = self.collection.find_one({"_id": ObjectId(self._id)})
-        print("\n")
-        print(match_copy)
-        print("\n")
-        print(self)
         diff_object = diff(dumps(match_copy),dumps(self),load=True, dump=True)
-        print("\n")
-        print(diff_object)
-        print("******* ******************** out __diff_update ******************** ******")
         return diff_object
         
     def save(self):
@@ -70,12 +61,20 @@ class DiffHistoryModelV2(SimpleModel):
                                                 "reason":"update"
             }
             )
-            print("done")
 
 class DiffHistoryModelV1(SimpleModel):
     """
     A simple model that wraps mongodb document, 
-    Also creates a delta collection for document revision tracking
+    Also creates a delta collection for document revision tracking,
+    In this version of diff model, delta model creates below document for each update i.e after invoking save()
+    {
+       "collection_name": name of the collection of the document for which revision is being done,
+       "document_id" : mongo id of document for which revision is being done,
+       "document": entire document object for which revision is being done,
+       "_version": revision number of document,
+       "reason": "update",
+       "is_latest":Boolean, true only for latest
+    }
     """
     __getattr__ = dict.get
     __delattr__ = dict.__delitem__
@@ -85,7 +84,6 @@ class DiffHistoryModelV1(SimpleModel):
     def undo(self):
         self.delete_latest_revision()
         match_latest = self.get_latest_revision()
-        print(match_latest)
         self.clear()
         self._id = match_latest["_id"]
         self.reload_latest_from_delta()
@@ -95,8 +93,8 @@ class DiffHistoryModelV1(SimpleModel):
         if not self._id:
             self.collection.insert_one(self)
         else:
-            _delta_collection_name = "_delta"+"_"+self.name
-            _delta_collection = self.db_object[_delta_collection_name]
+            # _delta_collection_name = "_delta"+"_"+self.name
+            _delta_collection = self.db_object[self._delta_collection_name]
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
             result = _delta_collection.find({"document_id":self._id})
@@ -111,17 +109,13 @@ class DiffHistoryModelV1(SimpleModel):
             result_count = _delta_collection.find({"document_id":self._id}).count()
             if result_count > 1:
                 _delta_collection.update_one({"document_id":self._id,"_version":result_count-1},{"$set":{"is_latest":False}})
-    
-            print("done")
 
     def reload_latest_from_delta(self):
-        print("**** in reload_latest_from_delta ****")
         _delta_collection_name = "_delta"+"_"+self.name
         _delta_collection = self.db_object[_delta_collection_name]
-        print(self._id)
         doc = _delta_collection.find_one({"_id": ObjectId(self._id)})['document']
+        self._id = doc["_id"]
         self.update(doc)
-
 
     def get_latest_revision(self):
         _delta_collection_name = "_delta"+"_"+self.name
