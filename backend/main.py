@@ -47,9 +47,11 @@ def match_start():
     logger.info(request)
     print(request)
     match_params = Helper.get_match_params(request)
-
     match_id = match_params['match_id']
-    
+
+    #TODO add dialogflow prompt instead of returning normal message
+    if match_id == '':
+        return json.dumps(Message.general_message("ValidationError: Telegram username is required, please go to settings and create one"))
     match = BotDatabase.get_match_document(match_id)
     if match != None:
         print("found match")
@@ -69,13 +71,21 @@ def match_delete():
 @assist.action('admin.link.users')
 def link_bot_user():
     print('in ********* link_bot_user')
-    username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
+    username = ''
+    if "data" in request['originalDetectIntentRequest']['payload'] and "from" in request['originalDetectIntentRequest']['payload']:
+        username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
+    else:
+        return json.dumps(Message.general_message("ValidationError: Telegram username is required, please go to settings and create one"))
+
     if username[:1]=='@':
         username = username[1:]
     bot_user = '@'+username
     platform_user = username
     print(bot_user)
     print(platform_user)
+    if "." in bot_user or "$" in bot_user:
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease change your telegram username"))
+   
     try:
         source = request['originalDetectIntentRequest']['source']
         res= ''
@@ -378,8 +388,13 @@ def match_team1_players(team1,team1_players):
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
+    team1_players = team1_players.strip()
+    #checking dot and dollar, as mongo does not allow dot or dollar in key
+    if "." in team1_players or "$" in team1_players:
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease re-enter usernames"))
     team1_players_list = team1_players.split()
-    team1_players_list = [x.strip(' ') for x in team1_players_list]
+    team1_players_list = [x.strip(' ') for x in team1_players_list if x not in team1_players_list]
+    
     return ActionListener.add_players_action(team1,team1_players_list,match_params['match_id'],chat_id,intent_name)
     
 
@@ -392,8 +407,12 @@ def match_team2_players(team2,team2_players):
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
+    team2_players = team2_players.strip()
+    #checking dot and dollar, as mongo does not allow dot or dollar in key
+    if "." in team2_players or "$" in team2_players:
+        return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease re-enter usernames"))
     team2_players_list = team2_players.split()
-    team2_players_list = [x.strip(' ') for x in team2_players_list]
+    team2_players_list = [x.strip(' ') for x in team2_players_list if x not in team2_players_list]
     
     return ActionListener.add_players_action(team2,team2_players_list,match_params['match_id'],chat_id,intent_name)
 

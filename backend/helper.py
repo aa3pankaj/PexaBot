@@ -32,11 +32,13 @@ class Helper:
         #     return json.dumps(Message.get_invalid_request_payload())
         #have to update for other platforms
         if source == 'telegram':
-            username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
+            if "from" in request['originalDetectIntentRequest']['payload']['data'] and "username" in request['originalDetectIntentRequest']['payload']['data']["from"]:
+                username = request['originalDetectIntentRequest']['payload']['data']['from']['username']
             start_date = request['originalDetectIntentRequest']['payload']['data']['date']
-            if username[:1]=='@':
+            if username != '' and username[:1]=='@':
                 username = username[1:]
-            match_id = BotDatabase.userid_from_username(username,source)
+            if username != '':
+                match_id = BotDatabase.userid_from_username(username,source)
         else:
             match_id= "test"
             start_date = ''
