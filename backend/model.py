@@ -3,7 +3,34 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 import json
 
-class DiffHistoryModel(dict):
+class SimpleModel(dict):
+    """
+    A simple model that wraps mongodb document, 
+    Also creates a delta collection for document revision tracking
+    """
+    __getattr__ = dict.get
+    __delattr__ = dict.__delitem__
+    __setattr__ = dict.__setitem__
+   
+    def save(self):
+     
+        if not self._id:
+            self.collection.insert_one(self)
+        else:
+            self.collection.update(
+                { "_id": ObjectId(self._id) }, self)
+
+    def reload(self):
+        if self._id:
+            self.update(self.collection\
+                    .find_one({"_id": ObjectId(self._id)}))
+
+    def remove(self):
+        if self._id:
+            self.collection.remove({"_id": ObjectId(self._id)})
+            self.clear()
+
+class DiffHistoryModel(SimpleModel):
     """
     A simple model that wraps mongodb document, 
     Also creates a delta collection for document revision tracking
@@ -26,8 +53,6 @@ class DiffHistoryModel(dict):
         return diff_object
         
     def save(self):
-        #TODO add code to create new revision doc in _delta_collection
-    
         if not self._id:
             self.collection.insert_one(self)
         else:
@@ -45,13 +70,3 @@ class DiffHistoryModel(dict):
             }
             )
             print("done")
-
-    def reload(self):
-        if self._id:
-            self.update(self.collection\
-                    .find_one({"_id": ObjectId(self._id)}))
-
-    def remove(self):
-        if self._id:
-            self.collection.remove({"_id": ObjectId(self._id)})
-            self.clear()

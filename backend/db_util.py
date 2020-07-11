@@ -7,6 +7,7 @@ import os
 from bson.json_util import dumps
 from message import Message
 from model import DiffHistoryModel
+from model import SimpleModel
 
 MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
@@ -16,7 +17,7 @@ class Match(DiffHistoryModel):
     collection = db.matches
     db_object = db
     name = "matches"
-class Player(DiffHistoryModel):
+class Player(SimpleModel):
     collection = db.players
 
 class BotDatabase:
