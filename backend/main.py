@@ -399,10 +399,15 @@ def match_team1_players(team1,team1_players):
     #checking dot and dollar, as mongo does not allow dot or dollar in key
     if "." in team1_players or "$" in team1_players:
         return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
-    team1_players_list = team1_players.split()
-    team1_players_list = [x.strip(' ') for x in team1_players_list if x not in team1_players_list]
+    team1_players_list = team1_players.split() 
+    team1_players_set = []
+    for x in team1_players_list:
+        if x not in team1_players_set:
+            team1_players_set.append(x)
+
+    team1_players_set = [x.strip(' ') for x in team1_players_set]
     
-    return ActionListener.add_players_action(team1,team1_players_list,match_params['match_id'],chat_id,intent_name)
+    return ActionListener.add_players_action(team1,team1_players_set,match_params['match_id'],chat_id,intent_name)
     
 
 @assist.action('match.team2players')  
@@ -418,10 +423,14 @@ def match_team2_players(team2,team2_players):
     #checking dot and dollar, as mongo does not allow dot or dollar in key
     if "." in team2_players or "$" in team2_players:
         return json.dumps(Message.general_message("ValidationError: < '.' or '$' > not allowed in usernames (player names) e.g pankaj.singh is invalid, pankajsingh is valid,\nPlease say 'exit' and re-start match"))
-    team2_players_list = team2_players.split()
-    team2_players_list = [x.strip(' ') for x in team2_players_list if x not in team2_players_list]
-    
-    return ActionListener.add_players_action(team2,team2_players_list,match_params['match_id'],chat_id,intent_name)
+    team2_players_list = team2_players.split() 
+    team2_players_set = []
+    for x in team2_players_list:
+        if x not in team2_players_set:
+            team2_players_set.append(x)
+
+    team2_players_set = [x.strip(' ') for x in team2_players_set]
+    return ActionListener.add_players_action(team2,team2_players_set,match_params['match_id'],chat_id,intent_name)
 
 @assist.action('match.opening.strike.batsman') 
 def match_opening_strike_batsmen(strike_batsman):
