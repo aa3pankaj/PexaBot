@@ -65,8 +65,8 @@ class DiffHistoryModelV2(SimpleModel):
 class DiffHistoryModelV1(SimpleModel):
     """
     A simple model that wraps mongodb document, 
-    Also creates a delta collection for document revision tracking,
-    In this version of diff model, delta model creates below document for each update i.e after invoking save()
+    Also creates a _delta_collection for document revision tracking,
+    In this version of DiffHistoryModel, it creates below document for each update i.e after invoking save()
     {
        "collection_name": name of the collection of the document for which revision is being done,
        "document_id" : mongo id of document for which revision is being done,
@@ -86,7 +86,7 @@ class DiffHistoryModelV1(SimpleModel):
         match_latest = self.get_latest_revision()
         self.clear()
         self._id = match_latest["_id"]
-        self.reload_latest_from_delta()
+        self.__reload_latest_from_delta()
         super().save()
         
     def save(self):
@@ -109,7 +109,7 @@ class DiffHistoryModelV1(SimpleModel):
             if result_count > 1:
                 _delta_collection.update_one({"document_id":self._id,"_version":result_count-1},{"$set":{"is_latest":False}})
 
-    def reload_latest_from_delta(self):
+    def __reload_latest_from_delta(self):
         _delta_collection = self.db_object[self._delta_collection_name]
         doc = _delta_collection.find_one({"_id": ObjectId(self._id)})['document']
         self._id = doc["_id"]
