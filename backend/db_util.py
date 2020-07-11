@@ -258,7 +258,25 @@ class BotDatabase:
 
 
     def match_document_update(self,run):
+        """
+        this is run update method, match can end here or innings can change
+        """
+
         refresh_needed = False
+        if self.match.ball_number == 6:
+            """
+            possible only when, user says undo from first ball of new over (e.g from 2.0th ball), 
+            command goes back to previous over (e.g 1.6th ball), now user should not be allowed to enter new update(e.g user enter out or some run etc) unless user says undo, 
+            should be forced to select next bowler
+            """
+            return {"type": "ask_next_bowler", 
+                    "response": Message.next_bowler_ask_payload(self.current_batting_team, 
+                                                                self.match.running_over, 
+                                                                self.match.ball_number, 
+                                                                self.match[self.current_batting_team]['runs_scored'], 
+                                                                self.match.strike_batsman, 
+                                                                self.match.non_strike_batsman)}
+            
         if self.match.ball_number == 0:
             self.match.ball_number = 1
         else:
@@ -284,6 +302,7 @@ class BotDatabase:
                 self.__innings_complete_doc_refresh()
         self.match.save()
 
+        
         if refresh_needed:
             if self.match.running_innings == 2:
                 return {"type": "end","response":"end"}
