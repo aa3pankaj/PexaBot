@@ -135,7 +135,9 @@ def test_runs(number):
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
-
+    # if 'undo' in match_params:
+    #     ActionListener.undo_listener(chat_id,match_id)
+    #     return json.dumps(Message.general_message("Undo done."))
     
     match_status = BotDatabase.get_match_status(match_id)
     print("match_status before processing:")
@@ -188,11 +190,15 @@ def test_bowler_change(bowler):
     match_params = Helper.get_match_params(request)
     # flask_request_json = flask_request.get_json()
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
     if 'exit' in match_params:
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
+    # if 'undo' in match_params:
+    #     ActionListener.undo_listener(chat_id,match_id)
+    #     return json.dumps(Message.general_message("Undo done."))
 
-    return ActionListener.bowler_change_action_listener(bowler,match_params['match_id'],chat_id)
+    return ActionListener.bowler_change_action_listener(bowler,match_id,chat_id)
 
 
 @assist.action('test.wide.back')
@@ -536,10 +542,17 @@ def match_resume(scorer_id):
     # os.system('python3 intent.py')
     # return json.dumps({})
 
-@assist.action('match.ball.undo') 
+@assist.action('test.undo') 
 def match_ball_undo():
-    pass
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
 
+    if 'exit' in match_params:
+        TelegramHelper.remove_keyboard(chat_id)
+        return match_params['exit']
+    ActionListener.undo_listener(chat_id,match_id)
+    return json.dumps(Message.general_message("Undo done."))
 
 if __name__ == '__main__':
     logger.info("Starting server...")

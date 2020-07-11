@@ -46,6 +46,8 @@ class Helper:
         match_params["source"] = source
         if request['queryResult']['queryText'] in exit_set:
             match_params['exit']= Helper.clear_contexts(match_id,request)
+        if request['queryResult']['queryText'].lower() == 'undo':
+            match_params['undo'] = True
         return match_params
     
     def remove_space(input): 

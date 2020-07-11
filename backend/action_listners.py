@@ -9,6 +9,15 @@ from constants import group_notification_enabled
 
 class ActionListener:
 
+    
+    @staticmethod
+    def undo_listener(chat_id,match_id):
+        bot = BotDatabase(match_id)
+        bot.undo_match()
+        match_info = bot.get_live_match_info()
+        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+        # get latest now
+        # copy this to match
     @staticmethod
     def delete_live_matches_action(match_id):
         bot = BotDatabase(match_id)
@@ -18,6 +27,7 @@ class ActionListener:
     def strike_change_action(chat_id,match_id):
         bot = BotDatabase(match_id)
         bot.strike_change()
+        bot.match["undo_count"] = 1
         bot.match.save()
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)

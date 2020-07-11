@@ -6,14 +6,14 @@ from bson.objectid import ObjectId
 import os
 from bson.json_util import dumps
 from message import Message
-from model import DiffHistoryModel
-from model import SimpleModel
+from pymongo_model import DiffHistoryModelV1
+from pymongo_model import SimpleModel
 
 MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
 db = client["cric"]
 
-class Match(DiffHistoryModel):
+class Match(DiffHistoryModelV1):
     collection = db.matches
     db_object = db
     name = "matches"
@@ -109,6 +109,7 @@ class BotDatabase:
                             "match_number": db.matches.count()+1, 
                             "start_date": start_date,
                             "status": "live", 
+                            "undo_count":1,
                             "ball_number": 0,
                             "running_over": -1,
                             "total_overs": overs, 
@@ -275,6 +276,7 @@ class BotDatabase:
         if run%2!=0:
             self.strike_change()
 
+        self.match["undo_count"] = 1
         #refresh common variables in doc like current_ball_number,Strike_batsman if innings over
         if self.match.ball_number == 6:
             if self.match.running_over+1 == self.match.total_overs:
@@ -345,6 +347,8 @@ class BotDatabase:
         if run % 2 != 0:
             self.strike_change()
 
+        self.match["undo_count"] = 1
+
         self.match.save()
 
     def noball_update(self,run):
@@ -375,6 +379,7 @@ class BotDatabase:
         if run % 2 != 0:
             self.strike_change()
 
+        self.match["undo_count"] = 1
         self.match.save()
 
     def delete_live_matches_of_user(self):
@@ -404,6 +409,7 @@ class BotDatabase:
     
     def out_without_fielder(self,out_type):
         """
+        this is for bowled,hitwicket,lbw actions, this is the last commit for these actions
         match can end here, or innings can change
         """
         refresh_needed = False
@@ -434,6 +440,8 @@ class BotDatabase:
         #over status update
         self.__update_over_status("out")
         self.sr_and_er_update()
+        #undo count update
+        self.match["undo_count"] = 2
 
         did_not_bat = self.match[self.current_batting_team]['did_not_bat']
         
@@ -454,6 +462,9 @@ class BotDatabase:
 
 
     def out_with_fielder(self,out_type):
+        """
+        this is for catch_out, out_fielder_update() is called in the next transaction
+        """
         #live data update
         if self.match.ball_number == 0:
             self.match.ball_number = 1
@@ -550,6 +561,7 @@ class BotDatabase:
     def out_fielder_update(self,fielder):
 
         """
+        this is the last commit for actions: catch_out, run_out
         match can end here, or innings can change
         """
 
@@ -568,7 +580,7 @@ class BotDatabase:
 
         
         did_not_bat = self.match[self.current_batting_team]['did_not_bat']
-     
+        self.match["undo_count"] = 3
         if len(did_not_bat) == 0 or (self.match.ball_number == 6 and self.match.running_over+1 == self.match.total_overs):
             refresh_needed = True
             print("refresh_needed due to all out or overs complete")
@@ -682,6 +694,26 @@ class BotDatabase:
         print(dumps(match))
         print("** Out -->get_last_txn() **")
         return match['txn'][0]
+
+    def undo_match(self):
+        # self.match.delete_latest_revision()
+        # match_latest = self.match.get_latest_revision()
+        # print(match_latest)
+        # self.match.clear()
+        # self.match._id = match_latest["_id"]
+        # self.match.reload_latest_from_delta()
+        # self.match.reload()
+        # self.match.save()
+        undo_count = self.match["undo_count"]
+        print("Running undo for " +str(undo_count) +" times")
+        for i in range(undo_count):
+            print(i)
+            self.match.undo()
+
+            
+    
+        
+
 
 
 

@@ -100,6 +100,13 @@ class Message:
             "text": "no ball"
           }
         ])
+      output_payload.append(
+        [
+          {
+           
+            "text": "undo"
+          }
+        ])
       print("****** end of scoring_custom_payload")
       return output_payload
 
@@ -116,39 +123,31 @@ class Message:
       return  [
         [
           {
-            "text": "0",
-            "callback_data": 0
+            "text": "0"
           },
           {
-            "callback_data": 1,
             "text": "1"
           },
           {
-            "callback_data": 2,
             "text": "2"
           }
         ],
         [
           {
-            "callback_data": 3,
             "text": "3"
           },
           {
-            "callback_data": 4,
             "text": "4"
           },
           {
-            "callback_data": 5,
             "text": "5"
           },
           {
-            "text": "6",
-            "callback_data": 6
+            "text": "6"
           }
         ],
         [
           {
-            "callback_data": "out",
             "text": "out"
           },
            {
@@ -159,16 +158,20 @@ class Message:
         ],
         [
           {
-            "callback_data": "wide",
             "text": "wide"
           }
         ],
         [
           {
-            "callback_data": "no ball",
             "text": "no ball"
           }
+        ],
+         [
+          {
+            "text": "undo"
+          }
         ]
+
       ]
 
     @staticmethod
