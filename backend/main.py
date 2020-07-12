@@ -607,7 +607,7 @@ def match_ball_undo():
         TelegramHelper.remove_keyboard(chat_id)
         return match_params['exit']
     ActionListener.undo_listener(chat_id,match_id)
-    return json.dumps(Message.general_message("Undo done."))
+    return json.dumps({})
 
 if __name__ == '__main__':
     logger.info("Starting server...")
