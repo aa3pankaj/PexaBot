@@ -88,7 +88,11 @@ class BotDatabase:
                "ball_number":self.match.ball_number,
                "strike_batsman":self.match.strike_batsman,
                "non_strike_batsman":self.match.non_strike_batsman,
-               "over_status":over_status
+               "over_status":over_status,
+               "strike_batsman_runs":self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['runs'],
+               "non_strike_batsman_runs":self.match[self.match.current_batting_team]['batting'][self.match.non_strike_batsman]['runs'],
+               "strike_batsman_balls":self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['balls'],
+               "non_strike_batsman_balls":self.match[self.match.current_batting_team]['batting'][self.match.non_strike_batsman]['balls']
                }
 
     @classmethod
@@ -266,7 +270,7 @@ class BotDatabase:
         if self.match.ball_number == 6:
             """
             possible only when, user says undo from first ball of new over (e.g from 2.0th ball), 
-            command goes back to previous over (e.g 1.6th ball), now user should not be allowed to enter new update(e.g user enter out or some run etc) unless user says undo, 
+            command goes back to previous over (e.g 1.6th ball), now user should not be allowed to enter new update(e.g user enters out or some runs etc) except user says undo, 
             should be forced to select next bowler
             """
             return {"type": "ask_next_bowler", 
@@ -302,7 +306,6 @@ class BotDatabase:
                 self.__innings_complete_doc_refresh()
         self.match.save()
 
-        
         if refresh_needed:
             if self.match.running_innings == 2:
                 return {"type": "end","response":"end"}
@@ -372,7 +375,8 @@ class BotDatabase:
 
     def noball_update(self,run):
         # TODO extra++
-        #handling case of wide on first ball of over, so that this wide is recorded in current over.
+
+        #handling case of wide on first ball of over here, so that this wide is recorded in current over.
         local_ball_number = self.match.ball_number
         if self.match.ball_number == 0:
             local_ball_number = 1
@@ -384,12 +388,10 @@ class BotDatabase:
         self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['balls'] += 1
         self.match[self.current_batting_team]['batting'][self.match.strike_batsman]['runs'] += run
         
-
         # bowler_update
         self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['noballs'] += 1
         self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run+1)
        
-
         self.__update_over_status("noball", int(run), ball_number=local_ball_number)
 
         #er and sr

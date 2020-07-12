@@ -208,7 +208,6 @@ def test_bowler_change(bowler):
     print("==> Request in test_bowler_change:")
     print(request)
     match_params = Helper.get_match_params(request)
-    # flask_request_json = flask_request.get_json()
     chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
     match_id = match_params['match_id']
     if 'exit' in match_params:

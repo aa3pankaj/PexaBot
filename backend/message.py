@@ -14,9 +14,13 @@ class Message:
       strike_batsman = match_info["strike_batsman"]
       non_strike_batsman = match_info["non_strike_batsman"]
       over_status = match_info["over_status"]
-      
+      strike_batsman_runs = match_info['strike_batsman_runs']
+      non_strike_batsman_runs = match_info['non_strike_batsman_runs']
+      strike_batsman_balls = match_info['strike_batsman_balls']
+      non_strike_batsman_balls = match_info['non_strike_batsman_balls']
+
       output_payload.append([{"text":current_batting_team+":"+str(runs_scored)+" ("+str(running_over)+"."+str(ball_number)+" overs)"}])
-      output_payload.append([{"text":strike_batsman},{"text":non_strike_batsman}])
+      output_payload.append([{"text":strike_batsman +" "+str(strike_batsman_runs)+"("+str(strike_batsman_balls)+")"},{"text":non_strike_batsman +" "+str(non_strike_batsman_runs)+"("+str(non_strike_batsman_balls)+")"}])
       this_over = ''
       print(over_status)
       
@@ -203,9 +207,6 @@ class Message:
 
     @staticmethod
     def bowler_ask_payload(bolwer_list):
-        # tele_res = TelegramKeyboardButtonResponse ("pankaj")
-        # print(json.dumps(tele_res.response))
-        # return json.dumps(json.dumps(tele_res.response))
         calback =[{
                    
                     "text": "",
@@ -226,7 +227,6 @@ class Message:
         for x in bolwer_list:
             calback[0]['text'] = x
             calback[0]['callback_data'] = x
-            #out['payload']['telegram']['reply_markup']['keyboard'].append(calback)
             out['payload']['telegram']['reply_markup']['keyboard'].append(calback)
             calback =[{
                     
@@ -337,21 +337,12 @@ class Message:
                 {
                 "text": {
                     "text": [
-                            "Team:"+current_batting_team+" Total: "+str(runs_scored)+"\nBall:"+str(running_over)+"."+str(ball_number)+ " recorded,"+
-                            "\nBatsmen:"+strike_batsman+"(*), " +non_strike_batsman
+                            "Team: "+current_batting_team+"\nTotal: "+str(runs_scored)+"\nOvers: "+str(running_over+1)
                         ]
                     }
                     }
                 ]}
-        # return { "fullfillmentText":'user_detail', "fulfillmentMessages": [
-        #         {
-        #         "text": {
-        #             "text": [
-        #                    "enter next bowler name"
-        #                 ]
-        #             }
-        #             }
-        #         ]}
+      
     @staticmethod
     def new_innings_payload():
         return { "fullfillmentText":'user_detail', "fulfillmentMessages": [
