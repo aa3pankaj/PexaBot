@@ -82,8 +82,8 @@ class ActionListener:
     def ball_action_listener(run,match_id,chat_id,request,SESSION_ID,action,intent_name,user_text,response):
         #TODO bowler stats update
         bot = BotDatabase(match_id)
-        bot.players_stats_update(run)
-        res = bot.match_document_update(run)
+        bot.players_stats_update(int(run))
+        res = bot.match_document_update(int(run))
         
         #for resume match only
         #TODO below
@@ -133,7 +133,7 @@ class ActionListener:
     @staticmethod
     def wide_with_number_action_listener(run,match_id,chat_id):
         bot = BotDatabase(match_id)
-        bot.wide_update(run)
+        bot.wide_update(int(run))
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})
@@ -141,7 +141,7 @@ class ActionListener:
     @staticmethod
     def noball_with_number_number_action_listener(run,match_id,chat_id):
         bot = BotDatabase(match_id)
-        bot.noball_update(run)
+        bot.noball_update(int(run))
         match_info = bot.get_live_match_info()
         TelegramHelper.send_scoring_keyboard(chat_id,match_info)
         return json.dumps({})
@@ -193,7 +193,7 @@ class ActionListener:
     def runout_update(match_id,chat_id,request,out_type,run):
         #TODO bowler stats update, personnel
         bot = BotDatabase(match_id)
-        bot.run_out_update(out_type,run)
+        bot.run_out_update(out_type,int(run))
 
         fielder_list = bot.get_available_bowlers()
         TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)

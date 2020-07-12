@@ -528,27 +528,16 @@ class BotDatabase:
             self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]['status'] = False
         self.match.save()
 
-
     def run_out_update(self,out_type,run):
-        
         #live data update
         # local_ball_number = self.match.ball_number
         if self.match.ball_number==0:
             if out_type == 'runout_runs':
                 self.match.ball_number = 1
-                # local_ball_number = self.match.ball_number
-
-            # else:
-            #     local_ball_number = 1
         else:
             if out_type == 'runout_runs':
                 self.match.ball_number += 1
-                # local_ball_number = self.match.ball_number
-
-            # else:
-            #     local_ball_number = self.match.ball_number 
-
-        
+                
         #team update
         if out_type != "runout_runs":
             self.match[self.current_batting_team]['runs_scored'] += (run+1)
@@ -566,7 +555,6 @@ class BotDatabase:
 
             self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['runs'] += (run)
             self.match[self.current_bowling_team]['bowling'][self.match.current_bowler]['balls'] += 1
-
 
         self.personnel_stats_update(run)
 

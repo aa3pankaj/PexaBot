@@ -184,7 +184,7 @@ class Message:
                 {
                 "text": {
                     "text": [
-                           "Match init success in database!\nLive score: "+scoreboard_url+"\n\nPlayer names of "+ team1 +"? (space separated usernames)"
+                           "Match init success in database!\nLive score: "+scoreboard_url+"\n\nPlayer names of "+ team1 +"? (space separated usernames, team should have minimum 2 players)"
                         ]
                     }
                     }
