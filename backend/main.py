@@ -32,7 +32,7 @@ handler = logging.FileHandler('pexa.log') # creates handler for the log file
 logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
 
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app,cors_allowed_origins="*")
+# socketio = SocketIO(app,cors_allowed_origins="*")
 
 #using for live match as well as old match scoreboard
 @app.route('/match_data/<id>', methods=['GET'])
