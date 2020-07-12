@@ -6,8 +6,7 @@ from bson.objectid import ObjectId
 import os
 from bson.json_util import dumps
 from message import Message
-from pymongo_model import DiffHistoryModelV1
-from pymongo_model import SimpleModel
+from pymongo_model import SimpleModel, DiffHistoryModelV1
 
 MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
@@ -21,6 +20,13 @@ class Player(SimpleModel):
     collection = db.players
 
 class BotDatabase:
+
+    def __init__(self,match_id):
+        self.match_id = match_id
+        self.match = Match({"_id":self.__get_match_document_id(match_id)})
+        self.match.reload()
+        self.current_batting_team = self.match.current_batting_team
+        self.current_bowling_team = self.match.current_bowling_team
 
     @classmethod
     def get_match_document_by_id(cls,id):
@@ -53,9 +59,10 @@ class BotDatabase:
        self.match[self.current_batting_team]['over_status'][str(self.match.running_over)].setdefault(str(ball_number),[]).append({score_type: run})
 
     def __innings_complete_doc_refresh(self):
-
+        """
+        Refreshing common variables in doc like current_ball_number,Strike_batsman if innings over
+        """
         self.match.running_innings += 1
-
         if self.match.running_innings != 2:
          
             self.match.current_batting_team , self.match.current_bowling_team =  self.match.current_bowling_team , self.match.current_batting_team 
@@ -65,17 +72,7 @@ class BotDatabase:
             self.match.strike_batsman = ""
             self.match.current_bowler = ""
 
-    def __init__(self,match_id):
-        self.match_id = match_id
-        self.match = Match({"_id":self.__get_match_document_id(match_id)})
-        self.match.reload()
-        self.current_batting_team = self.match.current_batting_team
-        self.current_bowling_team = self.match.current_bowling_team
-
-    
-
     def get_live_match_info(self):
-
         runs_scored = self.match[self.current_batting_team]['runs_scored']
         over_status = {}
         if "over_status" in self.match[self.current_batting_team] and str(self.match.running_over) in self.match[self.current_batting_team]["over_status"]:
@@ -173,7 +170,6 @@ class BotDatabase:
                                                        
     def strike_change(self):
         self.match.non_strike_batsman,self.match.strike_batsman = self.match.strike_batsman,self.match.non_strike_batsman
-        # self.match.save()
 
     def sr_and_er_update(self,type= None):
         
@@ -186,7 +182,7 @@ class BotDatabase:
 
         self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['strike_rate'] = strike_rate
 
-        # update overs in the formula instead of balls
+        # TODO update overs in the formula instead of balls
         bowler_runs_conceded = self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['runs']
         bowler_balls = self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['balls']
 
@@ -196,7 +192,7 @@ class BotDatabase:
             economy_rate = str(round(economy_rate, 2))
 
         self.match[self.match.current_bowling_team]['bowling'][self.match.current_bowler]['economy_rate'] = economy_rate
-        # self.match.save()
+      
     @classmethod
     def user_already_exist(cls,bot_user):
         #user = db.players.find( { bot_user : { '$exists' : 1 } } )
@@ -262,33 +258,19 @@ class BotDatabase:
         self.personnel_stats_update(run)
 
 
-    def match_document_update(self,run):
+    def run_update(self,run):
         """
-        this is run update method, match can end here or innings can change
+        This method updates runs in team & players records in current match, 
+        match can end here or innings can change
         """
 
-        refresh_needed = False
-        if self.match.ball_number == 6:
-            """
-            possible only when, user says undo from first ball of new over (e.g from 2.0th ball), 
-            command goes back to previous over (e.g 1.6th ball), now user should not be allowed to enter new update(e.g user enters out or some runs etc) except user says undo, 
-            should be forced to select next bowler
-            """
-            return {"type": "ask_next_bowler", 
-                    "response": Message.next_bowler_ask_payload(self.current_batting_team, 
-                                                                self.match.running_over, 
-                                                                self.match.ball_number, 
-                                                                self.match[self.current_batting_team]['runs_scored'], 
-                                                                self.match[self.current_batting_team]['wickets_fallen'], 
-                                                                self.match.strike_batsman, 
-                                                                self.match.non_strike_batsman)}
-            
+        refresh_needed = False   
         if self.match.ball_number == 0:
             self.match.ball_number = 1
         else:
             self.match.ball_number += 1
 
-        #updating for this.over 
+        #updating for "This over" status on ui
         self.__update_over_status("run", run)
 
         self.match[self.current_batting_team]['runs_scored'] += int(run)
@@ -301,7 +283,7 @@ class BotDatabase:
             self.strike_change()
 
         self.match["undo_count"] = 1
-        #refresh common variables in doc like current_ball_number,Strike_batsman if innings over
+        
         if self.match.ball_number == 6:
             if self.match.running_over+1 == self.match.total_overs:
                 refresh_needed = True
@@ -330,6 +312,7 @@ class BotDatabase:
 
 
     def get_available_bowlers(self):
+        #TODO dont send current bowler
         player_with_overs = []
         current_bowling_team = self.match.current_bowling_team
         player_list = self.match[current_bowling_team]['players']
@@ -351,8 +334,9 @@ class BotDatabase:
         return player_list
 
     def wide_update(self,run):
-        # extra++, update team score
+        #TODO # extra++
         local_ball_number = self.match.ball_number
+
         #handling case of wide on first ball of over, so that this wide is recorded in current over.
         if self.match.ball_number == 0:
             local_ball_number = 1
@@ -407,7 +391,6 @@ class BotDatabase:
         self.match.save()
 
     def delete_live_matches_of_user(self):
-        #delete all pause or live matches
         result = db.matches.remove(
             {'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {"match_id": self.match_id}]})
 
@@ -433,7 +416,7 @@ class BotDatabase:
     
     def out_without_fielder(self,out_type):
         """
-        this is for bowled,hitwicket,lbw actions, this is the last commit for these actions
+        This method is for bowled,hitwicket,lbw actions, this is the last commit for these actions
         match can end here, or innings can change
         """
         refresh_needed = False
@@ -483,18 +466,15 @@ class BotDatabase:
 
         return {"type": "ask_next_batsman", "response": Message.next_batsman_ask_payload()}
 
-
-
     def out_with_fielder(self,out_type):
         """
-        this is for catch_out, out_fielder_update() is called in the next transaction
+        This method is for catch_out, out_fielder_update() method is called in the next transaction
         """
         #live data update
         if self.match.ball_number == 0:
             self.match.ball_number = 1
         else:
             self.match.ball_number += 1
-
     
         #team update
         self.match[self.current_batting_team]['balls_faced'] +=1
@@ -532,8 +512,7 @@ class BotDatabase:
         self.match.save()
 
     def run_out_update(self,out_type,run):
-        #live data update
-        # local_ball_number = self.match.ball_number
+    
         if self.match.ball_number==0:
             if out_type == 'runout_runs':
                 self.match.ball_number = 1
@@ -568,13 +547,12 @@ class BotDatabase:
             self.strike_change()
 
         self.match.save()
-        
 
     def out_fielder_update(self,fielder):
 
         """
-        this is the last commit for actions: catch_out, run_out
-        match can end here, or innings can change
+        This is the last commit for actions: catch_out, run_out,
+        Match can end here, or innings can change
         """
 
         refresh_needed =False
@@ -609,7 +587,6 @@ class BotDatabase:
     def batsman_change(self,batsman):
         strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.strike_batsman]
         non_strike_batsman_data = self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]
-
 
         #live data update
         if strike_batsman_data['status']==False:
@@ -677,14 +654,12 @@ class BotDatabase:
 
     @classmethod
     def userid_from_username(cls,username, source):
-
         # TODO fix user_links design
         source_users = db.user_links.distinct(source)
         print("###############")
         user_id = None
         if username in source_users[0]:
             user_id = source_users[0][username]
-        #user = db.user_links.find({source:{}})
         print("user_id that we got:"+str(user_id))
         return user_id
 
@@ -702,8 +677,6 @@ class BotDatabase:
     @classmethod
     def get_last_txn(cls,match_id):
         print("** In -->get_last_txn() **")
-        # match1= db.matches.find_one({'$and':[{'$or':[{"status" : "live"}, {"status" : "pause"}]},{"match_id": match_id}]})
-        # print(dumps(match1))
         match = db.matches.find_one({'$and': [{'$or': [{"status": "live"}, {"status": "pause"}]}, {
                                     "match_id": match_id}]}, {'txn': {'$slice': -1}})
         print(dumps(match))
@@ -711,14 +684,6 @@ class BotDatabase:
         return match['txn'][0]
 
     def undo_match(self):
-        # self.match.delete_latest_revision()
-        # match_latest = self.match.get_latest_revision()
-        # print(match_latest)
-        # self.match.clear()
-        # self.match._id = match_latest["_id"]
-        # self.match.reload_latest_from_delta()
-        # self.match.reload()
-        # self.match.save()
         undo_count = self.match["undo_count"]
         print("Running undo for " +str(undo_count) +" times")
         for i in range(undo_count):

@@ -537,6 +537,10 @@ def match_resume(scorer_id):
     #--------------------------------------------------------------
     print("processing......")
     last_txn = ActionListener.get_last_txn_from_history(scorer_id)
+    match_status = BotDatabase.get_match_status(scorer_id)
+    if match_status == 'live':
+        BotDatabase.set_match_status(match_id=scorer_id,from_status="live",to_status="pause")
+
     SESSION_ID = last_txn['SESSION_ID']
     intent_name = last_txn['intent_name']
     user_text = last_txn['user_text']
@@ -592,8 +596,6 @@ def match_resume(scorer_id):
     logger.info(output)
     
     return json.dumps(output)
-    # os.system('python3 intent.py')
-    # return json.dumps({})
 
 @assist.action('test.undo') 
 def match_ball_undo():

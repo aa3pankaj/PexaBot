@@ -30,7 +30,7 @@ class SimpleModel(dict):
 class DiffHistoryModelV2(SimpleModel):
     """
     A simple model that wraps mongodb document, 
-    Also creates a delta collection for document revision tracking
+    Also creates a delta_collection for document revision tracking
     """
     __getattr__ = dict.get
     __delattr__ = dict.__delitem__
@@ -39,8 +39,8 @@ class DiffHistoryModelV2(SimpleModel):
     def undo(self):
         pass
     def __diff_update(self):
-        match_copy = self.collection.find_one({"_id": ObjectId(self._id)})
-        diff_object = diff(dumps(match_copy),dumps(self),load=True, dump=True)
+        doc_copy = self.collection.find_one({"_id": ObjectId(self._id)})
+        diff_object = diff(dumps(doc_copy),dumps(self),load=True, dump=True)
         return diff_object
         
     def save(self):
@@ -63,7 +63,7 @@ class DiffHistoryModelV2(SimpleModel):
 class DiffHistoryModelV1(SimpleModel):
     """
     A simple model that wraps mongodb document, 
-    Also creates a _delta_collection for document revision tracking,
+    Also creates a delta_collection for document revision tracking,
     In this version of DiffHistoryModel, it creates below document for each update i.e after invoking save()
     {
        "collection_name": name of the collection of the document for which revision is being done,
@@ -81,9 +81,9 @@ class DiffHistoryModelV1(SimpleModel):
 
     def undo(self):
         self.delete_latest_revision()
-        match_latest = self.get_latest_revision()
+        doc_latest = self.get_latest_revision()
         self.clear()
-        self._id = match_latest["_id"]
+        self._id = doc_latest["_id"]
         self.__reload_latest_from_delta()
         super().save()
         

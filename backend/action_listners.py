@@ -24,7 +24,7 @@ class ActionListener:
         bot = BotDatabase(match_id)
         bowler_list = bot.get_available_bowlers()
         TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
-        
+
     @staticmethod
     def delete_live_matches_action(match_id):
         bot = BotDatabase(match_id)
@@ -90,7 +90,7 @@ class ActionListener:
         #TODO bowler stats update
         bot = BotDatabase(match_id)
         bot.players_stats_update(int(run))
-        res = bot.match_document_update(int(run))
+        res = bot.run_update(int(run))
         
         #for resume match only
         #TODO below
