@@ -96,7 +96,7 @@ class ActionListener:
     
         if res["type"] == "ask_next_bowler":
             bowler_list = bot.get_available_bowlers()
-            TelegramHelper.send_keyboard_message(chat_id,response['response']+"\n\nNext Bowler?",bowler_list)
+            TelegramHelper.send_keyboard_message(chat_id,res['response']+"\n\nNext Bowler?",bowler_list)
             return json.dumps({})
         elif res["type"] == "end":
             # end_message = Message.end_match_payload()
