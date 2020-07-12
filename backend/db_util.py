@@ -281,13 +281,13 @@ class BotDatabase:
 
         if run%2!=0:
             self.strike_change()
-
-        self.match["undo_count"] = 1
         
         if self.match.ball_number == 6:
             if self.match.running_over+1 == self.match.total_overs:
                 refresh_needed = True
                 self.__innings_complete_doc_refresh()
+
+        self.match["undo_count"] = 1
         self.match.save()
 
         if refresh_needed:
@@ -357,7 +357,6 @@ class BotDatabase:
             self.strike_change()
 
         self.match["undo_count"] = 1
-
         self.match.save()
 
     def noball_update(self,run):
@@ -447,9 +446,7 @@ class BotDatabase:
         #over status update
         self.__update_over_status("out")
         self.sr_and_er_update()
-        #undo count update
-        self.match["undo_count"] = 2
-
+        
         did_not_bat = self.match[self.current_batting_team]['did_not_bat']
         
         if len(did_not_bat) == 0 or (self.match.ball_number == 6 and self.match.running_over+1 == self.match.total_overs):
@@ -457,6 +454,7 @@ class BotDatabase:
             print("refresh_needed due to all out or all overs with all out")
             self.__innings_complete_doc_refresh()
 
+        self.match["undo_count"] = 2
         self.match.save()
 
         if refresh_needed:
@@ -568,14 +566,14 @@ class BotDatabase:
         elif non_strike_batsman_data['status'] == False:
             self.match[self.current_batting_team]['batting'][self.match.non_strike_batsman]['out_fielder'] = fielder
 
-        
         did_not_bat = self.match[self.current_batting_team]['did_not_bat']
-        self.match["undo_count"] = 3
+        
         if len(did_not_bat) == 0 or (self.match.ball_number == 6 and self.match.running_over+1 == self.match.total_overs):
             refresh_needed = True
             print("refresh_needed due to all out or overs complete")
             self.__innings_complete_doc_refresh()
 
+        self.match["undo_count"] = 3
         self.match.save()
 
         if refresh_needed:
