@@ -344,7 +344,7 @@ class Message:
                 ]}
     @staticmethod
     def next_bowler_ask_payload(current_batting_team,running_over,ball_number,runs_scored,wickets_fallen,strike_batsman,non_strike_batsman):
-        return "Team: "+current_batting_team+"\nTotal: "+str(runs_scored)+"/"+str(wickets_fallen)+"\nOvers: "+str(running_over+1)+"."+ball_number
+        return "Team: "+current_batting_team+"\nTotal: "+str(runs_scored)+"/"+str(wickets_fallen)+"\nOvers: "+str(running_over+1)+"."+str(ball_number)
       
     @staticmethod
     def new_innings_payload():
