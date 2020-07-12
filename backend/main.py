@@ -48,10 +48,13 @@ def match_start():
     print(request)
     match_params = Helper.get_match_params(request)
     match_id = match_params['match_id']
+    username = match_params['username']
 
     #TODO add dialogflow prompt instead of returning normal message
-    if match_id == '':
+    if username == '':
         return json.dumps(Message.general_message("ValidationError: Telegram username is required, please go to settings and create one"))
+    if match_id == None:
+        return json.dumps(Message.general_message("ValidationError: Please say 'Add me' to register yourself"))
     match = BotDatabase.get_match_document(match_id)
     if match != None:
         print("found match")

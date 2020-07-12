@@ -687,7 +687,9 @@ class BotDatabase:
         # TODO fix user_links design
         source_users = db.user_links.distinct(source)
         print("###############")
-        user_id = source_users[0][username]
+        user_id = None
+        if username in source_users[0]:
+            user_id = source_users[0][username]
         #user = db.user_links.find({source:{}})
         print("user_id that we got:"+user_id)
         return user_id
