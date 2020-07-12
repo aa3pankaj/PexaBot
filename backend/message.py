@@ -4,7 +4,7 @@ from pydialogflow_fulfillment import TelegramKeyboardButtonResponse
 class Message:
 
     @staticmethod
-    def scoring_custom_payload(match_info):
+    def scoring_custom_payload(match_info,undo):
       print("******start of scoring_custom_payload")
       output_payload = []
       current_batting_team = match_info["current_batting_team"]
@@ -48,66 +48,77 @@ class Message:
           output_payload.append([{"text":"This over:"}])
 
       print(output_payload)
-      
-      output_payload.append( [
-          {
-            "text": "0"
-          },
-          {
-           
-            "text": "1"
-          },
-          {
-           
-            "text": "2"
-          },
-          {
-            "text":"undo"
-          }
-        ])
-      output_payload.append( [
-          {
-           
-            "text": "3"
-          },
-          {
-          
-            "text": "4"
-          },
-          {
-          
-            "text": "5"
-          },
-          {
-            "text": "6"
-          
-          }
-        ])
+      if not undo:
+        output_payload.append( [
+            {
+              "text": "0"
+            },
+            {
+            
+              "text": "1"
+            },
+            {
+            
+              "text": "2"
+            },
+            {
+              "text":"undo"
+            }
+          ])
+        output_payload.append( [
+            {
+            
+              "text": "3"
+            },
+            {
+            
+              "text": "4"
+            },
+            {
+            
+              "text": "5"
+            },
+            {
+              "text": "6"
+            
+            }
+          ])
 
-      output_payload.append([
-          {
-           
-            "text": "out"
-          },
-           {
-            "text": "strike change"
-           
-          }
-         
-       ])
-      output_payload.append([
-          {
-           
-            "text": "wide"
-          }
+        output_payload.append([
+            {
+            
+              "text": "out"
+            },
+            {
+              "text": "strike change"
+            
+            }
+          
         ])
-      output_payload.append(
-        [
-          {
-           
-            "text": "no ball"
-          }
-        ])
+        output_payload.append([
+            {
+            
+              "text": "wide"
+            }
+          ])
+        output_payload.append(
+          [
+            {
+            
+              "text": "no ball"
+            }
+          ])
+      else:
+        output_payload.append( [
+              {
+                "text": "Next over"
+              }
+            ]) 
+        output_payload.append( [
+              {
+                "text": "Undo"
+              }
+            ]) 
       
       print("****** end of scoring_custom_payload")
       return output_payload

@@ -74,10 +74,10 @@ class Helper:
 
 class TelegramHelper:
     @staticmethod
-    def send_scoring_keyboard(chat_id,match_info):
+    def send_scoring_keyboard(chat_id,match_info,undo=False):
         print("testing telegram bot send_scoring_keyboard..........")
         bot = Bot(TELEGRAM_TOKEN)
-        custom_keyboard = Message.scoring_custom_payload(match_info)
+        custom_keyboard = Message.scoring_custom_payload(match_info,undo=undo)
         reply_markup = ReplyKeyboardMarkup(keyboard=custom_keyboard,resize_keyboard=True)
         bot.send_message(chat_id=chat_id, text= "what happened next?", reply_markup=reply_markup)
 

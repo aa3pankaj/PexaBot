@@ -1,7 +1,6 @@
 from jsondiff import diff
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-import json
 
 class SimpleModel(dict):
     """

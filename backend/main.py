@@ -199,6 +199,14 @@ def test_runs(number):
 def test_out_back():
     test_wide_back()
 
+@assist.action('test.undo.nextover')
+def test_undo_nextover():
+    match_params = Helper.get_match_params(request)
+    chat_id = request['originalDetectIntentRequest']['payload']['data']['chat']['id']
+    match_id = match_params['match_id']
+    ActionListener.undo_next_over_action(chat_id,match_id)
+    return json.dumps({})
+
 @assist.action('test.out.bat.bowlerchange')
 def test_out_bowler_change(bowler):
     test_bowler_change(bowler)
