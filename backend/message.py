@@ -55,6 +55,9 @@ class Message:
           {
            
             "text": "2"
+          },
+          {
+            "text":"undo"
           }
         ])
       output_payload.append( [
@@ -100,13 +103,7 @@ class Message:
             "text": "no ball"
           }
         ])
-      output_payload.append(
-        [
-          {
-           
-            "text": "undo"
-          }
-        ])
+      
       print("****** end of scoring_custom_payload")
       return output_payload
 
@@ -130,6 +127,9 @@ class Message:
           },
           {
             "text": "2"
+          },
+          {
+            "text": "undo"
           }
         ],
         [
@@ -164,11 +164,6 @@ class Message:
         [
           {
             "text": "no ball"
-          }
-        ],
-         [
-          {
-            "text": "undo"
           }
         ]
 
