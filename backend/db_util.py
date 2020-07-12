@@ -279,6 +279,7 @@ class BotDatabase:
                                                                 self.match.running_over, 
                                                                 self.match.ball_number, 
                                                                 self.match[self.current_batting_team]['runs_scored'], 
+                                                                self.match[self.current_batting_team]['wickets_fallen'], 
                                                                 self.match.strike_batsman, 
                                                                 self.match.non_strike_batsman)}
             
@@ -638,6 +639,7 @@ class BotDatabase:
             return {"type": "ask_next_bowler", "response": Message.next_bowler_ask_payload(self.current_batting_team, 
                                                            self.match.running_over, self.match.ball_number, 
                                                            self.match[self.current_batting_team]['runs_scored'], 
+                                                           self.match[self.current_batting_team]['wickets_fallen'], 
                                                            self.match.strike_batsman, 
                                                            self.match.non_strike_batsman)}
         return {"type": "next", "response": Message.get_update_match_document_payload(self.current_batting_team, 
