@@ -9,6 +9,7 @@ class Message:
       output_payload = []
       current_batting_team = match_info["current_batting_team"]
       runs_scored = match_info["runs_scored"]
+      wickets_fallen = match_info["wickets_fallen"]
       running_over = match_info["running_over"]
       ball_number = match_info["ball_number"]
       strike_batsman = match_info["strike_batsman"]
@@ -19,7 +20,7 @@ class Message:
       strike_batsman_balls = match_info['strike_batsman_balls']
       non_strike_batsman_balls = match_info['non_strike_batsman_balls']
 
-      output_payload.append([{"text":current_batting_team+":"+str(runs_scored)+" ("+str(running_over)+"."+str(ball_number)+" overs)"}])
+      output_payload.append([{"text":current_batting_team+":"+str(runs_scored)+"/"+str(wickets_fallen)+" ("+str(running_over)+"."+str(ball_number)+" overs)"}])
       output_payload.append([{"text":strike_batsman +" "+str(strike_batsman_runs)+"("+str(strike_batsman_balls)+")"},{"text":non_strike_batsman +" "+str(non_strike_batsman_runs)+"("+str(non_strike_batsman_balls)+")"}])
       this_over = ''
       print(over_status)
@@ -331,13 +332,13 @@ class Message:
                     }
                 ]}
     @staticmethod
-    def next_bowler_ask_payload(current_batting_team,running_over,ball_number,runs_scored,strike_batsman,non_strike_batsman):
+    def next_bowler_ask_payload(current_batting_team,running_over,ball_number,runs_scored,wickets_fallen,strike_batsman,non_strike_batsman):
         
         return {"fullfillmentText":'what happened on ball 2?',"fulfillmentMessages": [
                 {
                 "text": {
                     "text": [
-                            "Team: "+current_batting_team+"\nTotal: "+str(runs_scored)+"\nOvers: "+str(running_over+1)
+                            "Team: "+current_batting_team+"\nTotal: "+str(runs_scored)+"/"+str(wickets_fallen)+"\nOvers: "+str(running_over+1)
                         ]
                     }
                     }

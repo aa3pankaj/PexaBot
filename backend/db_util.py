@@ -84,6 +84,7 @@ class BotDatabase:
         return {
                "current_batting_team":self.current_batting_team,
                "runs_scored":int(runs_scored),
+               "wickets_fallen":self.match[self.current_batting_team]['wickets_fallen'],
                "running_over":self.match.running_over,
                "ball_number":self.match.ball_number,
                "strike_batsman":self.match.strike_batsman,
@@ -317,6 +318,7 @@ class BotDatabase:
                                                                 self.match.running_over, 
                                                                 self.match.ball_number, 
                                                                 self.match[self.current_batting_team]['runs_scored'], 
+                                                                self.match[self.current_batting_team]['wickets_fallen'], 
                                                                 self.match.strike_batsman, 
                                                                 self.match.non_strike_batsman)}
 
