@@ -5,7 +5,7 @@ from helper import Helper
 from constants import front_end_url
 from helper import TelegramHelper
 from db_util import BotDatabase
-from constants import group_notification_enabled
+from constants import group_notification_enabled, group_id
 
 class ActionListener:
 
@@ -75,7 +75,7 @@ class ActionListener:
     def toss_action_listener(team1,team2,decision,toss_team,overs,match_id,start_date):
         _id = BotDatabase.update_teams(team1,team2,decision,toss_team,overs,start_date,match_id)
         if group_notification_enabled:
-            TelegramHelper.send_general_message(-1001409382962,Message.match_start_group_payload(front_end_url+str(_id),team1,team2,match_id))
+            TelegramHelper.send_general_message(group_id,Message.match_start_group_payload(front_end_url+str(_id),team1,team2,match_id))
         return json.dumps(Message.match_start_payload(front_end_url+str(_id),team1))
 
     @staticmethod
