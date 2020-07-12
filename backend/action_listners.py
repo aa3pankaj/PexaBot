@@ -14,13 +14,17 @@ class ActionListener:
         bot = BotDatabase(match_id)
         bot.undo_match()
         match_info = bot.get_live_match_info()
-        TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+        if match_info["ball_number"] == 6:
+            TelegramHelper.send_scoring_keyboard(chat_id,match_info,undo=True)
+        else:
+            TelegramHelper.send_scoring_keyboard(chat_id,match_info)
+
     @staticmethod
     def undo_next_over_action(chat_id,match_id):
         bot = BotDatabase(match_id)
-        match_info = bot.get_live_match_info()
-        TelegramHelper.send_scoring_keyboard(chat_id,match_info,undo=True)
-
+        bowler_list = bot.get_available_bowlers()
+        TelegramHelper.send_keyboard_message(chat_id,"Next Bowler?",bowler_list)
+        
     @staticmethod
     def delete_live_matches_action(match_id):
         bot = BotDatabase(match_id)
