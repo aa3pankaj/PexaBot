@@ -49,7 +49,6 @@ class ActionListener:
             TelegramHelper.send_keyboard_message(chat_id,"strike-batsman name?",batsman_list)
         return json.dumps({})
 
-
     @staticmethod
     def test_ball_listener(bowler,match_id,chat_id):
         bot = BotDatabase(match_id)
@@ -66,7 +65,6 @@ class ActionListener:
         last_txn = BotDatabase.get_last_txn(match_id)
         return last_txn
    
-       
     @staticmethod
     def pause_match_listner(match_id,username,request):
         success = BotDatabase.set_match_status(match_id=match_id,from_status="live",to_status="pause")
@@ -190,7 +188,9 @@ class ActionListener:
         return json.dumps({})
 
 
-    #runout start
+    """
+    runout start
+    """
     @staticmethod
     def runout_batsman_action(match_id,chat_id,batsman_type):
         bot = BotDatabase(match_id)
@@ -205,9 +205,10 @@ class ActionListener:
         fielder_list = bot.get_available_bowlers()
         TelegramHelper.send_keyboard_message(chat_id,"Fielder name?",fielder_list)
         return json.dumps({})
-    #runout end
+    """
+    runout end
+    """
         
-
     #fielder intent required
     @staticmethod
     def out_with_fielder_action(match_id,chat_id,request,out_type):

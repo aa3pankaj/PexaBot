@@ -14,8 +14,8 @@ db = client["cric"]
 
 class Match(DiffHistoryModelV1):
     db_object = db
-    collection = db.matches
-    delta_collection_name = "_delta_matches"
+    collection = db.matches  
+    delta_collection_name = "_delta_matches"   #name of the collection where revisions will be stored
 class Player(SimpleModel):
     collection = db.players
 
@@ -151,7 +151,7 @@ class BotDatabase:
         if self.match.ball_number == 6:
             self.strike_change()
         
-        #update ball number if start of match or next over
+        #updating ball number if start of match or next over
         if self.match.ball_number == 0 or self.match.ball_number == 6:
             self.match.running_over += 1
             self.match.ball_number = 0
@@ -166,13 +166,13 @@ class BotDatabase:
                     "economy_rate":0.0
                     }
                     } )
+        self.match['undo_count'] = 1
         self.match.save()
                                                        
     def strike_change(self):
         self.match.non_strike_batsman,self.match.strike_batsman = self.match.strike_batsman,self.match.non_strike_batsman
 
     def sr_and_er_update(self,type= None):
-        
         batsman_runs = self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['runs'] 
         batsman_balls = self.match[self.match.current_batting_team]['batting'][self.match.strike_batsman]['balls']
         strike_rate = 0.0
@@ -276,7 +276,7 @@ class BotDatabase:
         self.match[self.current_batting_team]['runs_scored'] += int(run)
         self.match[self.current_batting_team]['balls_faced'] += 1
 
-        #er and sr
+        #er and sr update
         self.sr_and_er_update()
 
         if run%2!=0:
@@ -361,7 +361,7 @@ class BotDatabase:
         self.match.save()
 
     def noball_update(self,run):
-        # TODO extra++
+        # TODO update extras
 
         #handling case of wide on first ball of over here, so that this wide is recorded in current over.
         local_ball_number = self.match.ball_number
@@ -651,12 +651,10 @@ class BotDatabase:
         db.matches.update_one({'_id': match['_id']}, {
                               '$set': {"match_id": new_match_id}})   
    
-
     @classmethod
     def userid_from_username(cls,username, source):
         # TODO fix user_links design
         source_users = db.user_links.distinct(source)
-        print("###############")
         user_id = None
         if username in source_users[0]:
             user_id = source_users[0][username]
@@ -672,8 +670,16 @@ class BotDatabase:
     @classmethod
     def push_history(cls,match_id, SESSION_ID, action, intent_name, user_text, response):
         match = BotDatabase.get_live_match_document(match_id)
-        db.matches.update_one({'_id': match['_id']}, {'$push': {"txn": {
-                              "SESSION_ID": SESSION_ID, "action": action, "intent_name": intent_name, "user_text": user_text, "response": response}}})
+        db.matches.update_one({'_id': match['_id'] }, 
+                                                {'$push': 
+                                                      {"txn": {
+                                                                "SESSION_ID": SESSION_ID, 
+                                                                "action": action, 
+                                                                "intent_name": intent_name, 
+                                                                "user_text": user_text, 
+                                                                "response": response}
+                                                      }
+                                                })
     @classmethod
     def get_last_txn(cls,match_id):
         print("** In -->get_last_txn() **")

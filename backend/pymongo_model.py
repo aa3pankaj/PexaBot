@@ -38,7 +38,7 @@ class DiffHistoryModelV2(SimpleModel):
 
     def undo(self):
         pass
-    def __diff_update(self):
+    def __get_diff(self):
         doc_copy = self.collection.find_one({"_id": ObjectId(self._id)})
         diff_object = diff(dumps(doc_copy),dumps(self),load=True, dump=True)
         return diff_object
@@ -47,7 +47,7 @@ class DiffHistoryModelV2(SimpleModel):
         if not self._id:
             self.collection.insert_one(self)
         else:
-            diff = self.__diff_update()
+            diff = self.__get_diff()
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
             
