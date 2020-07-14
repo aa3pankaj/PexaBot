@@ -78,7 +78,6 @@ class DiffHistoryModelV1(SimpleModel):
     __delattr__ = dict.__delitem__
     __setattr__ = dict.__setitem__
 
-
     def undo(self):
         self.delete_latest_revision()
         doc_latest = self.get_latest_revision()
@@ -96,11 +95,10 @@ class DiffHistoryModelV1(SimpleModel):
                 { "_id": ObjectId(self._id) }, self)
             result = _delta_collection.find({"document_id":self._id})
             result_count = result.count()
-            _delta_collection.insert_one({"collection_name": self.name,
+            _delta_collection.insert_one({"collection_name": self.delta_collection_name,
                                            "document_id" : self._id,
                                            "document":self,
                                            "_version": result_count+1,
-                                           "reason":"update",
                                            "is_latest":True
                                             })
             result_count = _delta_collection.find({"document_id":self._id}).count()
