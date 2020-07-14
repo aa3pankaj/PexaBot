@@ -51,11 +51,11 @@ class DiffHistoryModelV2(SimpleModel):
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
             
-            _delta_collection = self.db_object[self.delta_collection_name]
-            _delta_collection.insert_one({ "collection_name": self.name,
+            delta_collection = self.db_object[self.delta_collection_name]
+            delta_collection.insert_one({ "collection_name": self.name,
                                                 "document_id" : self._id,
                                                 "diff": diff,
-                                                "_version": _delta_collection.count()+1,
+                                                "_version": delta_collection.count()+1,
                                                 "reason":"update"
             }
             )
@@ -90,36 +90,36 @@ class DiffHistoryModelV1(SimpleModel):
         if not self._id:
             self.collection.insert_one(self)
         else:
-            _delta_collection = self.db_object[self.delta_collection_name]
+            delta_collection = self.db_object[self.delta_collection_name]
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
-            result = _delta_collection.find({"document_id":self._id})
+            result = delta_collection.find({"document_id":self._id})
             result_count = result.count()
-            _delta_collection.insert_one({"collection_name": self.delta_collection_name,
+            current_version = result_count + 1
+            delta_collection.insert_one({"collection_name": self.delta_collection_name,
                                            "document_id" : self._id,
                                            "document":self,
-                                           "_version": result_count+1,
+                                           "_version": current_version,
                                            "is_latest":True
                                             })
-            result_count = _delta_collection.find({"document_id":self._id}).count()
-            if result_count > 1:
-                _delta_collection.update_one({"document_id":self._id,"_version":result_count-1},{"$set":{"is_latest":False}})
+            if current_version > 1:
+                delta_collection.update_one({"document_id":self._id,"_version":current_version-1},{"$set":{"is_latest":False}})
 
     def __reload_latest_from_delta(self):
-        _delta_collection = self.db_object[self.delta_collection_name]
-        doc = _delta_collection.find_one({"_id": ObjectId(self._id)})['document']
+        delta_collection = self.db_object[self.delta_collection_name]
+        doc = delta_collection.find_one({"_id": ObjectId(self._id)})['document']
         self._id = doc["_id"]
         self.update(doc)
 
     def get_latest_revision(self):
-        _delta_collection = self.db_object[self.delta_collection_name]
-        return _delta_collection.find_one({"document_id":self._id,"is_latest":True})
+        delta_collection = self.db_object[self.delta_collection_name]
+        return delta_collection.find_one({"document_id":self._id,"is_latest":True})
 
     def delete_latest_revision(self):
-        _delta_collection = self.db_object[self.delta_collection_name]
-        _delta_collection.remove({"document_id":self._id,"is_latest":True})
-        result = _delta_collection.find({"document_id":self._id})
+        delta_collection = self.db_object[self.delta_collection_name]
+        delta_collection.remove({"document_id":self._id,"is_latest":True})
+        result = delta_collection.find({"document_id":self._id})
         result_count = result.count()
-        _delta_collection.update_one({"document_id":self._id,"_version":result_count},{"$set":{"is_latest":True}})
+        delta_collection.update_one({"document_id":self._id,"_version":result_count},{"$set":{"is_latest":True}})
         
 
