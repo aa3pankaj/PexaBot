@@ -105,7 +105,7 @@ class ActionListener:
             TelegramHelper.remove_keyboard(chat_id)
             return clear
         elif res["type"] == "change":
-            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"Undo"}]])
             return json.dumps({})
 
         match_info = bot.get_live_match_info()
@@ -168,7 +168,7 @@ class ActionListener:
             return clear
 
         elif response["type"] == "change":
-            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"Undo"}]])
             return json.dumps({})
 
     @staticmethod
@@ -238,7 +238,7 @@ class ActionListener:
             return clear
             
         elif response["type"] == "change":
-            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"No"}]])
+            TelegramHelper.send_keyboard_general(chat_id,"change innings?",[[{"text":"change"},{"text":"Undo"}]])
             return json.dumps({})
 
         return json.dumps(response['response'])

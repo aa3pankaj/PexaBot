@@ -84,35 +84,35 @@ function Match(props) {
 
   useEffect(() => {
 
-     console.log("hello from web socket")
+    //  console.log("hello from web socket")
     
-    const socket = io('https://pexabotbackend.herokuapp.com');
-    //const socket = io('http://127.0.0.01:34209');
-    socket.on('connect', function(){
-        console.log("connected...!")
-        // if(match_data["status"]==="end"){
-        //   socket.disconnect();
-        //   console.log("Disconnected as match ended...!")
-        //   setReload(true)
-        // }
-    });
-    socket.on('live',function(response) {
+    // const socket = io('https://pexabotbackend.herokuapp.com');
+    // //const socket = io('http://127.0.0.01:34209');
+    // socket.on('connect', function(){
+    //     console.log("connected...!")
+    //     // if(match_data["status"]==="end"){
+    //     //   socket.disconnect();
+    //     //   console.log("Disconnected as match ended...!")
+    //     //   setReload(true)
+    //     // }
+    // });
+    // socket.on('live',function(response) {
      
-      var data = JSON.parse(response)
-      console.log("Result f om WEBSOCKET request",data)
-      console.log(typeof data)
+    //   var data = JSON.parse(response)
+    //   console.log("Result f om WEBSOCKET request",data)
+    //   console.log(typeof data)
       
-      if(data["status"]!=="live" && data["status"]!=="pause"){
-        socket.disconnect();
-        console.log("Disconnected as match ended...!")
-        setReload(true)
-      }
-      else if(data["status"]==="live"&& data["running_over"]!==-1){
-      setResult(data);
-      }
+    //   if(data["status"]!=="live" && data["status"]!=="pause"){
+    //     socket.disconnect();
+    //     console.log("Disconnected as match ended...!")
+    //     setReload(true)
+    //   }
+    //   else if(data["status"]==="live"&& data["running_over"]!==-1){
+    //   setResult(data);
+    //   }
       
       
-    });
+    // });
   
 }, []);
 
