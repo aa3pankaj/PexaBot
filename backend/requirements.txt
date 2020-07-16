@@ -16,4 +16,4 @@ flask-assistant
 gevent
 gevent-websocket
 gunicorn
-jsondiff
+pymongo-model
