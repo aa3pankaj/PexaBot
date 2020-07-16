@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 import os
 from bson.json_util import dumps
 from message import Message
-from pymongo_model import SimpleModel, DiffHistoryModelV1
+from model.pymongo_model import SimpleModel, DiffHistoryModelV1
 
 MONGO_KEY = os.getenv('MONGO_KEY')
 client = pymongo.MongoClient(MONGO_KEY)
